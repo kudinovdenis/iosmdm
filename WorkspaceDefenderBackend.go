@@ -17,7 +17,13 @@ type SimpleResponse struct {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	log.Print("Access to " + r.URL.String())
-	if strings.Contains(r.URL.Path, "profile") {
+	if strings.Contains(r.URL.Path, "Gn1c4m6sF17R_dB2xIVNAtI568CYANqYVvxq0CCVcs") {
+		// serve file
+		w.Header().Set("Content-Disposition", "attachment; filename=WorkspaceDefender.mobileconfig")
+		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
+		filePath := path.Join("Static/ForSSLCert")
+		http.ServeFile(w, r, filePath)
+	} else if strings.Contains(r.URL.Path, "profile") {
 		// serve file
 		w.Header().Set("Content-Disposition", "attachment; filename=WorkspaceDefender.mobileconfig")
 		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
