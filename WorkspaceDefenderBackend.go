@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"path"
 	"strings"
 )
@@ -53,5 +54,8 @@ func GetOutboundIP() net.IP {
 func main() {
 	log.Print(GetOutboundIP())
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	port := os.Getenv("PORT")
+
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
