@@ -9,6 +9,7 @@ services:
     build: "./nginx"
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./m1553d.com:/var/www/m1553d.com
       - /etc/letsencrypt/:/etc/letsencrypt/
