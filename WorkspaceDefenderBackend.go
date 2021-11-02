@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/http/httputil"
 	"path"
 	"strings"
 )
@@ -15,14 +16,17 @@ type SimpleResponse struct {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	log.Print("Access to " + r.URL.String())
-	if strings.Contains(r.URL.Path, "nkNEpJPd3oCmLI7MZODR3mKjOx_ioF1mD5v8LJ1g") {
-		// serve file
-		w.Header().Set("Content-Disposition", "attachment; filename=WorkspaceDefender.mobileconfig")
-		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-		filePath := path.Join("Static/ForSSLCert")
-		http.ServeFile(w, r, filePath)
-	} else if strings.Contains(r.URL.Path, "profile") {
+	dumpResult, err := httputil.DumpRequest(r, true)
+
+	if err != nil {
+		log.Print("Unable to dump")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Print(string(dumpResult))
+
+	if strings.Contains(r.URL.Path, "profile") {
 		// serve file
 		w.Header().Set("Content-Disposition", "attachment; filename=WorkspaceDefender.mobileconfig")
 		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
