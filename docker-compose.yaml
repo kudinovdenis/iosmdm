@@ -9,5 +9,8 @@ services:
     build: "./nginx"
     ports:
       - "80:80"
+    volumes:
+      - ./m1553d.com:/var/www/m1553d.com
+      - /etc/letsencrypt/:/etc/letsencrypt/
     depends_on:
       - "web"
