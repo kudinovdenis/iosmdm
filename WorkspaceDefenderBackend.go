@@ -1,67 +1,43 @@
 package main
 
 import (
-	"encoding/json"
+	"github.com/gorilla/mux"
+	"github.com/kudinovdenis/iosmdm/submodules/mdmserver"
 	"log"
-	"net"
 	"net/http"
 	"net/http/httputil"
-	"path"
-	"strings"
 )
 
-type SimpleResponse struct {
-	Title string
-	Result []string
+func handleOther(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+	w.WriteHeader(http.StatusForbidden)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func handleMDMServer(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+	log.Print(mdmserver.Some)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func logRequest(r *http.Request) {
 	dumpResult, err := httputil.DumpRequest(r, true)
 
 	if err != nil {
-		log.Print("Unable to dump")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Print("Unable to dump request")
 		return
 	}
 
 	log.Print(string(dumpResult))
-
-	if strings.Contains(r.URL.Path, "profile") {
-		// serve file
-		w.Header().Set("Content-Disposition", "attachment; filename=WorkspaceDefender.mobileconfig")
-		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-		filePath := path.Join("Static/Profile/WorkspaceDefender.mobileconfig")
-		http.ServeFile(w, r, filePath)
-	} else {
-		response := SimpleResponse{Title: "Africa", Result: []string{"a", "b", r.URL.String()}}
-		w.WriteHeader(http.StatusOK)
-
-		jsonData, err := json.Marshal(response)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Write(jsonData)
-	}
-}
-
-// Get preferred outbound ip of this machine
-func GetOutboundIP() net.IP {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
-	return localAddr.IP
 }
 
 func main() {
-	log.Print(GetOutboundIP())
-	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	rootRouter := mux.NewRouter()
+	mdmRouter := rootRouter.PathPrefix("/server")
+	mdmRouter.HandlerFunc(handleMDMServer)
+
+	unknownDestinationRouter := rootRouter.PathPrefix("/")
+	unknownDestinationRouter.HandlerFunc(handleOther)
+
+	log.Fatal(http.ListenAndServe(":8080", rootRouter))
 }
