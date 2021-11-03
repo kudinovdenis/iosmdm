@@ -6,6 +6,8 @@ COPY go.mod ./
 COPY go.sum ./
 COPY Static ./
 
+RUN apk add git
+
 RUN go mod download
 
 COPY *.go ./
