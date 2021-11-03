@@ -2,21 +2,22 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/kudinovdenis/iosmdm/submodules/mdmserver"
+	"github.com/kudinovdenis/iosmdm/mdmserver"
 	"log"
 	"net/http"
 	"net/http/httputil"
 )
+
+var mdmServer = mdmserver.NewServer()
 
 func handleOther(w http.ResponseWriter, r *http.Request) {
 	logRequest(r)
 	w.WriteHeader(http.StatusForbidden)
 }
 
-func handleMDMServer(w http.ResponseWriter, r *http.Request) {
+func handleMDMServerRequest(w http.ResponseWriter, r *http.Request) {
 	logRequest(r)
-	log.Print(mdmserver.Some)
-
+	mdmServer.ProcessRequest(r)
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -34,7 +35,7 @@ func logRequest(r *http.Request) {
 func main() {
 	rootRouter := mux.NewRouter()
 	mdmRouter := rootRouter.PathPrefix("/server")
-	mdmRouter.HandlerFunc(handleMDMServer)
+	mdmRouter.HandlerFunc(handleMDMServerRequest)
 
 	unknownDestinationRouter := rootRouter.PathPrefix("/")
 	unknownDestinationRouter.HandlerFunc(handleOther)

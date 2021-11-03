@@ -6,14 +6,14 @@ COPY go.mod ./
 COPY go.sum ./
 COPY Static ./
 
-RUN apk add git
+# RUN apk add git
+
+COPY . .
 
 RUN go mod download
 
-COPY *.go ./
-
-RUN go build -o WorkspaceDefenderBackend
+RUN go build -o defender
 
 EXPOSE 8080
 
-CMD ["./WorkspaceDefenderBackend"]
+CMD [ "./defender" ]
