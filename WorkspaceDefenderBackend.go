@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"time"
 )
 
 var mdmServer = mdmserver.NewServer()
@@ -17,8 +18,7 @@ func handleOther(w http.ResponseWriter, r *http.Request) {
 
 func handleMDMServerRequest(w http.ResponseWriter, r *http.Request) {
 	logRequest(r)
-	mdmServer.ProcessRequest(r)
-	w.WriteHeader(http.StatusOK)
+	mdmServer.ProcessRequest(w, r)
 }
 
 func logRequest(r *http.Request) {
@@ -33,6 +33,11 @@ func logRequest(r *http.Request) {
 }
 
 func main() {
+	// Waiting for Docker logs grabber to attach
+	time.Sleep(1 * time.Second)
+
+	//mdmserver.TestParsing3PC()
+	
 	rootRouter := mux.NewRouter()
 	mdmRouter := rootRouter.PathPrefix("/server")
 	mdmRouter.HandlerFunc(handleMDMServerRequest)

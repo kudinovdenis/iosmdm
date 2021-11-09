@@ -6,24 +6,24 @@ import (
 )
 
 type ServerI interface {
-	ProcessRequest(r *http.Request)
+	ProcessRequest(w http.ResponseWriter, r *http.Request)
 }
 
 type ServerImpl struct {
-
+	CheckinProcessor CheckinProcessorI
 }
 
-func (mdmServer *ServerImpl) ProcessRequest(r *http.Request) {
+func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter,r *http.Request) {
 	contentType := r.Header.Get("Content-Type")
 	switch contentType {
 	case "application/x-apple-aspen-mdm-checkin":
 		log.Print("This is checkin message.")
-		
+		mdmServer.CheckinProcessor.ProcessCheckinRequest(r)
 	default:
-		log.Print("Unknoen message")
+		log.Print("Unknown message")
 	}
 }
 
 func NewServer() ServerI {
-	return &ServerImpl{}
+	return &ServerImpl{CheckinProcessor: CheckinProcessorImpl{}}
 }
