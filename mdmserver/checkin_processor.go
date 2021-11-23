@@ -37,15 +37,22 @@ type CheckinProcessorI interface {
 //web_1    | </dict>
 //web_1    | </plist>/
 type CheckinRequest struct {
+	MessageType 	string
+	Topic 			string
+	UDID 			string
+
+	// Authenticate
 	BuildVersion 	string
 	IMEI 			string
 	MEID 			string
-	MessageType 	string
 	OSVersion 		string
 	ProductName 	string
 	SerialNumber 	string
-	Topic 			string
-	UDID 			string
+
+	// TokenUpdate
+	Token 			[]byte
+	PushMagic 		string
+	UnlockToken		[]byte
 }
 
 type CheckinProcessorImpl struct {
@@ -79,7 +86,7 @@ func (processor CheckinProcessorImpl) processAuthenticateMessage(request Checkin
 }
 
 func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinRequest) error {
-	log.Printf("Device updated token: %+v %+v %+v. New Token: %+v. Push magic: %+v. UnlockToken: %+v", request.ProductName, request.OSVersion, request.UDID, "Unknown", "Unknown", "Unknown")
+	log.Printf("Device updated token: %+v %+v %+v. New Token: %+v. Push magic: %+v. UnlockToken: %+v", request.ProductName, request.OSVersion, request.UDID, request.Token, request.PushMagic, request.UnlockToken)
 	return nil
 }
 
