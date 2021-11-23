@@ -37,7 +37,7 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 	//mdmserver.TestParsing3PC()
-	
+
 	rootRouter := mux.NewRouter()
 	mdmRouter := rootRouter.PathPrefix("/server")
 	mdmRouter.HandlerFunc(handleMDMServerRequest)

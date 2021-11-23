@@ -63,5 +63,23 @@ func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) err
 	plist.Unmarshal(body, &checkinRequest)
 
 	log.Printf("CheckinRequest: %+v", checkinRequest)
+
+	if checkinRequest.MessageType == "Authenticate" {
+		return processor.processAuthenticateMessage(checkinRequest)
+	} else if checkinRequest.MessageType == "TokenUpdate" {
+		return processor.processTokenUpdateMessage(checkinRequest)
+	}
+
 	return nil
 }
+
+func (processor CheckinProcessorImpl) processAuthenticateMessage(request CheckinRequest) error {
+	log.Printf("Device registered: %+v %+v %+v", request.ProductName, request.OSVersion, request.UDID)
+	return nil
+}
+
+func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinRequest) error {
+	log.Printf("Device updated token: %+v %+v %+v. New Token: %+v. Push magic: %+v. UnlockToken: %+v", request.ProductName, request.OSVersion, request.UDID, "Unknown", "Unknown", "Unknown")
+	return nil
+}
+
