@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "outDir": "../wwwroot/js",
+        "module": "commonjs"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

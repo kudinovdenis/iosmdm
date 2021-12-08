@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/kudinovdenis/iosmdm/mdmserver"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"time"
+
+	"github.com/gorilla/mux"
+	"github.com/kudinovdenis/iosmdm/mdmserver"
 )
 
 var mdmServer = mdmserver.NewServer()
@@ -35,8 +36,6 @@ func logRequest(r *http.Request) {
 func main() {
 	// Waiting for Docker logs grabber to attach
 	time.Sleep(1 * time.Second)
-
-	//mdmserver.TestParsing3PC()
 
 	rootRouter := mux.NewRouter()
 	mdmRouter := rootRouter.PathPrefix("/server")
