@@ -48,7 +48,7 @@ func (devicesController DevicesController) AllDevices() []Device {
 
 func (devicesController *DevicesController) sendTestPush(device Device) {
 	log.Printf("Sending test push to device: %+s", device.UDID)
-	cert, err := certificate.FromPemFile("PushCert.pem", "")
+	cert, err := certificate.FromPemFile("mdmserver/PushCert.pem", "")
 	if err != nil {
 		log.Fatal("Cert Error:", err)
 	}
