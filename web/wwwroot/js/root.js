@@ -35,11 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { environment } from "./environment/environment_prod.js";
-// import { environment } from "./environment/environment_dev.js";
-function greeter(person) {
-    return "Hello, " + person;
-}
-var user = "Jane User2";
 var Device = /** @class */ (function () {
     function Device() {
     }
