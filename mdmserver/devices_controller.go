@@ -31,3 +31,7 @@ func (deviceController DevicesController) AllDevices() []Device {
 	}
 	return devices
 }
+
+func NewDevicesController() *DevicesController {
+	return &DevicesController{devices: make(map[string]Device)}
+}

@@ -12,7 +12,7 @@ import (
 	"github.com/kudinovdenis/iosmdm/mdmserver"
 )
 
-var devicesController mdmserver.DevicesControllerI = &mdmserver.DevicesController{}
+var devicesController mdmserver.DevicesControllerI = mdmserver.NewDevicesController()
 var checkinProcessor mdmserver.CheckinProcessorI = mdmserver.NewProcessor(devicesController)
 var mdmServer = mdmserver.NewServer(checkinProcessor)
 
