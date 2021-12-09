@@ -62,13 +62,15 @@ func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) err
 }
 
 func (processor CheckinProcessorImpl) processAuthenticateMessage(request CheckinRequest) error {
-	log.Printf("Device registered: %+v %+v %+v", request.ProductName, request.OSVersion, request.UDID)
+	log.Printf("Device registered: %+s", request.UDID)
 	device := Device{UDID: request.UDID, LastConnectionDate: time.Now()}
 	processor.devicesController.AddDevice(device)
 	return nil
 }
 
 func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinRequest) error {
-	log.Printf("Device updated token: %+v %+v %+v. New Token: %+v. Push magic: %+v. UnlockToken: %+v", request.ProductName, request.OSVersion, request.UDID, request.Token, request.PushMagic, request.UnlockToken)
+	log.Printf("Device checked in: %+s", request.UDID)
+	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), PushToken: string(request.Token), PushMagic: request.PushMagic}
+	processor.devicesController.UpdateDevice(device)
 	return nil
 }
