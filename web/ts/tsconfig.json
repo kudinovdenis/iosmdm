@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "../wwwroot/js",
-        "module": "commonjs",
+        "module": "es6",
         "lib": ["es5", "es6", "dom"]
     },
     "exclude": [

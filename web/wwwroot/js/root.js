@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,9 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-var environment_prod_1 = require("./environment/environment.prod");
-// import { environment } from "./environment/environment.dev";
+import { environment } from "./environment/environment_prod.js";
+// import { environment } from "./environment/environment_dev.js";
 function greeter(person) {
     return "Hello, " + person;
 }
@@ -70,7 +68,7 @@ var ApiImpl = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.get(environment_prod_1.environment.baseUrl + "/backend/devices")];
+                    case 0: return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices")];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

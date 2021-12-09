@@ -1,5 +1,5 @@
-import { environment } from "./environment/environment.prod";
-// import { environment } from "./environment/environment.dev";
+import { environment } from "./environment/environment_prod.js";
+// import { environment } from "./environment/environment_dev.js";
 
 function greeter(person) {
     return "Hello, " + person;
