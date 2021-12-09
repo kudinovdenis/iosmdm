@@ -5,6 +5,11 @@ services:
     ports:
       - "8080:8080"
 
+  frontend:
+    build: ./web
+    ports:
+      - "8081:8081"
+
   nginx:
     build: "./nginx"
     ports:
@@ -15,3 +20,4 @@ services:
       - /etc/letsencrypt/:/etc/letsencrypt/
     depends_on:
       - "backend"
+      - "frontend"
