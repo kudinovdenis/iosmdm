@@ -1,3 +1,6 @@
+import { environment } from "./environment/environment.prod";
+// import { environment } from "./environment/environment.dev";
+
 function greeter(person) {
     return "Hello, " + person;
 }
@@ -25,7 +28,7 @@ class ApiImpl implements IApi {
     }
 
     async getAllDevices(): Promise<[Device]> {
-        return await this.get<[Device]>("http://localhost:8080/backend/devices")
+        return await this.get<[Device]>(environment.baseUrl + "/backend/devices")
     }
     
 }
