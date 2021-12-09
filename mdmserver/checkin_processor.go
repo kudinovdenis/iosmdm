@@ -70,7 +70,7 @@ func (processor CheckinProcessorImpl) processAuthenticateMessage(request Checkin
 
 func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinRequest) error {
 	log.Printf("Device checked in: %+s", request.UDID)
-	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), PushToken: request.Token, PushMagic: request.PushMagic}
+	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), PushToken: request.Token, PushMagic: request.PushMagic, Topic: request.Topic}
 	processor.devicesController.UpdateDevice(device)
 	return nil
 }

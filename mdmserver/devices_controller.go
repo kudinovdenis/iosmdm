@@ -15,6 +15,7 @@ type Device struct {
 	LastConnectionDate time.Time
 	PushMagic          string
 	PushToken          []byte
+	Topic              string
 }
 
 type DevicesControllerI interface {
@@ -57,7 +58,7 @@ func (devicesController *DevicesController) sendTestPush(device Device) {
 	notification := &apns2.Notification{}
 	notification.DeviceToken = hex.EncodeToString(device.PushToken)
 	log.Printf("Device token: %+s", hex.EncodeToString(device.PushToken))
-	notification.Topic = "com.sideshow.Apns2"
+	notification.Topic = device.Topic
 	notification.Payload = []byte(fmt.Sprintf("{\"mdm\": \"%s\"}", device.PushMagic))
 
 	client := apns2.NewClient(cert).Production()
