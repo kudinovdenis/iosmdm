@@ -1,12 +1,6 @@
 import { environment } from "./environment/environment_prod.js";
 // import { environment } from "./environment/environment_dev.js";
 
-function greeter(person) {
-    return "Hello, " + person;
-}
-
-let user = "Jane User2";
-
 interface DeviceI {
     udid: string
 }
