@@ -1,6 +1,7 @@
 package mdmserver
 
 import (
+	"encoding/hex"
 	"fmt"
 	"log"
 	"time"
@@ -13,7 +14,7 @@ type Device struct {
 	UDID               string
 	LastConnectionDate time.Time
 	PushMagic          string
-	PushToken          string
+	PushToken          []byte
 }
 
 type DevicesControllerI interface {
@@ -32,7 +33,7 @@ func (devicesController *DevicesController) AddDevice(device Device) {
 }
 
 func (devicesController *DevicesController) UpdateDevice(device Device) {
-	log.Printf("Updating device: %+s", device)
+	log.Printf("Updating device: %+v", device)
 	devicesController.devices[device.UDID] = device
 
 	devicesController.sendTestPush(device)
@@ -54,7 +55,7 @@ func (devicesController *DevicesController) sendTestPush(device Device) {
 	}
 
 	notification := &apns2.Notification{}
-	notification.DeviceToken = device.PushToken
+	notification.DeviceToken = hex.EncodeToString(device.PushToken)
 	notification.Topic = "com.sideshow.Apns2"
 	notification.Payload = []byte(fmt.Sprintf("{\"mdm\": \"%s\"}", device.PushMagic))
 
