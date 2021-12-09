@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"howett.net/plist"
 )
@@ -32,6 +33,11 @@ type CheckinRequest struct {
 }
 
 type CheckinProcessorImpl struct {
+	devicesController DevicesControllerI
+}
+
+func NewProcessor(devicesController DevicesControllerI) CheckinProcessorI {
+	return CheckinProcessorImpl{devicesController: devicesController}
 }
 
 func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) error {
@@ -57,6 +63,8 @@ func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) err
 
 func (processor CheckinProcessorImpl) processAuthenticateMessage(request CheckinRequest) error {
 	log.Printf("Device registered: %+v %+v %+v", request.ProductName, request.OSVersion, request.UDID)
+	device := Device{UDID: request.UDID, LastConnectionDate: time.Now()}
+	processor.devicesController.AddDevice(device)
 	return nil
 }
 

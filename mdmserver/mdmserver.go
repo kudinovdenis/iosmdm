@@ -13,7 +13,7 @@ type ServerImpl struct {
 	CheckinProcessor CheckinProcessorI
 }
 
-func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter,r *http.Request) {
+func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter, r *http.Request) {
 	contentType := r.Header.Get("Content-Type")
 	switch contentType {
 	case "application/x-apple-aspen-mdm-checkin":
@@ -24,6 +24,6 @@ func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter,r *http.Reques
 	}
 }
 
-func NewServer() ServerI {
-	return &ServerImpl{CheckinProcessor: CheckinProcessorImpl{}}
+func NewServer(checkinProcessor CheckinProcessorI) ServerI {
+	return &ServerImpl{CheckinProcessor: checkinProcessor}
 }
