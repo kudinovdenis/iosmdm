@@ -81,7 +81,7 @@ var apiClient = new ApiImpl();
                 return [4 /*yield*/, apiClient.getAllDevices()];
             case 1:
                 allDevices = _a.sent();
-                document.body.textContent = "Devices: " + allDevices;
+                document.body.textContent = "Devices: " + JSON.stringify(allDevices);
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();

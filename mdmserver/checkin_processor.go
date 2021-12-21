@@ -56,6 +56,8 @@ func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) err
 		return processor.processAuthenticateMessage(checkinRequest)
 	} else if checkinRequest.MessageType == "TokenUpdate" {
 		return processor.processTokenUpdateMessage(checkinRequest)
+	} else if checkinRequest.MessageType == "CheckOut" {
+		return processor.processCheckoutMessage(checkinRequest)
 	}
 
 	return nil
@@ -63,7 +65,7 @@ func (processor CheckinProcessorImpl) ProcessCheckinRequest(r *http.Request) err
 
 func (processor CheckinProcessorImpl) processAuthenticateMessage(request CheckinRequest) error {
 	log.Printf("Device registered: %+s", request.UDID)
-	device := Device{UDID: request.UDID, LastConnectionDate: time.Now()}
+	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), CheckedOut: false}
 	processor.devicesController.AddDevice(device)
 	return nil
 }
@@ -72,5 +74,18 @@ func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinR
 	log.Printf("Device checked in: %+s", request.UDID)
 	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), PushToken: request.Token, PushMagic: request.PushMagic, Topic: request.Topic}
 	processor.devicesController.UpdateDevice(device)
+	return nil
+}
+
+func (processor CheckinProcessorImpl) processCheckoutMessage(request CheckinRequest) error {
+	log.Printf("Device checked out: %+s", request.UDID)
+	device := processor.devicesController.DeviceWithUDID(request.UDID)
+
+	if device != nil {
+		log.Printf("Device does not exists: %+s", request.UDID)
+		return nil
+	}
+
+	processor.devicesController.CheckoutDevice(*device)
 	return nil
 }

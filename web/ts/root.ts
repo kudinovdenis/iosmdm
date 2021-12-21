@@ -31,7 +31,7 @@ let apiClient = new ApiImpl();
 (async () => {
     try {
         let allDevices = await apiClient.getAllDevices();
-        document.body.textContent = "Devices: " + allDevices;
+        document.body.textContent = "Devices: " + JSON.stringify(allDevices);
     } catch (e) {
         document.body.textContent = "Error: " + e;
     }
