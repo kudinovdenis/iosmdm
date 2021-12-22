@@ -81,7 +81,7 @@ func (processor CheckinProcessorImpl) processCheckoutMessage(request CheckinRequ
 	log.Printf("Device checked out: %+s", request.UDID)
 	device := processor.devicesController.DeviceWithUDID(request.UDID)
 
-	if device != nil {
+	if device == nil {
 		log.Printf("Device does not exists: %+s", request.UDID)
 		return nil
 	}
