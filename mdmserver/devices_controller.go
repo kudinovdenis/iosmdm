@@ -1,13 +1,8 @@
 package mdmserver
 
 import (
-	"encoding/hex"
 	"log"
 	"time"
-
-	"github.com/sideshow/apns2"
-	"github.com/sideshow/apns2/certificate"
-	"github.com/sideshow/apns2/payload"
 )
 
 type Device struct {
@@ -25,10 +20,14 @@ type DevicesControllerI interface {
 	AllDevices() []Device
 	DeviceWithUDID(udid string) *Device
 	CheckoutDevice(device Device)
+
+	InstalledApplicationsList(device Device, completion func(installedApplicationList []InstalledApplication))
 }
 
 type DevicesController struct {
-	devices map[string]Device
+	devices           map[string]Device
+	commandsProcessor CommandsProcessorI
+	pusher            PusherI
 }
 
 func (devicesController *DevicesController) AddDevice(device Device) {
@@ -39,8 +38,6 @@ func (devicesController *DevicesController) AddDevice(device Device) {
 func (devicesController *DevicesController) UpdateDevice(device Device) {
 	log.Printf("Updating device: %+v", device)
 	devicesController.devices[device.UDID] = device
-
-	devicesController.sendTestPush(device)
 }
 
 func (devicesController DevicesController) AllDevices() []Device {
@@ -71,29 +68,18 @@ func (devicesController DevicesController) CheckoutDevice(device Device) {
 	log.Printf("Checked out device: %+s", device.UDID)
 }
 
-func (devicesController *DevicesController) sendTestPush(device Device) {
-	log.Printf("Sending test push to device: %+s", device.UDID)
-	cert, err := certificate.FromPemFile("mdmserver/PushCert.pem", "")
-	if err != nil {
-		log.Fatal("Cert Error:", err)
-	}
-
-	notification := &apns2.Notification{}
-	notification.DeviceToken = hex.EncodeToString(device.PushToken)
-	log.Printf("Device token: %+s", hex.EncodeToString(device.PushToken))
-	notification.Topic = device.Topic
-	notification.Payload = payload.NewPayload().Mdm(device.PushMagic)
-
-	client := apns2.NewClient(cert).Production()
-	res, err := client.Push(notification)
-
-	if err != nil {
-		log.Fatal("Error:", err)
-	}
-
-	log.Printf("%v %v %v\n", res.StatusCode, res.ApnsID, res.Reason)
+func (devicesController DevicesController) InstalledApplicationsList(device Device, completion func(installedApplicationList []InstalledApplication)) {
+	log.Printf("Get installed applications list for device: %+s", device.UDID)
+	command := NewInstalledApplicationsCommand()
+	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
+		log.Printf("Command: %+v", command)
+		log.Printf("Response: %+v", response)
+		completion(make([]InstalledApplication, 0))
+	})
 }
 
 func NewDevicesController() *DevicesController {
-	return &DevicesController{devices: make(map[string]Device)}
+	pusher := NewPusher()
+	commandsProcessor := NewCommandsProcessor(pusher)
+	return &DevicesController{devices: make(map[string]Device), commandsProcessor: commandsProcessor, pusher: pusher}
 }

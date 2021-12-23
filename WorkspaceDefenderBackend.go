@@ -14,7 +14,8 @@ import (
 
 var devicesController mdmserver.DevicesControllerI = mdmserver.NewDevicesController()
 var checkinProcessor mdmserver.CheckinProcessorI = mdmserver.NewProcessor(devicesController)
-var mdmServer = mdmserver.NewServer(checkinProcessor)
+var mdmMessageProcessor mdmserver.MdmMessageProcessorI = mdmserver.NewMdmMessageProcessor(devicesController)
+var mdmServer = mdmserver.NewServer(checkinProcessor, mdmMessageProcessor)
 
 // MDM handlers
 
