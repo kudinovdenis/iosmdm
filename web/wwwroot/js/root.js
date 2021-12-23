@@ -34,10 +34,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { environment } from "./environment/environment_prod.js";
+// import { environment } from "./environment/environment_prod.js";
+import { environment } from "./environment/environment_dev.js";
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 var Device = /** @class */ (function () {
     function Device() {
     }
+    Device.testDevice = function () {
+        var device = new Device();
+        var uuid = uuidv4();
+        device.udid = uuid;
+        console.log("Creating new device with uuid: " + uuid);
+        return device;
+    };
     return Device;
 }());
 var ApiImpl = /** @class */ (function () {
@@ -61,9 +75,15 @@ var ApiImpl = /** @class */ (function () {
     };
     ApiImpl.prototype.getAllDevices = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var devices;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices")];
+                    case 0:
+                        if (environment.isDebug) {
+                            devices = [Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()];
+                            return [2 /*return*/, Promise.resolve(devices)];
+                        }
+                        return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices")];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -71,6 +91,11 @@ var ApiImpl = /** @class */ (function () {
     };
     return ApiImpl;
 }());
+function showListOfDevices(devices) {
+    devices.forEach(function (device) {
+        document.body.innerHTML += "<br>".concat(JSON.stringify(device), "</br>");
+    });
+}
 var apiClient = new ApiImpl();
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var allDevices, e_1;
@@ -81,7 +106,8 @@ var apiClient = new ApiImpl();
                 return [4 /*yield*/, apiClient.getAllDevices()];
             case 1:
                 allDevices = _a.sent();
-                document.body.textContent = "Devices: " + JSON.stringify(allDevices);
+                console.log("Get all devices: " + allDevices);
+                showListOfDevices(allDevices);
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
