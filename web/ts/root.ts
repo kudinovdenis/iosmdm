@@ -1,5 +1,5 @@
-import { environment } from "./environment/environment_prod.js";
-// import { environment } from "./environment/environment_dev.js";
+// import { environment } from "./environment/environment_prod.js";
+import { environment } from "./environment/environment_dev.js";
 
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -31,25 +31,41 @@ interface IApi {
 class ApiImpl implements IApi {
 
     async get<T>(request: RequestInfo): Promise<T> {
-        const respone = await fetch(request)
-        const body = await respone.json()
-        return body
+        const respone = await fetch(request);
+        const body = await respone.json();
+        return body;
     }
 
     async getAllDevices(): Promise<Device[]> {
         if (environment.isDebug) {
             const devices: Device[] = [Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()];
-            return Promise.resolve(devices)
+            return Promise.resolve(devices);
         }
-        return await this.get<[Device]>(environment.baseUrl + "/backend/devices")
+        return await this.get<Device[]>(environment.baseUrl + "/backend/devices");
+    }
+
+    async getListOfApplications(device: Device): Promise<String[]> {
+        return await this.get<String[]>(environment.baseUrl + "/backend/devices/" + device.udid + "/applications");
     }
     
 }
 
 function showListOfDevices(devices: Device[]) {
-    devices.forEach(device => {
-        document.body.innerHTML += `<br>${ JSON.stringify(device) }</br>`;
-    });
+    for (const device of devices) {
+        const deviceRow = document.createElement("h3");
+        deviceRow.textContent = `${ JSON.stringify(device) }`;
+
+        const mdmPushButton = document.createElement("button");
+        mdmPushButton.textContent = "Get list of applications";
+        mdmPushButton.addEventListener("click", async (e: Event) => {
+            console.log("OnClick!" + device.udid);
+            const applications = await apiClient.getListOfApplications(device);
+            console.log("Applications: " + JSON.stringify(applications));
+        })
+        deviceRow.appendChild(mdmPushButton);
+
+        document.body.appendChild(deviceRow);
+    };
 }
 
 let apiClient = new ApiImpl();

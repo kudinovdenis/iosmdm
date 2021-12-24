@@ -21,6 +21,9 @@ type DevicesControllerI interface {
 	DeviceWithUDID(udid string) *Device
 	CheckoutDevice(device Device)
 
+	NextCommandForDevice(device Device) *Command
+	DeviceDidFinishCommand(device Device, commandUUID string, response CommandResponse)
+
 	InstalledApplicationsList(device Device, completion func(installedApplicationList []InstalledApplication))
 }
 
@@ -72,10 +75,27 @@ func (devicesController DevicesController) InstalledApplicationsList(device Devi
 	log.Printf("Get installed applications list for device: %+s", device.UDID)
 	command := NewInstalledApplicationsCommand()
 	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
+		// TODO: Parse command response into Applications list
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
 		completion(make([]InstalledApplication, 0))
 	})
+}
+
+func (devicesController DevicesController) NextCommandForDevice(device Device) *Command {
+	log.Printf("Lookup for next available command for device %+s", device.UDID)
+	nextCommand := devicesController.commandsProcessor.NextCommandForDevice(device)
+	if nextCommand != nil {
+		log.Printf("Found next command: %+v", nextCommand)
+	} else {
+		log.Print("Next command not found")
+	}
+	return nextCommand
+}
+
+func (devicesController DevicesController) DeviceDidFinishCommand(device Device, commandUUID string, response CommandResponse) {
+	log.Printf("Device %+s did finish command %+s with response %+v", device.UDID, commandUUID, response)
+	devicesController.commandsProcessor.DidFinishCommand(commandUUID, response)
 }
 
 func NewDevicesController() *DevicesController {

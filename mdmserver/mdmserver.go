@@ -23,7 +23,7 @@ func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter, r *http.Reque
 
 	case "application/x-apple-aspen-mdm":
 		log.Print("Received MDM Message from device.")
-		mdmServer.MdmMessageProcessor.ProcessRequest(r)
+		mdmServer.MdmMessageProcessor.ProcessRequest(w, r)
 
 	default:
 		log.Print("Unknown message")

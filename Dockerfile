@@ -14,6 +14,6 @@ RUN go mod download
 
 RUN go build -o defender
 
-EXPOSE 8080
+EXPOSE 8082
 
 CMD [ "./defender" ]

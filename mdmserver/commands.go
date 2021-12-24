@@ -7,6 +7,7 @@ import (
 )
 
 type Command interface {
+	UUID() string
 }
 
 type CommandResponse interface {
@@ -20,6 +21,10 @@ type InstalledApplicationsCommandBody struct {
 type InstalledApplicationsCommand struct {
 	CommandUUID string
 	Command     InstalledApplicationsCommandBody
+}
+
+func (command InstalledApplicationsCommand) UUID() string {
+	return command.CommandUUID
 }
 
 func NewInstalledApplicationsCommand() InstalledApplicationsCommand {
@@ -43,6 +48,8 @@ type CommandWithCallback struct {
 
 type CommandsProcessorI interface {
 	QueueCommand(device Device, command Command, completion func(command Command, response CommandResponse))
+	NextCommandForDevice(device Device) *Command
+	DidFinishCommand(commandUUID string, response CommandResponse)
 }
 
 type CommandsProcessorImpl struct {
@@ -87,4 +94,33 @@ func (processor CommandsProcessorImpl) NextCommandForDevice(device Device) *Comm
 	log.Printf("Updated queue: %+v", processor.commandsForDeviceId)
 
 	return &firstAvailableCommand.command
+}
+
+func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, response CommandResponse) {
+	log.Printf("Looking for command with UUID: %+s", commandUUID)
+	commandWithCallback := processor.commandWithUUID(commandUUID)
+
+	if commandWithCallback == nil {
+		log.Printf("Not found command with UUID: %+s", commandUUID)
+		return
+	}
+
+	log.Printf("Found command with UUID: %+s. Calling callback", commandUUID)
+
+	callback := commandWithCallback.callback
+	callback(commandWithCallback.command, response)
+}
+
+// MARK Private methods
+
+func (processor CommandsProcessorImpl) commandWithUUID(uuid string) *CommandWithCallback {
+	for _, commandsArray := range processor.commandsForDeviceId {
+		for i := 0; i < len(commandsArray); i++ {
+			command := commandsArray[i]
+			if command.command.UUID() == uuid {
+				return command
+			}
+		}
+	}
+	return nil
 }

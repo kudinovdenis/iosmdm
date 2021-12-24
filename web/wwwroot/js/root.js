@@ -34,8 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { environment } from "./environment/environment_prod.js";
-// import { environment } from "./environment/environment_dev.js";
+// import { environment } from "./environment/environment_prod.js";
+import { environment } from "./environment/environment_dev.js";
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -89,12 +89,47 @@ var ApiImpl = /** @class */ (function () {
             });
         });
     };
+    ApiImpl.prototype.getListOfApplications = function (device) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices/" + device.udid + "/applications")];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     return ApiImpl;
 }());
 function showListOfDevices(devices) {
-    devices.forEach(function (device) {
-        document.body.innerHTML += "<br>".concat(JSON.stringify(device), "</br>");
-    });
+    var _this = this;
+    var _loop_1 = function (device) {
+        var deviceRow = document.createElement("h3");
+        deviceRow.textContent = "".concat(JSON.stringify(device));
+        var mdmPushButton = document.createElement("button");
+        mdmPushButton.textContent = "Get list of applications";
+        mdmPushButton.addEventListener("click", function (e) { return __awaiter(_this, void 0, void 0, function () {
+            var applications;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("OnClick!" + device.udid);
+                        return [4 /*yield*/, apiClient.getListOfApplications(device)];
+                    case 1:
+                        applications = _a.sent();
+                        console.log("Applications: " + JSON.stringify(applications));
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        deviceRow.appendChild(mdmPushButton);
+        document.body.appendChild(deviceRow);
+    };
+    for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
+        var device = devices_1[_i];
+        _loop_1(device);
+    }
+    ;
 }
 var apiClient = new ApiImpl();
 (function () { return __awaiter(void 0, void 0, void 0, function () {
