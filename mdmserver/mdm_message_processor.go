@@ -52,13 +52,14 @@ func (processor MdmMessageProcessorImpl) ProcessRequest(w http.ResponseWriter, r
 		}
 
 		nextCommand := processor.devicesController.NextCommandForDevice(*device)
-		// TODO: Remove this log
-		log.Printf("Debug: Next command %+v", nextCommand)
 
 		if nextCommand != nil {
+			// TODO: Remove this log
+			log.Printf("Debug: Next command %+v", *nextCommand)
+
 			var encodedPlistBytes bytes.Buffer
 			encoder := plist.NewEncoder(&encodedPlistBytes)
-			encoder.Encode(nextCommand)
+			encoder.Encode(*nextCommand)
 			encodedPlistString := encodedPlistBytes.String()
 
 			log.Printf("Command answer: %+s", encodedPlistString)
@@ -70,6 +71,8 @@ func (processor MdmMessageProcessorImpl) ProcessRequest(w http.ResponseWriter, r
 
 			w.Write(encodedPlistBytes.Bytes())
 		} else {
+			// TODO: Remove this log
+			log.Printf("Debug: No next command %+v", *nextCommand)
 			w.WriteHeader(http.StatusOK)
 		}
 	} else if mdmMessage.Status == "Acknowledged" {
