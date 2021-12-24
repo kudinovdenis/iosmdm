@@ -64,6 +64,21 @@ func NewCommandsProcessor(pusher PusherI) CommandsProcessorI {
 func (processor CommandsProcessorImpl) QueueCommand(device Device, command Command, completion func(command Command, response CommandResponse)) {
 	log.Printf("Queue command: %+v To device: %+s", command, device.UDID)
 	processor.pusher.SendMDMPush(device)
+
+	commandWithCallback := &CommandWithCallback{command: command, callback: completion}
+	commandsForDevice, exists := processor.commandsForDeviceId[device.UDID]
+
+	if !exists {
+		var newCommandsList []*CommandWithCallback
+		newCommandsList = append(newCommandsList, commandWithCallback)
+		processor.commandsForDeviceId[device.UDID] = newCommandsList
+	} else {
+		// exists
+		var newCommandsList = commandsForDevice
+		newCommandsList = append(newCommandsList, commandWithCallback)
+		processor.commandsForDeviceId[device.UDID] = newCommandsList
+	}
+
 	log.Printf("Push sent. Command: %+v To device: %+s", command, device.UDID)
 }
 
