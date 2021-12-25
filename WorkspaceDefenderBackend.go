@@ -66,7 +66,7 @@ func handleDeviceApplicationsRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	devicesController.InstalledApplicationsList(*device, func(installedApplicationList []mdmserver.InstalledApplication) {
-		log.Printf("Received applications: %+v", installedApplicationList)
+		log.Printf("Installed applications callback called on main. Applications: %+v", installedApplicationList)
 
 		w.WriteHeader(http.StatusOK)
 		jsonData, err := json.Marshal(installedApplicationList)

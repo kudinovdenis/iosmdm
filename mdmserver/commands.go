@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	"howett.net/plist"
 )
 
 type Command interface {
@@ -32,10 +33,24 @@ func NewInstalledApplicationsCommand() InstalledApplicationsCommand {
 }
 
 type InstalledApplication struct {
-	Identifier string
+	AdHocCodeSigned           bool
+	AppStoreVendable          bool
+	BetaApp                   bool
+	BundleSize                int
+	DeviceBasedVPP            bool
+	DynamicSize               int
+	ExternalVersionIdentifier int
+	HasUpdateAvailable        bool
+	Identifier                string
+	Installing                bool
+	IsValidated               bool
+	Name                      string
+	ShortVersion              string
+	Version                   string
 }
 
 type InstalledApplicationsCommandResponse struct {
+	CommandUUID              string
 	InstalledApplicationList []InstalledApplication
 }
 
@@ -49,7 +64,7 @@ type CommandWithCallback struct {
 type CommandsProcessorI interface {
 	QueueCommand(device Device, command Command, completion func(command Command, response CommandResponse))
 	NextCommandForDevice(device Device) *Command
-	DidFinishCommand(commandUUID string, response CommandResponse)
+	DidFinishCommand(commandUUID string, responseBody []byte)
 }
 
 type CommandsProcessorImpl struct {
@@ -101,17 +116,10 @@ func (processor CommandsProcessorImpl) NextCommandForDevice(device Device) *Comm
 	firstAvailableCommand := availableCommands[0]
 	log.Printf("Found next command for device: %+v", firstAvailableCommand)
 
-	if len(availableCommands) != 1 {
-		processor.commandsForDeviceId[device.UDID] = availableCommands[1:]
-	} else {
-		processor.commandsForDeviceId[device.UDID] = make([]*CommandWithCallback, 0)
-	}
-	log.Printf("Updated queue: %+v", processor.commandsForDeviceId)
-
 	return &firstAvailableCommand.command
 }
 
-func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, response CommandResponse) {
+func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, responseBody []byte) {
 	log.Printf("Looking for command with UUID: %+s", commandUUID)
 	commandWithCallback := processor.commandWithUUID(commandUUID)
 
@@ -122,8 +130,22 @@ func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, resp
 
 	log.Printf("Found command with UUID: %+s. Calling callback", commandUUID)
 
-	callback := commandWithCallback.callback
-	callback(commandWithCallback.command, response)
+	switch commandWithCallback.command.(type) {
+	case InstalledApplicationsCommand:
+		log.Print("Decoding InstalledApplicationsCommand")
+		var response InstalledApplicationsCommandResponse
+		_, err := plist.Unmarshal(responseBody, &response)
+		if err != nil {
+			log.Print("Unable to decode answer")
+			return
+		}
+		callback := commandWithCallback.callback
+		log.Printf("Calling callback for InstalledApplicationsCommand with %+v", response)
+		callback(commandWithCallback.command, response)
+	}
+
+	// Remove this command from list
+	processor.removeCommandWithUUID(commandUUID)
 }
 
 // MARK Private methods
@@ -138,4 +160,23 @@ func (processor CommandsProcessorImpl) commandWithUUID(uuid string) *CommandWith
 		}
 	}
 	return nil
+}
+
+func (processor CommandsProcessorImpl) removeCommandWithUUID(uuid string) {
+	log.Printf("Removing command: %+s", uuid)
+	for deviceIdentifier, commandsArray := range processor.commandsForDeviceId {
+		for i := 0; i < len(commandsArray); i++ {
+			command := commandsArray[i]
+			if command.command.UUID() == uuid {
+				processor.commandsForDeviceId[deviceIdentifier] = remove(commandsArray, i)
+				log.Printf("Removed command: %+s. New Queue: %+v", uuid, processor.commandsForDeviceId)
+				return
+			}
+		}
+	}
+	log.Printf("Command not found: %+s", uuid)
+}
+
+func remove(slice []*CommandWithCallback, i int) []*CommandWithCallback {
+	return append(slice[:i], slice[i+1:]...)
 }

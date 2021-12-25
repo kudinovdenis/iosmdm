@@ -83,9 +83,15 @@ func (processor MdmMessageProcessorImpl) ProcessRequest(w http.ResponseWriter, r
 			return fmt.Errorf("no device with id %+s", mdmMessage.UDID)
 		}
 
-		log.Print("Unhandled response !!!")
+		body, err := ioutil.ReadAll(r.Body)
 
-		processor.devicesController.DeviceDidFinishCommand(*device, mdmMessage.CommandUUID, InstalledApplicationsCommandResponse{})
+		if err != nil {
+			return err
+		}
+
+		processor.devicesController.DeviceDidFinishCommand(*device, mdmMessage.CommandUUID, body)
+
+		w.WriteHeader(http.StatusOK)
 	}
 
 	return nil
