@@ -1,5 +1,6 @@
-import { environment } from "./environment/environment_prod.js";
-// import { environment } from "./environment/environment_dev.js";
+// import { environment } from "./environment/environment_prod.js";
+import { environment } from "./environment/environment_dev.js";
+import { Spinner } from "./node_modules/spin.js"
 
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -45,7 +46,20 @@ class Device implements DeviceI {
 }
 
 class ApplicationInfo {
-    identifier: string
+    AdHocCodeSigned:           boolean
+	AppStoreVendable:          boolean
+	BetaApp:                   boolean
+	BundleSize:                number
+	DeviceBasedVPP:            boolean
+	DynamicSize:               number
+	ExternalVersionIdentifier: number
+	HasUpdateAvailable:        boolean
+	Identifier:                string
+	Installing:                boolean
+	IsValidated:               boolean
+	Name:                      string
+	ShortVersion:              string
+	Version:                   string
 }
 
 interface IApi {
@@ -87,40 +101,186 @@ class ApiImpl implements IApi {
     
 }
 
-function showListOfDevices(devices: Device[]) {
-    for (const device of devices) {
-        const deviceRow = document.createElement("div");
-        deviceRow.textContent = "Device: " + device.UDID + "LastConnectionDate: " + device.LastConnectionDate
+// UI
 
-        const applicationsContainer = document.createElement("div");
-        applicationsContainer.textContent = "Applications:"
-        deviceRow.appendChild(applicationsContainer);
+class WebAppControl {
 
-        const mdmPushButton = document.createElement("button");
-        mdmPushButton.textContent = "Get list of applications";
+    element: HTMLElement
+    devicesControl: DevicesControl
+
+    constructor() {
+        this.element = document.createElement("div");
+        this.element.className = "WebAppControl";
+
+        this.devicesControl = new DevicesControl();
+
+        this.element.appendChild(this.devicesControl.element);
+
+        document.appendChild(this.element);
+    }
+
+    async load() {
+        let allDevices = await apiClient.getAllDevices();
+        console.log("Get all devices: " + allDevices);
+        showListOfDevices(allDevices);
+    }
+
+}
+
+class DevicesControl {
+
+    element: HTMLElement
+    deviceControls: DeviceControl[] = []
+
+    constructor() {
+        this.element = document.createElement("div");
+        this.element.className = "DevicesControl";
+    }
+
+    clear() {
+        for (const deviceControl of this.deviceControls) {
+            this.removeDeviceControl(deviceControl);
+        }
+    }
+
+    appendDeviceControl(deviceControl: DeviceControl) {
+        this.deviceControls.push(deviceControl);
+        this.element.appendChild(deviceControl.element);
+    }
+
+    removeDeviceControl(deviceControl: DeviceControl) {
+        this.element.removeChild(deviceControl.element);
+        const index = this.deviceControls.indexOf(deviceControl, 0);
+        if (index > -1) {
+            this.deviceControls.splice(index, 1);
+        }
+    }
+
+}
+
+class DeviceControl {
+
+    element: HTMLElement
+    applicationsControl: ApplicationsControl
+    device: Device
+
+    constructor(device: Device) {
+        this.element = document.createElement("div");
+        this.element.className = "DeviceControl";
+
+        this.device = device
+
+        this.element.textContent = "Device: " + device.UDID + "LastConnectionDate: " + device.LastConnectionDate
+
+        this.applicationsControl = new ApplicationsControl(device);
+
+        this.element.appendChild(this.applicationsControl.element);
+    }
+
+    clear() {
+        this.applicationsControl.clear
+    }
+
+}
+
+class ApplicationsControl {
+
+    element: HTMLElement
+    applicationControls: ApplicationControl[]
+    spiner: Spinner
+    device: Device
+
+    constructor(device: Device) {
+        this.element = document.createElement("div");
+        this.element.className = "ApplicationsControl";
+
+        this.element.textContent = "Applications";
+
+        this.device = device;
+
+        this.spiner = new Spinner()
+
+        const loadListOfApplicationsButton = document.createElement("button");
+        loadListOfApplicationsButton.textContent = "Get list of applications";
         
-        mdmPushButton.addEventListener("click", async (e: Event) => {
+        loadListOfApplicationsButton.addEventListener("click", async (e: Event) => {
+            this.clear();
+            this.startLoading();
+
             console.log("OnClick!" + device.UDID);
+
             const applications = await apiClient.getListOfApplications(device);
             
             for (const application of applications) {
-                const applicationRow = document.createElement("div");
-                applicationRow.textContent = application.identifier;
-                applicationsContainer.appendChild(applicationRow);
+                const applicationControl = new ApplicationControl(application);
+                this.appendApplicationControl(applicationControl);
             }
         })
-        deviceRow.appendChild(mdmPushButton);
 
-        document.body.appendChild(deviceRow);
+        this.element.appendChild(loadListOfApplicationsButton);
+    }
+
+    clear() {
+        for (const applicationControl of this.applicationControls) {
+            this.removeApplicationControl(applicationControl);
+        }
+    }
+
+    appendApplicationControl(applicationControl: ApplicationControl) {
+        this.applicationControls.push(applicationControl);
+        this.element.appendChild(applicationControl.element);
+    }
+
+    removeApplicationControl(applicationControl: ApplicationControl) {
+        this.element.removeChild(applicationControl.element);
+        const index = this.applicationControls.indexOf(applicationControl, 0);
+        if (index > -1) {
+            this.applicationControls.splice(index, 1);
+        }
+    }
+
+    startLoading() {
+        this.spiner.spin(this.element);
+    }
+
+    stopLoading() {
+        this.spiner.stop();
+    }
+
+}
+
+class ApplicationControl {
+
+    element: HTMLElement
+    applicationInfo: ApplicationInfo
+
+    constructor(applicationInfo: ApplicationInfo) {
+        this.element = document.createElement("div");
+        this.element.className = "ApplicationControl";
+
+        this.applicationInfo = applicationInfo;
+
+        this.element.textContent = `App: ${ applicationInfo.Name }. Identifier: ${ applicationInfo.Identifier }. Version: ${ applicationInfo.Version }`
+    }
+
+    clear() {
+        this.element.innerHTML = "";
+    }
+
+}
+
+function showListOfDevices(devices: Device[]) {
+    for (const device of devices) {
+        const deviceControl = new DeviceControl(device);
+        webAppControl.devicesControl.appendDeviceControl(deviceControl);
     };
 }
 
 let apiClient = new ApiImpl();
+let webAppControl = new WebAppControl();
 (async () => {
     try {
-        let allDevices = await apiClient.getAllDevices();
-        console.log("Get all devices: " + allDevices);
-        showListOfDevices(allDevices);
+        await webAppControl.load();
     } catch (e) {
         document.body.textContent = "Error: " + e;
     }

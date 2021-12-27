@@ -2,7 +2,8 @@
     "compilerOptions": {
         "outDir": "../wwwroot/js",
         "module": "es6",
-        "lib": ["es5", "es6", "dom"]
+        "lib": ["es5", "es6", "dom"],
+        "moduleResolution": "node"
     },
     "exclude": [
         "node_modules"
