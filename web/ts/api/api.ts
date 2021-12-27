@@ -1,4 +1,5 @@
-import { environment } from "../environment/environment_dev";
+// import { environment } from "../environment/environment_dev";
+import { environment } from "../environment/environment_prod";
 import { Device, ApplicationInfo, DeviceI, DeviceRaw } from "../models/models";
 
 export interface IApi {
