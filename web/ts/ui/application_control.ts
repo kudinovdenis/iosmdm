@@ -77,8 +77,13 @@ class DeviceControl {
 
     constructor(device: Device, apiClient: IApi) {
         this.element = $('<h4>')
-            .text(`Device: ${ device.UDID }. LastConnectionDate: ${ device.LastConnectionDate }`)
             .addClass('DeviceControl');
+
+        const udidDiv = $('<div>').text(`Device: ${ device.UDID }.`);
+        const lastConnectionDateDiv = $('<div>').text(`LastConnectionDate: ${ device.LastConnectionDate }`);
+
+        this.element.append(udidDiv);
+        this.element.append(lastConnectionDateDiv);
 
         this.device = device;
         this.apiClient = apiClient;
@@ -173,20 +178,26 @@ class ApplicationsControl {
 
 class ApplicationControl {
 
-    element: HTMLElement
+    element: JQuery<HTMLElement>
     applicationInfo: ApplicationInfo
 
     constructor(applicationInfo: ApplicationInfo) {
-        this.element = document.createElement("<div>");
-        this.element.className = "ApplicationControl";
+        this.element = $("<div>")
+            .addClass('ApplicationControl')
+
+        const nameDiv = $('<div>').text(`App: ${ applicationInfo.Name }`);
+        const identifierDiv = $('<div>').text(`Identifier: ${ applicationInfo.Identifier }`);
+        const appVersionDiv = $('<div>').text(`Version: ${ applicationInfo.Version }`);
+
+        this.element.append(nameDiv);
+        this.element.append(identifierDiv);
+        this.element.append(appVersionDiv);
 
         this.applicationInfo = applicationInfo;
-
-        this.element.textContent = `App: ${ applicationInfo.Name }. Identifier: ${ applicationInfo.Identifier }. Version: ${ applicationInfo.Version }`
     }
 
     clear() {
-        this.element.innerHTML = "";
+        this.element.empty();
     }
 
 }
