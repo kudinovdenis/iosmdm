@@ -9,16 +9,16 @@ function uuidv4() {
 }  
 
 interface DeviceI {
-    udid: string
+    UDID: string
 }
 
 class Device implements DeviceI {
-    udid: string
+    UDID: string
 
     static testDevice(): Device {
         var device = new Device();
         const uuid = uuidv4();
-        device.udid = uuid;
+        device.UDID = uuid;
         console.log("Creating new device with uuid: " + uuid);
         return device;
     }
@@ -49,7 +49,7 @@ class ApiImpl implements IApi {
     }
 
     async getListOfApplications(device: Device): Promise<ApplicationInfo[]> {
-        return await this.get<ApplicationInfo[]>(environment.baseUrl + "/backend/devices/" + device.udid + "/applications");
+        return await this.get<ApplicationInfo[]>(environment.baseUrl + "/backend/devices/" + device.UDID + "/applications");
     }
     
 }
@@ -61,15 +61,11 @@ function showListOfDevices(devices: Device[]) {
 
         const mdmPushButton = document.createElement("button");
         mdmPushButton.textContent = "Get list of applications";
-
-        const onClick = () => {
-            console.log("OnClick!" + device.udid);
-            const applications = apiClient.getListOfApplications(device).then((applicationInfo) => {
-                console.log("Applications: " + JSON.stringify(applications));
-            }) 
-        }
+        
         mdmPushButton.addEventListener("click", async (e: Event) => {
-            onClick()
+            console.log("OnClick!" + device.UDID);
+            const applications = await apiClient.getListOfApplications(device);
+            console.log("Applications: " + JSON.stringify(applications));
         })
         deviceRow.appendChild(mdmPushButton);
 
