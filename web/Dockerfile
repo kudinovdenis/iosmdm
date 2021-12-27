@@ -2,8 +2,6 @@ FROM golang:1.16-alpine
 
 WORKDIR /web
 
-# RUN apk add git
-
 COPY . .
 
 RUN go mod download
