@@ -62,13 +62,14 @@ function showListOfDevices(devices: Device[]) {
         const mdmPushButton = document.createElement("button");
         mdmPushButton.textContent = "Get list of applications";
 
-        const onClick = async () => {
+        const onClick = () => {
             console.log("OnClick!" + device.udid);
-            const applications = await apiClient.getListOfApplications(device);
-            console.log("Applications: " + JSON.stringify(applications));
+            const applications = apiClient.getListOfApplications(device).then((applicationInfo) => {
+                console.log("Applications: " + JSON.stringify(applications));
+            }) 
         }
         mdmPushButton.addEventListener("click", async (e: Event) => {
-            await onClick()
+            onClick()
         })
         deviceRow.appendChild(mdmPushButton);
 
