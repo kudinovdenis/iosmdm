@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -122,8 +123,12 @@ func main() {
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
-	isDebug := os.Getenv("DEBUG")
-	log.Printf("isDebug: %+s. It is doing nothing for now.", isDebug)
+	isDebug := len(os.Getenv("DEBUG")) > 0
+	log.Printf("isDebug: %+v. It is doing nothing for now.", isDebug)
+
+	if !isDebug {
+		log.SetOutput(io.Discard)
+	}
 
 	// Where ORIGIN_ALLOWED is like `scheme://dns[:port]`, or `*` (insecure)
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
