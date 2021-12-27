@@ -10,6 +10,8 @@ COPY Static ./
 
 COPY . .
 
+ENV DEBUG=1
+
 RUN go mod download
 
 RUN go build -o defender

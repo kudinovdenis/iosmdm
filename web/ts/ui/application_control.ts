@@ -77,10 +77,11 @@ class DeviceControl {
 
     constructor(device: Device, apiClient: IApi) {
         this.element = $('<h4>')
-            .addClass('DeviceControl');
+            .addClass('DeviceControl')
+            .addClass('card');
 
-        const udidDiv = $('<div>').text(`Device: ${ device.UDID }.`);
-        const lastConnectionDateDiv = $('<div>').text(`LastConnectionDate: ${ device.LastConnectionDate }`);
+        const udidDiv = $('<p>').text(`Device: ${ device.UDID }.`);
+        const lastConnectionDateDiv = $('<p>').text(`LastConnectionDate: ${ device.LastConnectionDate }`);
 
         this.element.append(udidDiv);
         this.element.append(lastConnectionDateDiv);
@@ -109,7 +110,10 @@ class ApplicationsControl {
     apiClient: IApi
 
     constructor(device: Device, apiClient: IApi) {
-        this.element = $('<div>').text('Applications');
+        this.element = $('<div>')
+            .addClass('ApplicationsControl')
+            .addClass('container')
+            .text('Applications');
 
         this.loadListOfApplicationsButton = $('<button>')
             .addClass('btn btn-primary')
@@ -183,11 +187,12 @@ class ApplicationControl {
 
     constructor(applicationInfo: ApplicationInfo) {
         this.element = $("<div>")
+            .addClass('card')
             .addClass('ApplicationControl')
 
-        const nameDiv = $('<div>').text(`App: ${ applicationInfo.Name }`);
-        const identifierDiv = $('<div>').text(`Identifier: ${ applicationInfo.Identifier }`);
-        const appVersionDiv = $('<div>').text(`Version: ${ applicationInfo.Version }`);
+        const nameDiv = $('<p>').text(`App: ${ applicationInfo.Name }`);
+        const identifierDiv = $('<p>').text(`Identifier: ${ applicationInfo.Identifier }`);
+        const appVersionDiv = $('<p>').text(`Version: ${ applicationInfo.Version }`);
 
         this.element.append(nameDiv);
         this.element.append(identifierDiv);
