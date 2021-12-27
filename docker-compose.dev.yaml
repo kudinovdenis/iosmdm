@@ -6,6 +6,8 @@ services:
       - DEBUG=1
     ports:
       - "8082:8082"
+    volumes:
+      - "~/persist:/var/persist"
 
   frontend:
     build: ./web

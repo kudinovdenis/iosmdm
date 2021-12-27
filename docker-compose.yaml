@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "8082:8082"
+    volumes:
+      - "~/persist:/var/persist"
 
   frontend:
     build: ./web
