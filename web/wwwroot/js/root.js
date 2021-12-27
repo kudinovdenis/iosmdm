@@ -42,6 +42,11 @@ function uuidv4() {
         return v.toString(16);
     });
 }
+var DeviceRaw = /** @class */ (function () {
+    function DeviceRaw() {
+    }
+    return DeviceRaw;
+}());
 var Device = /** @class */ (function () {
     function Device() {
     }
@@ -49,6 +54,7 @@ var Device = /** @class */ (function () {
         var device = new Device();
         var uuid = uuidv4();
         device.UDID = uuid;
+        var lastConnectionDate = new Date(Date.parse("2021-12-27T08:45:14.316905946Z"));
         console.log("Creating new device with uuid: " + uuid);
         return device;
     };
@@ -70,9 +76,7 @@ var ApiImpl = /** @class */ (function () {
                     case 0: return [4 /*yield*/, fetch(request)];
                     case 1:
                         respone = _a.sent();
-                        return [4 /*yield*/, respone.json()];
-                    case 2:
-                        body = _a.sent();
+                        body = respone.json();
                         return [2 /*return*/, body];
                 }
             });
@@ -80,16 +84,27 @@ var ApiImpl = /** @class */ (function () {
     };
     ApiImpl.prototype.getAllDevices = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var devices;
+            var devices_1, devicesRaw, devices;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (environment.isDebug) {
-                            devices = [Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()];
-                            return [2 /*return*/, Promise.resolve(devices)];
+                            devices_1 = [Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()];
+                            return [2 /*return*/, Promise.resolve(devices_1)];
                         }
-                        return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices")];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        devicesRaw = this.get(environment.baseUrl + "/backend/devices");
+                        return [4 /*yield*/, devicesRaw];
+                    case 1:
+                        devices = (_a.sent()).map(function (rawDevice) {
+                            var device = new Device();
+                            device.UDID = rawDevice.UDID;
+                            device.LastConnectionDate = new Date(Date.parse(rawDevice.LastConnectionDate));
+                            device.PushMagic = rawDevice.PushMagic;
+                            device.PushToken = rawDevice.PushToken;
+                            device.CheckedOut = rawDevice.CheckedOut;
+                            return device;
+                        });
+                        return [2 /*return*/, devices];
                 }
             });
         });
@@ -97,10 +112,7 @@ var ApiImpl = /** @class */ (function () {
     ApiImpl.prototype.getListOfApplications = function (device) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.get(environment.baseUrl + "/backend/devices/" + device.UDID + "/applications")];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
+                return [2 /*return*/, this.get(environment.baseUrl + "/backend/devices/" + device.UDID + "/applications")];
             });
         });
     };
@@ -109,12 +121,15 @@ var ApiImpl = /** @class */ (function () {
 function showListOfDevices(devices) {
     var _this = this;
     var _loop_1 = function (device) {
-        var deviceRow = document.createElement("h3");
-        deviceRow.textContent = "".concat(JSON.stringify(device));
+        var deviceRow = document.createElement("div");
+        deviceRow.textContent = "Device: " + device.UDID + "LastConnectionDate: " + device.LastConnectionDate;
+        var applicationsContainer = document.createElement("div");
+        applicationsContainer.textContent = "Applications:";
+        deviceRow.appendChild(applicationsContainer);
         var mdmPushButton = document.createElement("button");
         mdmPushButton.textContent = "Get list of applications";
         mdmPushButton.addEventListener("click", function (e) { return __awaiter(_this, void 0, void 0, function () {
-            var applications;
+            var applications, _i, applications_1, application, applicationRow;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -122,7 +137,12 @@ function showListOfDevices(devices) {
                         return [4 /*yield*/, apiClient.getListOfApplications(device)];
                     case 1:
                         applications = _a.sent();
-                        console.log("Applications: " + JSON.stringify(applications));
+                        for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
+                            application = applications_1[_i];
+                            applicationRow = document.createElement("div");
+                            applicationRow.textContent = application.identifier;
+                            applicationsContainer.appendChild(applicationRow);
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -130,8 +150,8 @@ function showListOfDevices(devices) {
         deviceRow.appendChild(mdmPushButton);
         document.body.appendChild(deviceRow);
     };
-    for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
-        var device = devices_1[_i];
+    for (var _i = 0, devices_2 = devices; _i < devices_2.length; _i++) {
+        var device = devices_2[_i];
         _loop_1(device);
     }
     ;
