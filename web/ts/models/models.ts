@@ -5,7 +5,7 @@ function uuidv4() {
     });
 }  
 
-interface DeviceI {
+export interface DeviceI {
     UDID: string
     LastConnectionDate: Date
     PushMagic: string
@@ -14,7 +14,7 @@ interface DeviceI {
     CheckedOut: boolean
 }
 
-class DeviceRaw {
+export class DeviceRaw {
     UDID: string
     LastConnectionDate: string
     PushMagic: string
@@ -23,7 +23,7 @@ class DeviceRaw {
     CheckedOut: boolean
 }
 
-class Device implements DeviceI {
+export class Device implements DeviceI {
     UDID: string
     LastConnectionDate: Date
     PushMagic: string
@@ -42,7 +42,7 @@ class Device implements DeviceI {
     }
 }
 
-class ApplicationInfo {
+export class ApplicationInfo {
     AdHocCodeSigned:           boolean
 	AppStoreVendable:          boolean
 	BetaApp:                   boolean

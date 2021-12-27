@@ -1,6 +1,7 @@
 /// <reference types="jquery" />
 
 import { IApi } from "../api/api";
+import { ApplicationInfo, Device } from "../models/models"
 
 // UI
 
@@ -133,7 +134,9 @@ class ApplicationsControl {
     }
 
     private createSpinner(): JQuery<HTMLElement> {
-        const spinner = $("<div>").addClass("Spinner").addClass('spinner-border text-light');
+        const spinner = $("<span>")
+            .addClass('spinner-grow')
+            .addClass('spinner-grow-sm')
         return spinner;
     }
 
@@ -157,10 +160,12 @@ class ApplicationsControl {
     }
 
     startLoading() {
-        this.loadListOfApplicationsButton.append(this.spiner);
+        this.loadListOfApplicationsButton.prop('disabled', 'true');
+        this.loadListOfApplicationsButton.prepend(this.spiner);
     }
 
     stopLoading() {
+        this.loadListOfApplicationsButton.prop('disabled', 'false');
         this.spiner.remove();
     }
 
