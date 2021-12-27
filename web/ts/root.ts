@@ -24,6 +24,10 @@ class Device implements DeviceI {
     }
 }
 
+class ApplicationInfo {
+    identifier: string
+}
+
 interface IApi {
     getAllDevices(): Promise<Device[]>
 }
@@ -44,8 +48,8 @@ class ApiImpl implements IApi {
         return await this.get<Device[]>(environment.baseUrl + "/backend/devices");
     }
 
-    async getListOfApplications(device: Device): Promise<String[]> {
-        return await this.get<String[]>(environment.baseUrl + "/backend/devices/" + device.udid + "/applications");
+    async getListOfApplications(device: Device): Promise<ApplicationInfo[]> {
+        return await this.get<ApplicationInfo[]>(environment.baseUrl + "/backend/devices/" + device.udid + "/applications");
     }
     
 }
@@ -57,10 +61,14 @@ function showListOfDevices(devices: Device[]) {
 
         const mdmPushButton = document.createElement("button");
         mdmPushButton.textContent = "Get list of applications";
-        mdmPushButton.addEventListener("click", async (e: Event) => {
+
+        const onClick = async () => {
             console.log("OnClick!" + device.udid);
             const applications = await apiClient.getListOfApplications(device);
             console.log("Applications: " + JSON.stringify(applications));
+        }
+        mdmPushButton.addEventListener("click", async (e: Event) => {
+            await onClick()
         })
         deviceRow.appendChild(mdmPushButton);
 

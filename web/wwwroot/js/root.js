@@ -54,6 +54,11 @@ var Device = /** @class */ (function () {
     };
     return Device;
 }());
+var ApplicationInfo = /** @class */ (function () {
+    function ApplicationInfo() {
+    }
+    return ApplicationInfo;
+}());
 var ApiImpl = /** @class */ (function () {
     function ApiImpl() {
     }
@@ -108,7 +113,7 @@ function showListOfDevices(devices) {
         deviceRow.textContent = "".concat(JSON.stringify(device));
         var mdmPushButton = document.createElement("button");
         mdmPushButton.textContent = "Get list of applications";
-        mdmPushButton.addEventListener("click", function (e) { return __awaiter(_this, void 0, void 0, function () {
+        var onClick = function () { return __awaiter(_this, void 0, void 0, function () {
             var applications;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -118,6 +123,16 @@ function showListOfDevices(devices) {
                     case 1:
                         applications = _a.sent();
                         console.log("Applications: " + JSON.stringify(applications));
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        mdmPushButton.addEventListener("click", function (e) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, onClick()];
+                    case 1:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
