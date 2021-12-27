@@ -65,17 +65,17 @@ func handleDeviceApplicationsRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	devicesController.InstalledApplicationsList(*device, func(installedApplicationList []mdmserver.InstalledApplication) {
-		log.Printf("Installed applications callback called on main. Applications: %+v", installedApplicationList)
+	installedApplicationListChan := devicesController.InstalledApplicationsList(*device)
+	installedApplicationList := <-installedApplicationListChan
+	log.Printf("Installed applications callback called on main. Applications: %+v", installedApplicationList)
 
-		w.WriteHeader(http.StatusOK)
-		jsonData, err := json.Marshal(installedApplicationList)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		w.Write(jsonData)
-	})
+	w.WriteHeader(http.StatusOK)
+	jsonData, err := json.Marshal(installedApplicationList)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(jsonData)
 }
 
 // Misc

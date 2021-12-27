@@ -27,7 +27,7 @@ type DevicesControllerI interface {
 	NextCommandForDevice(device Device) *Command
 	DeviceDidFinishCommand(device Device, commandUUID string, response []byte)
 
-	InstalledApplicationsList(device Device, completion func(installedApplicationList []InstalledApplication))
+	InstalledApplicationsList(device Device) chan []InstalledApplication
 }
 
 type DevicesController struct {
@@ -81,15 +81,17 @@ func (devicesController DevicesController) CheckoutDevice(device Device) {
 	log.Printf("Checked out device: %+s", device.UDID)
 }
 
-func (devicesController DevicesController) InstalledApplicationsList(device Device, completion func(installedApplicationList []InstalledApplication)) {
+func (devicesController DevicesController) InstalledApplicationsList(device Device) chan []InstalledApplication {
 	log.Printf("Get installed applications list for device: %+s", device.UDID)
+	applicationsList := make(chan []InstalledApplication)
 	command := NewInstalledApplicationsCommand()
 	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
 		log.Print("Completion called (devices controller)")
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
-		completion(response.(InstalledApplicationsCommandResponse).InstalledApplicationList)
+		applicationsList <- response.(InstalledApplicationsCommandResponse).InstalledApplicationList
 	})
+	return applicationsList
 }
 
 func (devicesController DevicesController) NextCommandForDevice(device Device) *Command {
