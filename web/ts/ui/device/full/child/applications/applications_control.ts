@@ -1,34 +1,29 @@
 
 import { IApi } from "../../../../../api/api";
 import { Device } from "../../../../../models/models";
+import { ButtonControl } from "../../../../helpers/button";
 import { ApplicationControl } from "./application_control";
 
 export class ApplicationsControl {
 
     element: JQuery<HTMLElement>;
-    loadListOfApplicationsButton: JQuery<HTMLElement>;
+    loadListOfApplicationsButton: ButtonControl;
     applicationControls: ApplicationControl[] = [];
-    spiner: JQuery<HTMLElement>;
     device: Device;
     apiClient: IApi
 
     constructor(device: Device, apiClient: IApi) {
-        this.element = $('<div>')
-            .addClass('ApplicationsControl')
-            .addClass('container')
-            .text('Applications');
-
-        this.loadListOfApplicationsButton = $('<a>')
-            .addClass('btn btn-primary')
-            .html("Load applications list")
-
-        this.element.append(this.loadListOfApplicationsButton);
-
-        this.spiner = this.createSpinner();
         this.device = device;
         this.apiClient = apiClient;
 
-        this.loadListOfApplicationsButton.on('click', async () => {
+        this.element = $('<div>')
+            .addClass('ApplicationsControl')
+            .addClass('container');
+
+        this.loadListOfApplicationsButton = new ButtonControl('Load applications list');
+        this.element.append(this.loadListOfApplicationsButton.element);
+
+        this.loadListOfApplicationsButton.setOnClick(async () => {
             this.clear();
             this.startLoading();
 
@@ -41,13 +36,6 @@ export class ApplicationsControl {
                 this.appendApplicationControl(applicationControl);
             }
         });
-    }
-
-    private createSpinner(): JQuery<HTMLElement> {
-        const spinner = $("<span>")
-            .addClass('spinner-grow')
-            .addClass('spinner-grow-sm')
-        return spinner;
     }
 
     clear() {
@@ -70,13 +58,11 @@ export class ApplicationsControl {
     }
 
     startLoading() {
-        this.loadListOfApplicationsButton.prop('disabled', 'true');
-        this.loadListOfApplicationsButton.prepend(this.spiner);
+        this.loadListOfApplicationsButton.startLoading();
     }
 
     stopLoading() {
-        this.loadListOfApplicationsButton.prop('disabled', 'false');
-        this.spiner.remove();
+        this.loadListOfApplicationsButton.stopLoading();
     }
 
 }

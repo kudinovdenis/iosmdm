@@ -1,4 +1,5 @@
 import { IApi } from "../api/api";
+import { ButtonControl } from "./helpers/button";
 
 export class ServiceControl {
 

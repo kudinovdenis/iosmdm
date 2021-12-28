@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ApiImpl": () => (/* binding */ ApiImpl)
 /* harmony export */ });
-/* harmony import */ var _environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../environment/environment_prod */ "./environment/environment_prod.ts");
+/* harmony import */ var _environment_environment_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../environment/environment_dev */ "./environment/environment_dev.ts");
 /* harmony import */ var _models_models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/models */ "./models/models.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -50,8 +50,8 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// import { environment } from "../environment/environment_dev";
 
+// import { environment } from "../environment/environment_prod";
 
 var ApiImpl = /** @class */ (function () {
     function ApiImpl() {
@@ -76,7 +76,7 @@ var ApiImpl = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.isDebug) {
+                        if (_environment_environment_dev__WEBPACK_IMPORTED_MODULE_0__.environment.isDebug) {
                             devices_1 = [
                                 _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(),
                                 _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(), _models_models__WEBPACK_IMPORTED_MODULE_1__.Device.testDevice(),
@@ -86,7 +86,7 @@ var ApiImpl = /** @class */ (function () {
                             ];
                             return [2 /*return*/, Promise.resolve(devices_1)];
                         }
-                        devicesRaw = this.get(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + "/backend/devices");
+                        devicesRaw = this.get(_environment_environment_dev__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + "/backend/devices");
                         return [4 /*yield*/, devicesRaw];
                     case 1:
                         devices = (_a.sent()).map(function (rawDevice) {
@@ -106,12 +106,12 @@ var ApiImpl = /** @class */ (function () {
     ApiImpl.prototype.getListOfApplications = function (device) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + "/backend/devices/" + device.UDID + "/applications")];
+                return [2 /*return*/, this.get(_environment_environment_dev__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + "/backend/devices/" + device.UDID + "/applications")];
             });
         });
     };
     ApiImpl.prototype.downloadProfileLink = function () {
-        return _environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + '/backend/static/profile/';
+        return _environment_environment_dev__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + '/backend/static/profile/';
     };
     return ApiImpl;
 }());
@@ -120,10 +120,10 @@ var ApiImpl = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./environment/environment_prod.ts":
-/*!*****************************************!*\
-  !*** ./environment/environment_prod.ts ***!
-  \*****************************************/
+/***/ "./environment/environment_dev.ts":
+/*!****************************************!*\
+  !*** ./environment/environment_dev.ts ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -131,8 +131,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "environment": () => (/* binding */ environment)
 /* harmony export */ });
 var environment = {
-    isDebug: false,
-    baseUrl: "https://m1553d.com/api"
+    isDebug: true,
+    baseUrl: "http://localhost:8082"
 };
 
 
@@ -171,7 +171,7 @@ var Device = /** @class */ (function () {
         device.UDID = uuid;
         var lastConnectionDate = new Date(Date.parse("2021-12-27T08:45:14.316905946Z"));
         device.LastConnectionDate = lastConnectionDate;
-        device.PushToken = uuidv4();
+        device.PushToken = "n0EZmTGmWsN1J9yfq1sMQ77OoLZdyDS6ELCr1M6/YS4=";
         device.PushMagic = uuidv4();
         device.Topic = uuidv4();
         console.log("Creating new device with uuid: " + uuid);
@@ -322,7 +322,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ApplicationsControl": () => (/* binding */ ApplicationsControl)
 /* harmony export */ });
-/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
+/* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
+/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -360,22 +361,19 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
+
 var ApplicationsControl = /** @class */ (function () {
     function ApplicationsControl(device, apiClient) {
         var _this = this;
         this.applicationControls = [];
-        this.element = $('<div>')
-            .addClass('ApplicationsControl')
-            .addClass('container')
-            .text('Applications');
-        this.loadListOfApplicationsButton = $('<a>')
-            .addClass('btn btn-primary')
-            .html("Load applications list");
-        this.element.append(this.loadListOfApplicationsButton);
-        this.spiner = this.createSpinner();
         this.device = device;
         this.apiClient = apiClient;
-        this.loadListOfApplicationsButton.on('click', function () { return __awaiter(_this, void 0, void 0, function () {
+        this.element = $('<div>')
+            .addClass('ApplicationsControl')
+            .addClass('container');
+        this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Load applications list');
+        this.element.append(this.loadListOfApplicationsButton.element);
+        this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var applications, _i, applications_1, application, applicationControl;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -388,7 +386,7 @@ var ApplicationsControl = /** @class */ (function () {
                         this.stopLoading();
                         for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
                             application = applications_1[_i];
-                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_0__.ApplicationControl(application);
+                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_1__.ApplicationControl(application);
                             this.appendApplicationControl(applicationControl);
                         }
                         return [2 /*return*/];
@@ -396,12 +394,6 @@ var ApplicationsControl = /** @class */ (function () {
             });
         }); });
     }
-    ApplicationsControl.prototype.createSpinner = function () {
-        var spinner = $("<span>")
-            .addClass('spinner-grow')
-            .addClass('spinner-grow-sm');
-        return spinner;
-    };
     ApplicationsControl.prototype.clear = function () {
         for (var _i = 0, _a = this.applicationControls; _i < _a.length; _i++) {
             var applicationControl = _a[_i];
@@ -420,12 +412,10 @@ var ApplicationsControl = /** @class */ (function () {
         }
     };
     ApplicationsControl.prototype.startLoading = function () {
-        this.loadListOfApplicationsButton.prop('disabled', 'true');
-        this.loadListOfApplicationsButton.prepend(this.spiner);
+        this.loadListOfApplicationsButton.startLoading();
     };
     ApplicationsControl.prototype.stopLoading = function () {
-        this.loadListOfApplicationsButton.prop('disabled', 'false');
-        this.spiner.remove();
+        this.loadListOfApplicationsButton.stopLoading();
     };
     return ApplicationsControl;
 }());
@@ -444,12 +434,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DeviceBasicInfoControl": () => (/* binding */ DeviceBasicInfoControl)
 /* harmony export */ });
-/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+/* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
+/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+
 
 var DeviceBasicInfoControl = /** @class */ (function () {
     function DeviceBasicInfoControl(device) {
         this.element = $('<div>');
-        var table = new _helpers_table__WEBPACK_IMPORTED_MODULE_0__.TableControl();
+        var queryAdditionalInfoButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Query device information');
+        this.element.append(queryAdditionalInfoButton.element);
+        queryAdditionalInfoButton.setOnClick();
+        var table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
         table.setHeaders(["Parameter", "Value"]);
         table.appendRow(["Identifier", device.UDID]);
         table.appendRow(["Push token", device.PushToken]);
@@ -502,6 +497,49 @@ var FullDeviceInfoControl = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./ui/helpers/button.ts":
+/*!******************************!*\
+  !*** ./ui/helpers/button.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ButtonControl": () => (/* binding */ ButtonControl)
+/* harmony export */ });
+var ButtonControl = /** @class */ (function () {
+    function ButtonControl(title, onClick) {
+        this.element = $('<button>')
+            .addClass('btn')
+            .addClass('btn-primary');
+        this.element.html(title);
+        this.spiner = this.createSpinner();
+        this.element.on('click', onClick);
+    }
+    ButtonControl.prototype.startLoading = function () {
+        this.element.prop('disabled', 'true');
+        this.element.prepend(this.spiner);
+    };
+    ButtonControl.prototype.stopLoading = function () {
+        this.element.prop('disabled', 'false');
+        this.spiner.remove();
+    };
+    ButtonControl.prototype.setOnClick = function (onClick) {
+        this.element.on('click', onClick);
+    };
+    ButtonControl.prototype.createSpinner = function () {
+        var spinner = $("<span>")
+            .addClass('spinner-grow')
+            .addClass('spinner-grow-sm');
+        return spinner;
+    };
+    return ButtonControl;
+}());
+
+
+
+/***/ }),
+
 /***/ "./ui/helpers/modal.ts":
 /*!*****************************!*\
   !*** ./ui/helpers/modal.ts ***!
@@ -515,7 +553,7 @@ __webpack_require__.r(__webpack_exports__);
 var ModalWindow = /** @class */ (function () {
     function ModalWindow(title, body) {
         this.element = $('<div>').addClass('modal').addClass('fade');
-        var modalDialog = $('<div>').addClass('modal-dialog');
+        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-lg');
         var modalContent = $('<div>').addClass('modal-content');
         modalContent.append(this.modalHeader(title));
         modalContent.append(this.modalBody(body));
@@ -924,20 +962,12 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 var apiClient = new _api_api__WEBPACK_IMPORTED_MODULE_0__.ApiImpl();
 var webAppControl = new _ui_web_app__WEBPACK_IMPORTED_MODULE_1__.WebAppControl(apiClient);
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, webAppControl.load()];
+            case 0: return [4 /*yield*/, webAppControl.load()];
             case 1:
                 _a.sent();
-                return [3 /*break*/, 3];
-            case 2:
-                e_1 = _a.sent();
-                document.body.textContent = "Error: " + e_1;
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [2 /*return*/];
         }
     });
 }); })();

@@ -79,6 +79,30 @@ func handleDeviceApplicationsRequest(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
+func handleDeviceInfoRequest(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+	params := mux.Vars(r)
+	deviceId := params["id"]
+
+	device := devicesController.DeviceWithUDID(deviceId)
+	if device == nil {
+		http.Error(w, "Device not found", http.StatusInternalServerError)
+		return
+	}
+
+	deviceInfoChan := devicesController.DeviceInfo(*device)
+	deviceInfo := <-deviceInfoChan
+	log.Printf("Device info callback called on main. Device info: %+v", deviceInfo)
+
+	w.WriteHeader(http.StatusOK)
+	jsonData, err := json.Marshal(deviceInfo)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(jsonData)
+}
+
 func handleProfileDownload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment; filename=EnrollSigned.mobileconfig")
 	http.ServeFile(w, r, "./Static/Profile/EnrollSigned.mobileconfig")
@@ -129,6 +153,8 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/", handleDeviceRequest)
 	devicesRouter.HandleFunc("/{id}/applications", handleDeviceApplicationsRequest)
 	devicesRouter.HandleFunc("/{id}/applications/", handleDeviceApplicationsRequest)
+	devicesRouter.HandleFunc("/{id}/info", handleDeviceInfoRequest)
+	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 

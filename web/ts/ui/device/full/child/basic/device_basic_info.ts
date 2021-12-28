@@ -1,4 +1,5 @@
 import { Device } from "../../../../../models/models";
+import { ButtonControl } from "../../../../helpers/button";
 import { TableControl } from "../../../../helpers/table";
 
 export class DeviceBasicInfoControl {
@@ -7,6 +8,10 @@ export class DeviceBasicInfoControl {
 
     constructor(device: Device) {
        this.element = $('<div>')
+
+       const queryAdditionalInfoButton = new ButtonControl('Query device information');
+       this.element.append(queryAdditionalInfoButton.element);
+       queryAdditionalInfoButton.setOnClick();
        
        const table = new TableControl();
        table.setHeaders(["Parameter", "Value"]);
