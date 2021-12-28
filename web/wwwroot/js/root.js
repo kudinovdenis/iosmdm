@@ -526,16 +526,18 @@ var DeviceBasicInfoControl = /** @class */ (function () {
         for (var _a = 0, serviceSubscriptionsInfo_1 = serviceSubscriptionsInfo; _a < serviceSubscriptionsInfo_1.length; _a++) {
             var serviceSubscription = serviceSubscriptionsInfo_1[_a];
             var serviceSubscriptionTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
-            var serviceSubscriptionKeys = Object.keys(serviceSubscriptionsInfo);
+            serviceSubscriptionTable.setHeadersText(["Parameter", "Value", "Description"]);
+            var serviceSubscriptionKeys = Object.keys(serviceSubscription);
             for (var _b = 0, serviceSubscriptionKeys_1 = serviceSubscriptionKeys; _b < serviceSubscriptionKeys_1.length; _b++) {
                 var key = serviceSubscriptionKeys_1[_b];
-                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscriptionsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
             this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
         }
         // OSUpdateSettings
         var osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
         var osUpdateSettingsInfoTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        osUpdateSettingsInfoTable.setHeadersText(["Parameter", "Value", "Description"]);
         var osUpdateSettingsInfoKeys = Object.keys(osUpdateSettingsInfo);
         for (var _c = 0, osUpdateSettingsInfoKeys_1 = osUpdateSettingsInfoKeys; _c < osUpdateSettingsInfoKeys_1.length; _c++) {
             var key = osUpdateSettingsInfoKeys_1[_c];

@@ -47,10 +47,11 @@ export class DeviceBasicInfoControl {
         const serviceSubscriptionsInfo = deviceInfo.ServiceSubscriptions
         for (const serviceSubscription of serviceSubscriptionsInfo) {
             const serviceSubscriptionTable = new TableControl()
+            serviceSubscriptionTable.setHeadersText(["Parameter", "Value", "Description"]);
             
-            const serviceSubscriptionKeys = Object.keys(serviceSubscriptionsInfo);
+            const serviceSubscriptionKeys = Object.keys(serviceSubscription);
             for (const key of serviceSubscriptionKeys) {
-                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscriptionsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
 
             this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
@@ -60,6 +61,7 @@ export class DeviceBasicInfoControl {
 
         const osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
         const osUpdateSettingsInfoTable = new TableControl()
+        osUpdateSettingsInfoTable.setHeadersText(["Parameter", "Value", "Description"]);
         
         const osUpdateSettingsInfoKeys = Object.keys(osUpdateSettingsInfo);
         for (const key of osUpdateSettingsInfoKeys) {
