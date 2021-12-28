@@ -1,6 +1,6 @@
 
-import { IApi } from "../../../../api/api";
-import { Device } from "../../../../models/models";
+import { IApi } from "../../../../../api/api";
+import { Device } from "../../../../../models/models";
 import { ApplicationControl } from "./application_control";
 
 export class ApplicationsControl {

@@ -30,7 +30,7 @@ export class DeviceControl {
         this.device = device;
         this.apiClient = apiClient;
 
-        this.fullDeviceInfoControl = new FullDeviceInfoControl(device);
+        this.fullDeviceInfoControl = new FullDeviceInfoControl(device, apiClient);
         const modalFullDeviceIfoControl = new ModalWindow(`Device info`, this.fullDeviceInfoControl.element);
         this.element.append(modalFullDeviceIfoControl.element);
 

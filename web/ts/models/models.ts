@@ -37,6 +37,9 @@ export class Device implements DeviceI {
         device.UDID = uuid;
         const lastConnectionDate = new Date(Date.parse("2021-12-27T08:45:14.316905946Z"));
         device.LastConnectionDate = lastConnectionDate;
+        device.PushToken = uuidv4();
+        device.PushMagic = uuidv4();
+        device.Topic = uuidv4();
         console.log("Creating new device with uuid: " + uuid);
         return device;
     }

@@ -1,7 +1,7 @@
 import { IApi } from "../api/api";
 import { Device } from "../models/models"
-import { DevicesControl } from "./devices/devices_control";
-import { DeviceControl } from "./devices/device_control";
+import { DevicesControl } from "./device/devices_control";
+import { DeviceControl } from "./device/device_control";
 import { ServiceControl } from "./service_control";
 
 
