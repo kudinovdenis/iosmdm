@@ -12,12 +12,14 @@ export class DeviceBasicInfoControl {
        this.element = $('<div>')
        
        this.table = new TableControl();
-       this.table.setHeaders(["Parameter", "Value", "Description"]);
-       this.table.appendRow(["Identifier", device.UDID, "UDID"]);
-       this.table.appendRow(["Push token", device.PushToken, "Used to send push"]);
-       this.table.appendRow(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
-       this.table.appendRow(["Topic", device.Topic, "Unique string describing client-server interaction"]);
-       this.table.appendRow(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+       this.table.setHeadersText(["Parameter", "Value", "Description"]);
+       this.table.appendRowText(["Identifier", device.UDID, "UDID"]);
+       this.table.appendRowText(["Push token", device.PushToken, "Used to send push"]);
+       this.table.appendRowText(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
+       this.table.appendRowText(["Topic", device.Topic, "Unique string describing client-server interaction"]);
+       this.table.appendRowText(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+
+       this.element.append(this.table.element);
 
        const queryAdditionalInfoButton = new ButtonControl('Query additional device information');
        this.element.append(queryAdditionalInfoButton.element);
@@ -28,15 +30,43 @@ export class DeviceBasicInfoControl {
 
            queryAdditionalInfoButton.stopLoading();
        });
-
-       this.element.append(this.table.element);
     }
 
     private fillTable(deviceInfo: QueryResponses) {
         const keys = Object.keys(deviceInfo);
         for (const key of keys) {
-            this.table.appendRow([key, JSON.stringify(deviceInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+            if (key == "ServiceSubscriptions" || key == "OSUpdateSettings") {
+                // handle later
+                continue;
+            }
+            this.table.appendRowText([key, JSON.stringify(deviceInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
+
+        // ServiceSubscriptions
+
+        const serviceSubscriptionsInfo = deviceInfo.ServiceSubscriptions
+        for (const serviceSubscription of serviceSubscriptionsInfo) {
+            const serviceSubscriptionTable = new TableControl()
+            
+            const serviceSubscriptionKeys = Object.keys(serviceSubscriptionsInfo);
+            for (const key of serviceSubscriptionKeys) {
+                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscriptionsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+            }
+
+            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+        }
+
+        // OSUpdateSettings
+
+        const osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
+        const osUpdateSettingsInfoTable = new TableControl()
+        
+        const osUpdateSettingsInfoKeys = Object.keys(osUpdateSettingsInfo);
+        for (const key of osUpdateSettingsInfoKeys) {
+            osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+        }
+
+        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
     }
 
     private descriptionForDeviceInfoKeyName(key: string): string {

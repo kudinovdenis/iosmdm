@@ -47,20 +47,34 @@ export class TableControl {
         this.element.append(this.body);
     }
 
-    setHeaders(headers: string[]) {
+    setHeadersText(headers: string[]) {
+        const headersElements = headers.map((val) => {
+            return $('<p>').html(val);
+        })
+        this.setHeaders(headersElements);
+    }
+
+    setHeaders(headers: JQuery<HTMLElement>[]) {
         const row = $('<tr>');
         for (const header of headers) {
-            const col = $('<th>').html(header);
+            const col = $('<th>').append(header);
             row.append(col);
         }
         this.header.empty();
         this.header.append(row);
     }
 
-    appendRow(rowContent: string[]) {
+    appendRowText(rowContent: string[]) {
+        const rowContentElements = rowContent.map((val) => {
+            return $('<p>').html(val);
+        })
+        this.setHeaders(rowContentElements);
+    }
+
+    appendRow(rowContent: JQuery<HTMLElement>[]) {
         const row = $('<tr>');
         for (const rowColumn of rowContent) {
-            const col = $('<td>').html(rowColumn);
+            const col = $('<td>').append(rowColumn);
             row.append(col);
         }
         this.body.append(row);

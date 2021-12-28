@@ -486,12 +486,13 @@ var DeviceBasicInfoControl = /** @class */ (function () {
         var _this = this;
         this.element = $('<div>');
         this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
-        this.table.setHeaders(["Parameter", "Value", "Description"]);
-        this.table.appendRow(["Identifier", device.UDID, "UDID"]);
-        this.table.appendRow(["Push token", device.PushToken, "Used to send push"]);
-        this.table.appendRow(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
-        this.table.appendRow(["Topic", device.Topic, "Unique string describing client-server interaction"]);
-        this.table.appendRow(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+        this.table.setHeadersText(["Parameter", "Value", "Description"]);
+        this.table.appendRowText(["Identifier", device.UDID, "UDID"]);
+        this.table.appendRowText(["Push token", device.PushToken, "Used to send push"]);
+        this.table.appendRowText(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
+        this.table.appendRowText(["Topic", device.Topic, "Unique string describing client-server interaction"]);
+        this.table.appendRowText(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+        this.element.append(this.table.element);
         var queryAdditionalInfoButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Query additional device information');
         this.element.append(queryAdditionalInfoButton.element);
         queryAdditionalInfoButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -509,14 +510,38 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                 }
             });
         }); });
-        this.element.append(this.table.element);
     }
     DeviceBasicInfoControl.prototype.fillTable = function (deviceInfo) {
         var keys = Object.keys(deviceInfo);
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var key = keys_1[_i];
-            this.table.appendRow([key, JSON.stringify(deviceInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+            if (key == "ServiceSubscriptions" || key == "OSUpdateSettings") {
+                // handle later
+                continue;
+            }
+            this.table.appendRowText([key, JSON.stringify(deviceInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
+        // ServiceSubscriptions
+        var serviceSubscriptionsInfo = deviceInfo.ServiceSubscriptions;
+        for (var _a = 0, serviceSubscriptionsInfo_1 = serviceSubscriptionsInfo; _a < serviceSubscriptionsInfo_1.length; _a++) {
+            var serviceSubscription = serviceSubscriptionsInfo_1[_a];
+            var serviceSubscriptionTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+            var serviceSubscriptionKeys = Object.keys(serviceSubscriptionsInfo);
+            for (var _b = 0, serviceSubscriptionKeys_1 = serviceSubscriptionKeys; _b < serviceSubscriptionKeys_1.length; _b++) {
+                var key = serviceSubscriptionKeys_1[_b];
+                serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscriptionsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+            }
+            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+        }
+        // OSUpdateSettings
+        var osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
+        var osUpdateSettingsInfoTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        var osUpdateSettingsInfoKeys = Object.keys(osUpdateSettingsInfo);
+        for (var _c = 0, osUpdateSettingsInfoKeys_1 = osUpdateSettingsInfoKeys; _c < osUpdateSettingsInfoKeys_1.length; _c++) {
+            var key = osUpdateSettingsInfoKeys_1[_c];
+            osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+        }
+        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
     };
     DeviceBasicInfoControl.prototype.descriptionForDeviceInfoKeyName = function (key) {
         switch (key) {
@@ -732,7 +757,7 @@ __webpack_require__.r(__webpack_exports__);
 var ModalWindow = /** @class */ (function () {
     function ModalWindow(title, body) {
         this.element = $('<div>').addClass('modal').addClass('fade');
-        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-lg');
+        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-fullscreen');
         var modalContent = $('<div>').addClass('modal-content');
         modalContent.append(this.modalHeader(title));
         modalContent.append(this.modalBody(body));
@@ -889,21 +914,33 @@ var TableControl = /** @class */ (function () {
         this.element.append(this.header);
         this.element.append(this.body);
     }
+    TableControl.prototype.setHeadersText = function (headers) {
+        var headersElements = headers.map(function (val) {
+            return $('<p>').html(val);
+        });
+        this.setHeaders(headersElements);
+    };
     TableControl.prototype.setHeaders = function (headers) {
         var row = $('<tr>');
         for (var _i = 0, headers_1 = headers; _i < headers_1.length; _i++) {
             var header = headers_1[_i];
-            var col = $('<th>').html(header);
+            var col = $('<th>').append(header);
             row.append(col);
         }
         this.header.empty();
         this.header.append(row);
     };
+    TableControl.prototype.appendRowText = function (rowContent) {
+        var rowContentElements = rowContent.map(function (val) {
+            return $('<p>').html(val);
+        });
+        this.setHeaders(rowContentElements);
+    };
     TableControl.prototype.appendRow = function (rowContent) {
         var row = $('<tr>');
         for (var _i = 0, rowContent_1 = rowContent; _i < rowContent_1.length; _i++) {
             var rowColumn = rowContent_1[_i];
-            var col = $('<td>').html(rowColumn);
+            var col = $('<td>').append(rowColumn);
             row.append(col);
         }
         this.body.append(row);
