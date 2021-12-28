@@ -1,14 +1,15 @@
 const path = require('path');
 
 module.exports = {
+    devtool: "source-map",
     mode: 'development',
     entry: './root.ts',
     module: {
         rules: [
         {
             test: /\.tsx?$/,
-            use: 'ts-loader',
             exclude: /node_modules/,
+            use: ['ts-loader', 'source-map-loader'],
         },
         ],
     },

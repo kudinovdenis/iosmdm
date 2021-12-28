@@ -1,5 +1,5 @@
-// import { environment } from "../environment/environment_dev";
-import { environment } from "../environment/environment_prod";
+import { environment } from "../environment/environment_dev";
+// import { environment } from "../environment/environment_prod";
 import { Device, ApplicationInfo, DeviceI, DeviceRaw } from "../models/models";
 
 export interface IApi {
@@ -18,7 +18,13 @@ export class ApiImpl implements IApi {
 
     async getAllDevices(): Promise<DeviceI[]> {
         if (environment.isDebug) {
-            const devices: Device[] = [Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()];
+            const devices: Device[] = [
+                Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(),
+                Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(),
+                Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(),
+                Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(),
+                Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice(), Device.testDevice()
+            ];
             return Promise.resolve(devices);
         }
 
