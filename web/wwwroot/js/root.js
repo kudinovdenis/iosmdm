@@ -934,7 +934,7 @@ var TableControl = /** @class */ (function () {
         var rowContentElements = rowContent.map(function (val) {
             return $('<p>').html(val);
         });
-        this.setHeaders(rowContentElements);
+        this.appendRow(rowContentElements);
     };
     TableControl.prototype.appendRow = function (rowContent) {
         var row = $('<tr>');

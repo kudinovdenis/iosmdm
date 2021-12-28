@@ -68,7 +68,7 @@ export class TableControl {
         const rowContentElements = rowContent.map((val) => {
             return $('<p>').html(val);
         })
-        this.setHeaders(rowContentElements);
+        this.appendRow(rowContentElements);
     }
 
     appendRow(rowContent: JQuery<HTMLElement>[]) {
