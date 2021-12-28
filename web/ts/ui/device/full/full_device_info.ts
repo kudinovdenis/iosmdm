@@ -15,7 +15,7 @@ export class FullDeviceInfoControl {
     constructor(device: Device, apiClient: IApi) {
         this.element = $('<div>').addClass('FullDeviceInfoControl')
 
-        this.deviceBasicInfo = new DeviceBasicInfoControl(device);
+        this.deviceBasicInfo = new DeviceBasicInfoControl(device, apiClient);
         this.applicationsControl = new ApplicationsControl(device, apiClient);
 
         const navBarData: NavbarTitleContentPair[] = [

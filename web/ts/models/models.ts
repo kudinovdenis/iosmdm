@@ -45,6 +45,98 @@ export class Device implements DeviceI {
     }
 }
 
+export interface QueryResponses {
+    UDID:                             string;
+    Languages:                        string[];
+    Locales:                          string[];
+    DeviceID:                         string;
+    LastCloudBackupDate:              Date;
+    AwaitingConfiguration:            boolean;
+    AutoSetupAdminAccounts:           AutoSetupAdminAccount[];
+    ITunesStoreAccountIsActive:       boolean;
+    ITunesStoreAccountHash:           string;
+    DeviceName:                       string;
+    OSVersion:                        string;
+    BuildVersion:                     string;
+    ModelName:                        string;
+    Model:                            string;
+    ProductName:                      string;
+    SerialNumber:                     string;
+    DeviceCapacity:                   number;
+    AvailableDeviceCapacity:          number;
+    BatteryLevel:                     number;
+    CellularTechnology:               number;
+    IMEI:                             string;
+    MEID:                             string;
+    ModemFirmwareVersion:             string;
+    IsSupervised:                     boolean;
+    IsDeviceLocatorServiceEnabled:    boolean;
+    IsActivationLockEnabled:          boolean;
+    IsDoNotDisturbInEffect:           boolean;
+    EASDeviceIdentifier:              string;
+    IsCloudBackupEnabled:             boolean;
+    OSUpdateSettings:                 OSUpdateSettings;
+    LocalHostName:                    string;
+    HostName:                         string;
+    SystemIntegrityProtectionEnabled: boolean;
+    ActiveManagedUsers:               string[];
+    IsMDMLostModeEnabled:             boolean;
+    MaximumResidentUsers:             number;
+    ICCID:                            string;
+    BluetoothMAC:                     string;
+    WiFiMAC:                          string;
+    EthernetMACs:                     string[];
+    EthernetMAC:                      string;
+    CurrentCarrierNetwork:            string;
+    SIMCarrierNetwork:                string;
+    SubscriberCarrierNetwork:         string;
+    CarrierSettingsVersion:           string;
+    PhoneNumber:                      string;
+    VoiceRoamingEnabled:              boolean;
+    DataRoamingEnabled:               boolean;
+    IsRoaming:                        boolean;
+    PersonalHotspotEnabled:           boolean;
+    SubscriberMCC:                    string;
+    SubscriberMNC:                    string;
+    CurrentMCC:                       string;
+    CurrentMNC:                       string;
+    ServiceSubscriptions:             ServiceSubscription[];
+}
+
+export interface AutoSetupAdminAccount {
+    GUID:      string
+	ShortName: string
+}
+
+export interface OSUpdateSettings {
+    CatalogURL:                      string;
+    IsDefaultCatalog:                boolean;
+    PreviousScanDate:                Date;
+    PreviousScanResult:              number;
+    PerformPeriodicCheck:            boolean;
+    AutomaticCheckEnabled:           boolean;
+    BackgroundDownloadEnabled:       boolean;
+    AutomaticAppInstallationEnabled: boolean;
+    AutomaticOSInstallationEnabled:  boolean;
+    AutomaticSecurityUpdatesEnabled: boolean;
+}
+
+export interface ServiceSubscription {
+    CarrierSettingsVersion: string;
+    CurrentCarrierNetwork:  string;
+    CurrentMCC:             string;
+    CurrentMNC:             string;
+    ICCID:                  string;
+    IMEI:                   string;
+    IsDataPreferred:        boolean;
+    IsVoicePreferred:       boolean;
+    Label:                  string;
+    LabelID:                string;
+    MEID:                   string;
+    PhoneNumber:            string;
+    Slot:                   string;
+}
+
 export class ApplicationInfo {
     AdHocCodeSigned:           boolean
 	AppStoreVendable:          boolean

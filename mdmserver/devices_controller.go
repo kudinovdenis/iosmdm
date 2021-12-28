@@ -28,7 +28,7 @@ type DevicesControllerI interface {
 	DeviceDidFinishCommand(device Device, commandUUID string, response []byte)
 
 	InstalledApplicationsList(device Device) chan []InstalledApplication
-	DeviceInfo(device Device) chan DeviceInformationCommandResponse
+	DeviceInfo(device Device) chan QueryResponses
 }
 
 type DevicesController struct {
@@ -95,15 +95,15 @@ func (devicesController DevicesController) InstalledApplicationsList(device Devi
 	return applicationsList
 }
 
-func (devicesController DevicesController) DeviceInfo(device Device) chan DeviceInformationCommandResponse {
+func (devicesController DevicesController) DeviceInfo(device Device) chan QueryResponses {
 	log.Printf("Get device info for device: %+s", device.UDID)
-	deviceInfo := make(chan DeviceInformationCommandResponse)
+	deviceInfo := make(chan QueryResponses)
 	command := NewDeviceInformationCommand()
 	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
 		log.Print("Completion called (devices controller)")
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
-		deviceInfo <- response.(DeviceInformationCommandResponse)
+		deviceInfo <- response.(DeviceInformationCommandResponse).QueryResponses
 	})
 	return deviceInfo
 }

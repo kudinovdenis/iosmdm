@@ -1,9 +1,10 @@
 import { environment } from "../environment/environment_dev";
 // import { environment } from "../environment/environment_prod";
-import { Device, ApplicationInfo, DeviceI, DeviceRaw } from "../models/models";
+import { Device, ApplicationInfo, DeviceI, DeviceRaw, QueryResponses } from "../models/models";
 
 export interface IApi {
     getAllDevices(): Promise<Device[]>
+    getDeviceInfo(device: Device): Promise<QueryResponses>
     getListOfApplications(device: Device): Promise<ApplicationInfo[]>
     downloadProfileLink(): string;
 }
@@ -46,6 +47,10 @@ export class ApiImpl implements IApi {
 
     async getListOfApplications(device: Device): Promise<ApplicationInfo[]> {
         return this.get<ApplicationInfo[]>(environment.baseUrl + "/backend/devices/" + device.UDID + "/applications");
+    }
+
+    async getDeviceInfo(device: Device): Promise<QueryResponses> {
+        return this.get<QueryResponses>(`${environment.baseUrl}/backend/devices/${device.UDID}/info`);
     }
 
     downloadProfileLink(): string {
