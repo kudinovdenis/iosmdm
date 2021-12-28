@@ -485,10 +485,17 @@ var DeviceBasicInfoControl = /** @class */ (function () {
     function DeviceBasicInfoControl(device, apiClient) {
         var _this = this;
         this.element = $('<div>');
-        var queryAdditionalInfoButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Query device information');
+        this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        this.table.setHeaders(["Parameter", "Value", "Description"]);
+        this.table.appendRow(["Identifier", device.UDID, "UDID"]);
+        this.table.appendRow(["Push token", device.PushToken, "Used to send push"]);
+        this.table.appendRow(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
+        this.table.appendRow(["Topic", device.Topic, "Unique string describing client-server interaction"]);
+        this.table.appendRow(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+        var queryAdditionalInfoButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Query additional device information');
         this.element.append(queryAdditionalInfoButton.element);
         queryAdditionalInfoButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
-            var deviceInfo, info;
+            var deviceInfo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -496,22 +503,135 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                         return [4 /*yield*/, apiClient.getDeviceInfo(device)];
                     case 1:
                         deviceInfo = _a.sent();
-                        info = $('<p>').html(JSON.stringify(deviceInfo));
-                        this.element.append(info);
+                        this.fillTable(deviceInfo);
                         queryAdditionalInfoButton.stopLoading();
                         return [2 /*return*/];
                 }
             });
         }); });
-        var table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
-        table.setHeaders(["Parameter", "Value"]);
-        table.appendRow(["Identifier", device.UDID]);
-        table.appendRow(["Push token", device.PushToken]);
-        table.appendRow(["Push magic", device.PushMagic]);
-        table.appendRow(["Topic", device.Topic]);
-        table.appendRow(["CheckedOut", device.CheckedOut ? "true" : "false"]);
-        this.element.append(table.element);
+        this.element.append(this.table.element);
     }
+    DeviceBasicInfoControl.prototype.fillTable = function (deviceInfo) {
+        var keys = Object.keys(deviceInfo);
+        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+            var key = keys_1[_i];
+            this.table.appendRow([key, JSON.stringify(deviceInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
+        }
+    };
+    DeviceBasicInfoControl.prototype.descriptionForDeviceInfoKeyName = function (key) {
+        switch (key) {
+            case "UDID":
+                return "desc";
+            case "Languages":
+                return "desc";
+            case "Locales":
+                return "desc";
+            case "DeviceID":
+                return "desc";
+            case "LastCloudBackupDate":
+                return "desc";
+            case "AwaitingConfiguration":
+                return "desc";
+            case "AutoSetupAdminAccounts":
+                return "desc";
+            case "ITunesStoreAccountIsActive":
+                return "desc";
+            case "ITunesStoreAccountHash":
+                return "desc";
+            case "DeviceName":
+                return "desc";
+            case "OSVersion":
+                return "desc";
+            case "BuildVersion":
+                return "desc";
+            case "ModelName":
+                return "desc";
+            case "Model":
+                return "desc";
+            case "ProductName":
+                return "desc";
+            case "SerialNumber":
+                return "desc";
+            case "DeviceCapacity":
+                return "desc";
+            case "AvailableDeviceCapacity":
+                return "desc";
+            case "BatteryLevel":
+                return "desc";
+            case "CellularTechnology":
+                return "desc";
+            case "IMEI":
+                return "desc";
+            case "MEID":
+                return "desc";
+            case "ModemFirmwareVersion":
+                return "desc";
+            case "IsSupervised":
+                return "desc";
+            case "IsDeviceLocatorServiceEnabled":
+                return "desc";
+            case "IsActivationLockEnabled":
+                return "desc";
+            case "IsDoNotDisturbInEffect":
+                return "desc";
+            case "EASDeviceIdentifier":
+                return "desc";
+            case "IsCloudBackupEnabled":
+                return "desc";
+            case "OSUpdateSettings":
+                return "desc";
+            case "LocalHostName":
+                return "desc";
+            case "HostName":
+                return "desc";
+            case "SystemIntegrityProtectionEnabled":
+                return "desc";
+            case "ActiveManagedUsers":
+                return "desc";
+            case "IsMDMLostModeEnabled":
+                return "desc";
+            case "MaximumResidentUsers":
+                return "desc";
+            case "ICCID":
+                return "desc";
+            case "BluetoothMAC":
+                return "desc";
+            case "WiFiMAC":
+                return "desc";
+            case "EthernetMACs":
+                return "desc";
+            case "EthernetMAC":
+                return "desc";
+            case "CurrentCarrierNetwork":
+                return "desc";
+            case "SIMCarrierNetwork":
+                return "desc";
+            case "SubscriberCarrierNetwork":
+                return "desc";
+            case "CarrierSettingsVersion":
+                return "desc";
+            case "PhoneNumber":
+                return "desc";
+            case "VoiceRoamingEnabled":
+                return "desc";
+            case "DataRoamingEnabled":
+                return "desc";
+            case "IsRoaming":
+                return "desc";
+            case "PersonalHotspotEnabled":
+                return "desc";
+            case "SubscriberMCC":
+                return "desc";
+            case "SubscriberMNC":
+                return "desc";
+            case "CurrentMCC":
+                return "desc";
+            case "CurrentMNC":
+                return "desc";
+            case "ServiceSubscriptions":
+                return "desc";
+        }
+    };
     return DeviceBasicInfoControl;
 }());
 
@@ -576,11 +696,11 @@ var ButtonControl = /** @class */ (function () {
         this.element.on('click', onClick);
     }
     ButtonControl.prototype.startLoading = function () {
-        this.element.prop('disabled', 'true');
+        this.element.prop('disabled', true);
         this.element.prepend(this.spiner);
     };
     ButtonControl.prototype.stopLoading = function () {
-        this.element.prop('disabled', 'false');
+        this.element.prop('disabled', false);
         this.spiner.remove();
     };
     ButtonControl.prototype.setOnClick = function (onClick) {

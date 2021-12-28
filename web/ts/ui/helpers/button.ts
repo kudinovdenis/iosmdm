@@ -16,12 +16,12 @@ export class ButtonControl {
     }
 
     startLoading() {
-        this.element.prop('disabled', 'true');
+        this.element.prop('disabled', true);
         this.element.prepend(this.spiner);
     }
 
     stopLoading() {
-        this.element.prop('disabled', 'false');
+        this.element.prop('disabled', false);
         this.spiner.remove();
     }
 
