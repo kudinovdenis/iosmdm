@@ -92,8 +92,11 @@ func handleInstallApplicationRequest(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Trying to install application.")
 
+	installationResultChan := devicesController.InstallApplication(*device)
+	installationResult := <-installationResultChan
+
 	w.WriteHeader(http.StatusOK)
-	jsonData, err := json.Marshal(installedApplicationList)
+	jsonData, err := json.Marshal(installationResult)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

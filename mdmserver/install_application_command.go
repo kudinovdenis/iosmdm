@@ -1,4 +1,4 @@
-package commands
+package mdmserver
 
 import "github.com/google/uuid"
 
@@ -22,6 +22,6 @@ func (command InstallApplicationCommand) UUID() string {
 	return command.CommandUUID
 }
 
-func NewInstalledApplicationsCommand(iTunesStoreID int) InstallApplicationCommand {
+func NewInstallApplicationsCommand(iTunesStoreID int) InstallApplicationCommand {
 	return InstallApplicationCommand{CommandUUID: uuid.New().String(), Command: InstallApplicationCommandBody{RequestType: "InstallApplication", ITunesStoreID: iTunesStoreID}}
 }

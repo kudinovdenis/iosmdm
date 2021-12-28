@@ -117,6 +117,13 @@ var ApiImpl = /** @class */ (function () {
             });
         });
     };
+    ApiImpl.prototype.installTestApplication = function (device) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_applcication"))];
+            });
+        });
+    };
     ApiImpl.prototype.downloadProfileLink = function () {
         return _environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + '/backend/static/profile/';
     };
@@ -378,6 +385,20 @@ var ApplicationsControl = /** @class */ (function () {
         this.element = $('<div>')
             .addClass('ApplicationsControl')
             .addClass('container');
+        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install test app (interaction on device required)');
+        installApplicationButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        installApplicationButton.startLoading();
+                        return [4 /*yield*/, apiClient.installTestApplication(device)];
+                    case 1:
+                        _a.sent();
+                        installApplicationButton.stopLoading();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Load applications list');
         this.element.append(this.loadListOfApplicationsButton.element);
         this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -667,6 +688,8 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                 return "The label of this subscription.";
             case "LabelID":
                 return "The UUID identifying this subscription (as a string).";
+            case "CatalogURL":
+                return "The URL to the software update catalog currently in use by the client";
         }
     };
     return DeviceBasicInfoControl;
