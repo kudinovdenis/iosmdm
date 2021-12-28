@@ -1,4 +1,4 @@
-import { Device } from "../models/models";
+import { Device } from "../../../models/models";
 
 export class FullDeviceInfoControl {
 

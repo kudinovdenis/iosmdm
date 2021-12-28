@@ -1,6 +1,6 @@
 /// <reference types="jquery" />
 
-import { ApplicationInfo } from "../models/models"
+import { ApplicationInfo } from "../../../../models/models"
 
 export class ApplicationControl {
 

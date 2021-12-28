@@ -1,7 +1,7 @@
-import { IApi } from "../api/api";
-import { Device } from "../models/models";
-import { FullDeviceInfoControl } from "./full_device_info";
-import { ModalWindow } from "./helpers/modal";
+import { IApi } from "../../api/api";
+import { Device } from "../../models/models";
+import { FullDeviceInfoControl } from "./full/full_device_info";
+import { ModalWindow } from "../helpers/modal";
 
 export class DeviceControl {
 

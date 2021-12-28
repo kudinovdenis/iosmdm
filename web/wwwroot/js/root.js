@@ -187,18 +187,18 @@ var ApplicationInfo = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./ui/device_control.ts":
-/*!******************************!*\
-  !*** ./ui/device_control.ts ***!
-  \******************************/
+/***/ "./ui/devices/device_control.ts":
+/*!**************************************!*\
+  !*** ./ui/devices/device_control.ts ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DeviceControl": () => (/* binding */ DeviceControl)
 /* harmony export */ });
-/* harmony import */ var _full_device_info__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./full_device_info */ "./ui/full_device_info.ts");
-/* harmony import */ var _helpers_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers/modal */ "./ui/helpers/modal.ts");
+/* harmony import */ var _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./full/full_device_info */ "./ui/devices/full/full_device_info.ts");
+/* harmony import */ var _helpers_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/modal */ "./ui/helpers/modal.ts");
 
 
 var DeviceControl = /** @class */ (function () {
@@ -216,7 +216,7 @@ var DeviceControl = /** @class */ (function () {
         this.card.append(lastConnectionDateDiv);
         this.device = device;
         this.apiClient = apiClient;
-        this.fullDeviceInfoControl = new _full_device_info__WEBPACK_IMPORTED_MODULE_0__.FullDeviceInfoControl(device);
+        this.fullDeviceInfoControl = new _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__.FullDeviceInfoControl(device);
         var modalFullDeviceIfoControl = new _helpers_modal__WEBPACK_IMPORTED_MODULE_1__.ModalWindow("Device info", this.fullDeviceInfoControl.element);
         this.element.append(modalFullDeviceIfoControl.element);
         this.card.on('click', function () {
@@ -234,10 +234,10 @@ var DeviceControl = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./ui/devices_control.ts":
-/*!*******************************!*\
-  !*** ./ui/devices_control.ts ***!
-  \*******************************/
+/***/ "./ui/devices/devices_control.ts":
+/*!***************************************!*\
+  !*** ./ui/devices/devices_control.ts ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -275,10 +275,10 @@ var DevicesControl = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./ui/full_device_info.ts":
-/*!********************************!*\
-  !*** ./ui/full_device_info.ts ***!
-  \********************************/
+/***/ "./ui/devices/full/full_device_info.ts":
+/*!*********************************************!*\
+  !*** ./ui/devices/full/full_device_info.ts ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -383,8 +383,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WebAppControl": () => (/* binding */ WebAppControl)
 /* harmony export */ });
-/* harmony import */ var _devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./devices_control */ "./ui/devices_control.ts");
-/* harmony import */ var _device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device_control */ "./ui/device_control.ts");
+/* harmony import */ var _devices_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./devices/devices_control */ "./ui/devices/devices_control.ts");
+/* harmony import */ var _devices_device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./devices/device_control */ "./ui/devices/device_control.ts");
 /* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service_control */ "./ui/service_control.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -429,7 +429,7 @@ var WebAppControl = /** @class */ (function () {
     function WebAppControl(apiClient) {
         this.element = $("<div>").addClass("WebAppControl");
         this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_2__.ServiceControl(apiClient);
-        this.devicesControl = new _devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
+        this.devicesControl = new _devices_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
         this.apiClient = apiClient;
         this.element.append(this.serviceControl.element);
         this.element.append(this.devicesControl.element);
@@ -453,7 +453,7 @@ var WebAppControl = /** @class */ (function () {
     WebAppControl.prototype.showListOfDevices = function (devices) {
         for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
             var device = devices_1[_i];
-            var deviceControl = new _device_control__WEBPACK_IMPORTED_MODULE_1__.DeviceControl(device, this.apiClient);
+            var deviceControl = new _devices_device_control__WEBPACK_IMPORTED_MODULE_1__.DeviceControl(device, this.apiClient);
             this.devicesControl.appendDeviceControl(deviceControl);
         }
         ;
