@@ -79,6 +79,28 @@ func handleDeviceApplicationsRequest(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
+func handleInstallApplicationRequest(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+	params := mux.Vars(r)
+	deviceId := params["id"]
+
+	device := devicesController.DeviceWithUDID(deviceId)
+	if device == nil {
+		http.Error(w, "Device not found", http.StatusInternalServerError)
+		return
+	}
+
+	log.Print("Trying to install application.")
+
+	w.WriteHeader(http.StatusOK)
+	jsonData, err := json.Marshal(installedApplicationList)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(jsonData)
+}
+
 func handleDeviceInfoRequest(w http.ResponseWriter, r *http.Request) {
 	logRequest(r)
 	params := mux.Vars(r)
@@ -153,6 +175,8 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/", handleDeviceRequest)
 	devicesRouter.HandleFunc("/{id}/applications", handleDeviceApplicationsRequest)
 	devicesRouter.HandleFunc("/{id}/applications/", handleDeviceApplicationsRequest)
+	devicesRouter.HandleFunc("/{id}/install_application", handleInstallApplicationRequest)
+	devicesRouter.HandleFunc("/{id}/install_application/", handleInstallApplicationRequest)
 	devicesRouter.HandleFunc("/{id}/info", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 

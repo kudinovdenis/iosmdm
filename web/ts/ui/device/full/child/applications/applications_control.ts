@@ -20,6 +20,12 @@ export class ApplicationsControl {
             .addClass('ApplicationsControl')
             .addClass('container');
 
+        const installApplicationButton = new ButtonControl('Install test app (interaction on device required)');
+        installApplicationButton.setOnClick(async () => {
+            installApplicationButton.startLoading();
+            await apiClient.installTestApplication(device);
+            installApplicationButton.stopLoading();
+        })
         this.loadListOfApplicationsButton = new ButtonControl('Load applications list');
         this.element.append(this.loadListOfApplicationsButton.element);
 

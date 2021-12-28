@@ -5,7 +5,10 @@ import { Device, ApplicationInfo, DeviceI, DeviceRaw, QueryResponses } from "../
 export interface IApi {
     getAllDevices(): Promise<Device[]>
     getDeviceInfo(device: Device): Promise<QueryResponses>
+
     getListOfApplications(device: Device): Promise<ApplicationInfo[]>
+    installTestApplication(device: Device): Promise<void>
+
     downloadProfileLink(): string;
 }
 
@@ -51,6 +54,10 @@ export class ApiImpl implements IApi {
 
     async getDeviceInfo(device: Device): Promise<QueryResponses> {
         return this.get<QueryResponses>(`${environment.baseUrl}/backend/devices/${device.UDID}/info`);
+    }
+
+    async installTestApplication(device: Device): Promise<void> {
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_applcication`);
     }
 
     downloadProfileLink(): string {

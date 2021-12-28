@@ -154,6 +154,18 @@ func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, resp
 		callback := commandWithCallback.callback
 		log.Printf("Calling callback for DeviceInformationCommand with %+v", response)
 		callback(commandWithCallback.command, response)
+
+	case InstallApplicationCommand:
+		log.Print("Decoding DeviceInformationCommand")
+		var response DeviceInformationCommandResponse
+		_, err := plist.Unmarshal(responseBody, &response)
+		if err != nil {
+			log.Print("Unable to decode answer")
+			return
+		}
+		callback := commandWithCallback.callback
+		log.Printf("Calling callback for DeviceInformationCommand with %+v", response)
+		callback(commandWithCallback.command, response)
 	}
 
 	// Remove this command from list

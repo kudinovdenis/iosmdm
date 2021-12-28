@@ -197,6 +197,9 @@ export class DeviceBasicInfoControl {
 
             case "LabelID":
                 return "The UUID identifying this subscription (as a string)."
+
+            case "CatalogURL":
+                return "The URL to the software update catalog currently in use by the client"
         }
     }
 
