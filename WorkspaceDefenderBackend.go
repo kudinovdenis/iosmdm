@@ -92,7 +92,7 @@ func handleInstallApplicationRequest(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Trying to install application.")
 
-	installationResultChan := devicesController.InstallApplication(*device)
+	installationResultChan := devicesController.InstallApplication(*device, 361309726)
 	installationResult := <-installationResultChan
 
 	w.WriteHeader(http.StatusOK)
