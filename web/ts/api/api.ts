@@ -5,6 +5,7 @@ import { Device, ApplicationInfo, DeviceI, DeviceRaw } from "../models/models";
 export interface IApi {
     getAllDevices(): Promise<Device[]>
     getListOfApplications(device: Device): Promise<ApplicationInfo[]>
+    downloadProfileLink(): string;
 }
 
 export class ApiImpl implements IApi {
@@ -39,6 +40,10 @@ export class ApiImpl implements IApi {
 
     async getListOfApplications(device: Device): Promise<ApplicationInfo[]> {
         return this.get<ApplicationInfo[]>(environment.baseUrl + "/backend/devices/" + device.UDID + "/applications");
+    }
+
+    downloadProfileLink(): string {
+        return environment.baseUrl + '/backend/static/profile/';
     }
     
 }

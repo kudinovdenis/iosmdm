@@ -79,6 +79,11 @@ func handleDeviceApplicationsRequest(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
+func handleProfileDownload(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Disposition", "attachment; filename=EnrollSigned.mobileconfig")
+	http.ServeFile(w, r, "./Static/Profile/EnrollSigned.mobileconfig")
+}
+
 // Misc
 
 func logRequest(r *http.Request) {
@@ -112,6 +117,10 @@ func main() {
 	mdmRouter.HandleFunc("/", handleMDMServerRequest)
 
 	backendRouter := rootRouter.PathPrefix("/backend").Subrouter() // for frontend
+
+	staticRouter := backendRouter.PathPrefix("/static").Subrouter()
+	staticRouter.HandleFunc("/profile", handleProfileDownload)
+	staticRouter.HandleFunc("/profile/", handleProfileDownload)
 
 	devicesRouter := backendRouter.PathPrefix("/devices").Subrouter()
 	devicesRouter.HandleFunc("", handleDevicesRequest)

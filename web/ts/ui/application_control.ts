@@ -8,6 +8,7 @@ import { ApplicationInfo, Device } from "../models/models"
 export class WebAppControl {
 
     element: JQuery<HTMLElement>
+    serviceControl: ServiceControl
     devicesControl: DevicesControl
 
     apiClient: IApi;
@@ -15,9 +16,11 @@ export class WebAppControl {
     constructor(apiClient: IApi) {
         this.element = $("<div>").addClass("WebAppControl");
 
+        this.serviceControl = new ServiceControl(apiClient);
         this.devicesControl = new DevicesControl();
         this.apiClient = apiClient;
 
+        this.element.append(this.serviceControl.element);
         this.element.append(this.devicesControl.element);
 
         $(document.body).append(this.element);
@@ -34,6 +37,22 @@ export class WebAppControl {
             const deviceControl = new DeviceControl(device, this.apiClient);
             this.devicesControl.appendDeviceControl(deviceControl);
         };
+    }
+
+}
+
+class ServiceControl {
+
+    element: JQuery<HTMLElement>;
+    apiClient: IApi;
+
+    constructor(apiClient: IApi) {
+        this.apiClient = apiClient;
+
+        this.element = $('<button>')
+            .addClass('btn btn-primary')
+            .html('Download profile')
+            .attr('href', this.apiClient.downloadProfileLink());
     }
 
 }
