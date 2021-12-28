@@ -49,7 +49,7 @@ class ServiceControl {
     constructor(apiClient: IApi) {
         this.apiClient = apiClient;
 
-        this.element = $('<button>')
+        this.element = $('<a>')
             .addClass('btn btn-primary')
             .html('Download profile')
             .attr('href', this.apiClient.downloadProfileLink());
@@ -134,7 +134,7 @@ class ApplicationsControl {
             .addClass('container')
             .text('Applications');
 
-        this.loadListOfApplicationsButton = $('<button>')
+        this.loadListOfApplicationsButton = $('<a>')
             .addClass('btn btn-primary')
             .html("Load applications list")
 
