@@ -54,7 +54,7 @@ export class DeviceBasicInfoControl {
                 serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
 
-            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
         }
 
         // OSUpdateSettings
@@ -68,7 +68,7 @@ export class DeviceBasicInfoControl {
             osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
 
-        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
+        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
     }
 
     private descriptionForDeviceInfoKeyName(key: string): string {

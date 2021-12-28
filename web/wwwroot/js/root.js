@@ -532,7 +532,7 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                 var key = serviceSubscriptionKeys_1[_b];
                 serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
-            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+            this.table.appendRow([$('<p>').html('ServiceSubscriptions'), serviceSubscriptionTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
         }
         // OSUpdateSettings
         var osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
@@ -543,7 +543,7 @@ var DeviceBasicInfoControl = /** @class */ (function () {
             var key = osUpdateSettingsInfoKeys_1[_c];
             osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
-        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('p').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
+        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
     };
     DeviceBasicInfoControl.prototype.descriptionForDeviceInfoKeyName = function (key) {
         switch (key) {
