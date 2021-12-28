@@ -112,7 +112,7 @@ func (devicesController DevicesController) DeviceInfo(device Device) chan QueryR
 func (devicesController DevicesController) InstallApplication(device Device) chan InstallApplicationCommandResponse {
 	log.Printf("Get device info for device: %+s", device.UDID)
 	result := make(chan InstallApplicationCommandResponse)
-	command := NewDeviceInformationCommand()
+	command := NewInstallApplicationsCommand(361309726)
 	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
 		log.Print("Completion called (devices controller)")
 		log.Printf("Command: %+v", command)
