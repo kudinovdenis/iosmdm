@@ -4,7 +4,7 @@ export class ModalWindow {
 
     constructor(title: string, body: JQuery<HTMLElement>) {
         this.element = $('<div>').addClass('modal').addClass('fade');
-        const modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-fullscreen');
+        const modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-xl');
 
         const modalContent = $('<div>').addClass('modal-content');
 

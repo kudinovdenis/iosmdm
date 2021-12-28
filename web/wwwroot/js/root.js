@@ -759,7 +759,7 @@ __webpack_require__.r(__webpack_exports__);
 var ModalWindow = /** @class */ (function () {
     function ModalWindow(title, body) {
         this.element = $('<div>').addClass('modal').addClass('fade');
-        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-fullscreen');
+        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-xl');
         var modalContent = $('<div>').addClass('modal-content');
         modalContent.append(this.modalHeader(title));
         modalContent.append(this.modalBody(body));
