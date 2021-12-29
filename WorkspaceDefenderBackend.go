@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/handlers"
@@ -92,7 +93,15 @@ func handleInstallApplicationRequest(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Trying to install application.")
 
-	installationResultChan := devicesController.InstallApplication(*device, 361309726)
+	appIdString := params["app_id"]
+	appId, err := strconv.Atoi(appIdString)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	installationResultChan := devicesController.InstallApplication(*device, appId)
 	installationResult := <-installationResultChan
 
 	w.WriteHeader(http.StatusOK)
@@ -178,8 +187,8 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/", handleDeviceRequest)
 	devicesRouter.HandleFunc("/{id}/applications", handleDeviceApplicationsRequest)
 	devicesRouter.HandleFunc("/{id}/applications/", handleDeviceApplicationsRequest)
-	devicesRouter.HandleFunc("/{id}/install_application", handleInstallApplicationRequest)
-	devicesRouter.HandleFunc("/{id}/install_application/", handleInstallApplicationRequest)
+	devicesRouter.HandleFunc("/{id}/install_application/{app_id}", handleInstallApplicationRequest)
+	devicesRouter.HandleFunc("/{id}/install_application/{app_id}/", handleInstallApplicationRequest)
 	devicesRouter.HandleFunc("/{id}/info", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 
