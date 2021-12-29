@@ -117,10 +117,17 @@ var ApiImpl = /** @class */ (function () {
             });
         });
     };
-    ApiImpl.prototype.installTestApplication = function (device) {
+    ApiImpl.prototype.installKSCApplication = function (device) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_applcication"))];
+                return [2 /*return*/, this.installApplication(device, 1089969624)];
+            });
+        });
+    };
+    ApiImpl.prototype.installApplication = function (device, appId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_applcication/").concat(appId))];
             });
         });
     };
@@ -385,13 +392,14 @@ var ApplicationsControl = /** @class */ (function () {
         this.element = $('<div>')
             .addClass('ApplicationsControl')
             .addClass('container');
-        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install test app (interaction on device required)');
+        // install KSC button
+        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
         installApplicationButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         installApplicationButton.startLoading();
-                        return [4 /*yield*/, apiClient.installTestApplication(device)];
+                        return [4 /*yield*/, apiClient.installKSCApplication(device)];
                     case 1:
                         _a.sent();
                         installApplicationButton.stopLoading();
@@ -399,6 +407,22 @@ var ApplicationsControl = /** @class */ (function () {
                 }
             });
         }); });
+        // Arbitrary app form
+        var installArbitraryApplicationForm = $('<form>');
+        var legend = $('<legend>').html('Install arbitrary application');
+        var formElement = $('<div>').addClass('mb-3');
+        var label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        var input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
+        var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install', function () {
+            var applicationId = input.val();
+            apiClient.installApplication(device, applicationId);
+        });
+        formElement.append(label);
+        formElement.append(input);
+        formElement.append(installButton.element);
+        installArbitraryApplicationForm.append(legend);
+        this.element.append(installArbitraryApplicationForm);
+        // Load list of applications
         this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Load applications list');
         this.element.append(this.loadListOfApplicationsButton.element);
         this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {

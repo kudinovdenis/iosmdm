@@ -7,7 +7,8 @@ export interface IApi {
     getDeviceInfo(device: Device): Promise<QueryResponses>
 
     getListOfApplications(device: Device): Promise<ApplicationInfo[]>
-    installTestApplication(device: Device): Promise<void>
+    installKSCApplication(device: Device): Promise<void>
+    installApplication(device: Device, appId: number): Promise<void>
 
     downloadProfileLink(): string;
 }
@@ -56,8 +57,12 @@ export class ApiImpl implements IApi {
         return this.get<QueryResponses>(`${environment.baseUrl}/backend/devices/${device.UDID}/info`);
     }
 
-    async installTestApplication(device: Device): Promise<void> {
-        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_applcication`);
+    async installKSCApplication(device: Device): Promise<void> {
+        return this.installApplication(device, 1089969624);
+    }
+
+    async installApplication(device: Device, appId: number): Promise<void> {
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_applcication/${appId}`);
     }
 
     downloadProfileLink(): string {

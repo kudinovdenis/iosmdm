@@ -20,12 +20,38 @@ export class ApplicationsControl {
             .addClass('ApplicationsControl')
             .addClass('container');
 
-        const installApplicationButton = new ButtonControl('Install test app (interaction on device required)');
+        // install KSC button
+
+        const installApplicationButton = new ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
         installApplicationButton.setOnClick(async () => {
             installApplicationButton.startLoading();
-            await apiClient.installTestApplication(device);
+            await apiClient.installKSCApplication(device);
             installApplicationButton.stopLoading();
         })
+
+        // Arbitrary app form
+
+        const installArbitraryApplicationForm = $('<form>');
+
+        const legend = $('<legend>').html('Install arbitrary application');
+        const formElement = $('<div>').addClass('mb-3');
+        const label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        const input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
+
+        const installButton = new ButtonControl('Install', () => {
+            const applicationId = input.val() as number;
+            apiClient.installApplication(device, applicationId);
+        });
+
+        formElement.append(label);
+        formElement.append(input);
+        formElement.append(installButton.element);
+
+        installArbitraryApplicationForm.append(legend);
+        this.element.append(installArbitraryApplicationForm);
+
+        // Load list of applications
+
         this.loadListOfApplicationsButton = new ButtonControl('Load applications list');
         this.element.append(this.loadListOfApplicationsButton.element);
 
