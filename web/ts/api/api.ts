@@ -62,7 +62,7 @@ export class ApiImpl implements IApi {
     }
 
     async installApplication(device: Device, appId: number): Promise<void> {
-        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_applcication/${appId}`);
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_application/${appId}`);
     }
 
     downloadProfileLink(): string {

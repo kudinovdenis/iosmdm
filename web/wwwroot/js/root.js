@@ -127,7 +127,7 @@ var ApiImpl = /** @class */ (function () {
     ApiImpl.prototype.installApplication = function (device, appId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_applcication/").concat(appId))];
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_application/").concat(appId))];
             });
         });
     };
@@ -412,7 +412,6 @@ var ApplicationsControl = /** @class */ (function () {
         var installArbitraryApplicationForm = $('<form>');
         var legend = $('<legend>').html('Install arbitrary application');
         var formElement = $('<div>').addClass('mb-3');
-        legend.append(formElement);
         var label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         var input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install', function () {
@@ -423,8 +422,9 @@ var ApplicationsControl = /** @class */ (function () {
         });
         formElement.append(label);
         formElement.append(input);
-        formElement.append(installButton.element);
         installArbitraryApplicationForm.append(legend);
+        installArbitraryApplicationForm.append(formElement);
+        installArbitraryApplicationForm.append(installButton.element);
         this.element.append(installArbitraryApplicationForm);
         // Load list of applications
         this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Load applications list');
