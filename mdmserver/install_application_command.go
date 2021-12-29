@@ -3,9 +3,10 @@ package mdmserver
 import "github.com/google/uuid"
 
 type InstallApplicationCommandBody struct {
-	RequestType     string // InstallApplication
-	ITunesStoreID   int    `plist:"iTunesStoreID"`
-	ManagementFlags int
+	RequestType           string // InstallApplication
+	ITunesStoreID         int    `plist:"iTunesStoreID"`
+	ManagementFlags       int
+	ChangeManagementState string
 }
 
 type InstallApplicationCommand struct {
@@ -24,5 +25,5 @@ func (command InstallApplicationCommand) UUID() string {
 }
 
 func NewInstallApplicationCommand(iTunesStoreID int) InstallApplicationCommand {
-	return InstallApplicationCommand{CommandUUID: uuid.New().String(), Command: InstallApplicationCommandBody{RequestType: "InstallApplication", ITunesStoreID: iTunesStoreID, ManagementFlags: 0}}
+	return InstallApplicationCommand{CommandUUID: uuid.New().String(), Command: InstallApplicationCommandBody{RequestType: "InstallApplication", ITunesStoreID: iTunesStoreID, ManagementFlags: 0, ChangeManagementState: "Managed"}}
 }
