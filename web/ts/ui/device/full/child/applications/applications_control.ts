@@ -42,8 +42,10 @@ export class ApplicationsControl {
         const input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
 
         const installButton = new ButtonControl('Install', () => {
+            installButton.startLoading();
             const applicationId = input.val() as number;
             apiClient.installApplication(device, applicationId);
+            installButton.stopLoading();
         });
 
         formElement.append(label);

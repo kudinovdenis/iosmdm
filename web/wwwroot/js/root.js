@@ -416,8 +416,10 @@ var ApplicationsControl = /** @class */ (function () {
         var label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         var input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install', function () {
+            installButton.startLoading();
             var applicationId = input.val();
             apiClient.installApplication(device, applicationId);
+            installButton.stopLoading();
         });
         formElement.append(label);
         formElement.append(input);
