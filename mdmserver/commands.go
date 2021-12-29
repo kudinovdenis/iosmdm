@@ -65,6 +65,7 @@ type CommandsProcessorI interface {
 	QueueCommand(device Device, command Command, completion func(command Command, response CommandResponse))
 	NextCommandForDevice(device Device) *Command
 	DidFinishCommand(commandUUID string, responseBody []byte)
+	ResetCommands(device Device)
 }
 
 type CommandsProcessorImpl struct {
@@ -170,6 +171,11 @@ func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, resp
 
 	// Remove this command from list
 	processor.removeCommandWithUUID(commandUUID)
+}
+
+func (processor CommandsProcessorImpl) ResetCommands(device Device) {
+	log.Printf("Resetting commands queue for device: %+s", device.UDID)
+	processor.commandsForDeviceId[device.UDID] = make([]*CommandWithCallback, 0)
 }
 
 // MARK Private methods

@@ -433,7 +433,7 @@ var ApplicationsControl = /** @class */ (function () {
         installArbitraryApplicationForm.append(installButton.element);
         this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryApplicationForm).element);
         // Load list of applications
-        var applicationsListForm = $('<div>');
+        this.applicationsListForm = $('<div>');
         var applicationsListLegend = $('<h4>').html('Request installed applications list');
         this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
         this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -456,9 +456,9 @@ var ApplicationsControl = /** @class */ (function () {
                 }
             });
         }); });
-        applicationsListForm.append(applicationsListLegend);
-        applicationsListForm.append(this.loadListOfApplicationsButton.element);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(applicationsListForm).element);
+        this.applicationsListForm.append(applicationsListLegend);
+        this.applicationsListForm.append(this.loadListOfApplicationsButton.element);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(this.applicationsListForm).element);
     }
     ApplicationsControl.prototype.clear = function () {
         for (var _i = 0, _a = this.applicationControls; _i < _a.length; _i++) {
@@ -468,7 +468,7 @@ var ApplicationsControl = /** @class */ (function () {
     };
     ApplicationsControl.prototype.appendApplicationControl = function (applicationControl) {
         this.applicationControls.push(applicationControl);
-        this.element.append(applicationControl.element);
+        this.applicationsListForm.append(applicationControl.element);
     };
     ApplicationsControl.prototype.removeApplicationControl = function (applicationControl) {
         applicationControl.element.remove();

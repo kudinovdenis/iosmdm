@@ -26,6 +26,7 @@ type DevicesControllerI interface {
 
 	NextCommandForDevice(device Device) *Command
 	DeviceDidFinishCommand(device Device, commandUUID string, response []byte)
+	DeviceDidChangeStateToIdle(device Device)
 
 	InstalledApplicationsList(device Device) chan []InstalledApplication
 	InstallApplication(device Device, applicationId int) chan InstallApplicationCommandResponse
@@ -136,6 +137,11 @@ func (devicesController DevicesController) NextCommandForDevice(device Device) *
 func (devicesController DevicesController) DeviceDidFinishCommand(device Device, commandUUID string, response []byte) {
 	log.Printf("Device %+s did finish command %+s with response %+v", device.UDID, commandUUID, response)
 	devicesController.commandsProcessor.DidFinishCommand(commandUUID, response)
+}
+
+func (devicesController DevicesController) DeviceDidChangeStateToIdle(device Device) {
+	log.Printf("Device %+s state moved to Idle", device.UDID)
+	devicesController.commandsProcessor.ResetCommands(device)
 }
 
 // MARK: Private methods

@@ -51,6 +51,7 @@ func (processor MdmMessageProcessorImpl) ProcessRequest(w http.ResponseWriter, r
 			return fmt.Errorf("no device with id %+s", mdmMessage.UDID)
 		}
 
+		processor.devicesController.DeviceDidChangeStateToIdle(*device)
 		nextCommand := processor.devicesController.NextCommandForDevice(*device)
 
 		if nextCommand != nil {

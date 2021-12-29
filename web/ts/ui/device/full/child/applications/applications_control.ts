@@ -10,6 +10,7 @@ export class ApplicationsControl {
     element: JQuery<HTMLElement>;
     loadListOfApplicationsButton: ButtonControl;
     applicationControls: ApplicationControl[] = [];
+    applicationsListForm: JQuery<HTMLElement>
     device: Device;
     apiClient: IApi
 
@@ -62,7 +63,7 @@ export class ApplicationsControl {
 
         // Load list of applications
 
-        const applicationsListForm = $('<div>')
+        this.applicationsListForm = $('<div>')
         const applicationsListLegend = $('<h4>').html('Request installed applications list');
         this.loadListOfApplicationsButton = new ButtonControl('Load applications list');
 
@@ -80,10 +81,10 @@ export class ApplicationsControl {
             }
         });
 
-        applicationsListForm.append(applicationsListLegend);
-        applicationsListForm.append(this.loadListOfApplicationsButton.element);
+        this.applicationsListForm.append(applicationsListLegend);
+        this.applicationsListForm.append(this.loadListOfApplicationsButton.element);
 
-        this.element.append(new Border(applicationsListForm).element);
+        this.element.append(new Border(this.applicationsListForm).element);
     }
 
     clear() {
@@ -94,7 +95,7 @@ export class ApplicationsControl {
 
     appendApplicationControl(applicationControl: ApplicationControl) {
         this.applicationControls.push(applicationControl);
-        this.element.append(applicationControl.element);
+        this.applicationsListForm.append(applicationControl.element);
     }
 
     removeApplicationControl(applicationControl: ApplicationControl) {
