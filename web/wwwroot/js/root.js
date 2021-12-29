@@ -395,24 +395,31 @@ var ApplicationsControl = /** @class */ (function () {
             .addClass('ApplicationsControl')
             .addClass('container');
         // install KSC button
-        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
-        installApplicationButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
+        var installKSCForm = $('<div>');
+        var installKSCLegend = $('<h4>').html('Installation Kaspersky Security Cloud (KSC) for iOS');
+        var installKSCInfo = $('<p>').html('Device will prompt installation.');
+        var installKSCButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Tap to install from AppStore');
+        installKSCButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        installApplicationButton.startLoading();
+                        installKSCButton.startLoading();
                         return [4 /*yield*/, apiClient.installKSCApplication(device)];
                     case 1:
                         _a.sent();
-                        installApplicationButton.stopLoading();
+                        installKSCButton.stopLoading();
                         return [2 /*return*/];
                 }
             });
         }); });
-        this.element.append(installApplicationButton.element);
+        installKSCForm.append(installKSCLegend);
+        installKSCForm.append(installKSCInfo);
+        installKSCForm.append(installKSCButton.element);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installKSCForm).element);
         // Arbitrary app form
-        var form = $('<div>');
-        var label = $('<h4>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        var installArbitraryApplicationForm = $('<div>');
+        var legend = $('<h4>').html('Installation of arbitrary application');
+        var label = $('<p>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         var input = $('<input>').prop('placeholder', 'Application id');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
@@ -420,13 +427,15 @@ var ApplicationsControl = /** @class */ (function () {
             apiClient.installApplication(device, applicationId);
             installButton.stopLoading();
         });
-        form.append(label);
-        form.append(input);
-        form.append(installButton.element);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(form).element);
+        installArbitraryApplicationForm.append(legend);
+        installArbitraryApplicationForm.append(label);
+        installArbitraryApplicationForm.append(input);
+        installArbitraryApplicationForm.append(installButton.element);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryApplicationForm).element);
         // Load list of applications
+        var applicationsListForm = $('<div>');
+        var applicationsListLegend = $('<h4>').html('Request installed applications list');
         this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
-        this.element.append(this.loadListOfApplicationsButton.element);
         this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var applications, _i, applications_1, application, applicationControl;
             return __generator(this, function (_a) {
@@ -447,6 +456,9 @@ var ApplicationsControl = /** @class */ (function () {
                 }
             });
         }); });
+        applicationsListForm.append(applicationsListLegend);
+        applicationsListForm.append(this.loadListOfApplicationsButton.element);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(applicationsListForm).element);
     }
     ApplicationsControl.prototype.clear = function () {
         for (var _i = 0, _a = this.applicationControls; _i < _a.length; _i++) {

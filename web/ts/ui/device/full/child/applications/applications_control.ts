@@ -23,19 +23,27 @@ export class ApplicationsControl {
 
         // install KSC button
 
-        const installApplicationButton = new ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
-        installApplicationButton.setOnClick(async () => {
-            installApplicationButton.startLoading();
+        const installKSCForm = $('<div>')
+        const installKSCLegend = $('<h4>').html('Installation Kaspersky Security Cloud (KSC) for iOS');
+        const installKSCInfo = $('<p>').html('Device will prompt installation.');
+        const installKSCButton = new ButtonControl('Tap to install from AppStore');
+        installKSCButton.setOnClick(async () => {
+            installKSCButton.startLoading();
             await apiClient.installKSCApplication(device);
-            installApplicationButton.stopLoading();
+            installKSCButton.stopLoading();
         });
 
-        this.element.append(installApplicationButton.element);
+        installKSCForm.append(installKSCLegend);
+        installKSCForm.append(installKSCInfo);
+        installKSCForm.append(installKSCButton.element);
+
+        this.element.append(new Border(installKSCForm).element);
 
         // Arbitrary app form
 
-        const form = $('<div>')
-        const label = $('<h4>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        const installArbitraryApplicationForm = $('<div>')
+        const legend = $('<h4>').html('Installation of arbitrary application');
+        const label = $('<p>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         const input = $('<input>').prop('placeholder', 'Application id');
 
         const installButton = new ButtonControl('Install', () => {
@@ -45,16 +53,18 @@ export class ApplicationsControl {
             installButton.stopLoading();
         });
 
-        form.append(label);
-        form.append(input);
-        form.append(installButton.element);
+        installArbitraryApplicationForm.append(legend);
+        installArbitraryApplicationForm.append(label);
+        installArbitraryApplicationForm.append(input);
+        installArbitraryApplicationForm.append(installButton.element);
 
-        this.element.append(new Border(form).element);
+        this.element.append(new Border(installArbitraryApplicationForm).element);
 
         // Load list of applications
 
+        const applicationsListForm = $('<div>')
+        const applicationsListLegend = $('<h4>').html('Request installed applications list');
         this.loadListOfApplicationsButton = new ButtonControl('Load applications list');
-        this.element.append(this.loadListOfApplicationsButton.element);
 
         this.loadListOfApplicationsButton.setOnClick(async () => {
             this.clear();
@@ -69,6 +79,11 @@ export class ApplicationsControl {
                 this.appendApplicationControl(applicationControl);
             }
         });
+
+        applicationsListForm.append(applicationsListLegend);
+        applicationsListForm.append(this.loadListOfApplicationsButton.element);
+
+        this.element.append(new Border(applicationsListForm).element);
     }
 
     clear() {
