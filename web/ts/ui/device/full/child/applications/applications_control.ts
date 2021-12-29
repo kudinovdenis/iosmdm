@@ -1,6 +1,7 @@
 
 import { IApi } from "../../../../../api/api";
 import { Device } from "../../../../../models/models";
+import { Border } from "../../../../helpers/border";
 import { ButtonControl } from "../../../../helpers/button";
 import { ApplicationControl } from "./application_control";
 
@@ -33,13 +34,9 @@ export class ApplicationsControl {
 
         // Arbitrary app form
 
-        const installArbitraryApplicationForm = $('<form>');
-
-        const legend = $('<legend>').html('Install arbitrary application');
-        const formElement = $('<div>').addClass('mb-3');
-
-        const label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
-        const input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
+        const form = $('<div>')
+        const label = $('<h4>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        const input = $('<input>').prop('placeholder', 'Application id');
 
         const installButton = new ButtonControl('Install', () => {
             installButton.startLoading();
@@ -48,14 +45,11 @@ export class ApplicationsControl {
             installButton.stopLoading();
         });
 
-        formElement.append(label);
-        formElement.append(input);
+        form.append(label);
+        form.append(input);
+        form.append(installButton.element);
 
-        installArbitraryApplicationForm.append(legend);
-        installArbitraryApplicationForm.append(formElement);
-        installArbitraryApplicationForm.append(installButton.element);
-        
-        this.element.append(installArbitraryApplicationForm);
+        this.element.append(new Border(form).element);
 
         // Load list of applications
 

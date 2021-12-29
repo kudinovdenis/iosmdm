@@ -343,8 +343,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ApplicationsControl": () => (/* binding */ ApplicationsControl)
 /* harmony export */ });
-/* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
-/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
+/* harmony import */ var _helpers_border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/border */ "./ui/helpers/border.ts");
+/* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
+/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -383,6 +384,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
+
 var ApplicationsControl = /** @class */ (function () {
     function ApplicationsControl(device, apiClient) {
         var _this = this;
@@ -393,7 +395,7 @@ var ApplicationsControl = /** @class */ (function () {
             .addClass('ApplicationsControl')
             .addClass('container');
         // install KSC button
-        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
+        var installApplicationButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install Kaspersky Security Center app from AppStore (interaction on device required)');
         installApplicationButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -409,25 +411,21 @@ var ApplicationsControl = /** @class */ (function () {
         }); });
         this.element.append(installApplicationButton.element);
         // Arbitrary app form
-        var installArbitraryApplicationForm = $('<form>');
-        var legend = $('<legend>').html('Install arbitrary application');
-        var formElement = $('<div>').addClass('mb-3');
-        var label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
-        var input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
-        var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install', function () {
+        var form = $('<div>');
+        var label = $('<h4>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        var input = $('<input>').prop('placeholder', 'Application id');
+        var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
             var applicationId = input.val();
             apiClient.installApplication(device, applicationId);
             installButton.stopLoading();
         });
-        formElement.append(label);
-        formElement.append(input);
-        installArbitraryApplicationForm.append(legend);
-        installArbitraryApplicationForm.append(formElement);
-        installArbitraryApplicationForm.append(installButton.element);
-        this.element.append(installArbitraryApplicationForm);
+        form.append(label);
+        form.append(input);
+        form.append(installButton.element);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(form).element);
         // Load list of applications
-        this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Load applications list');
+        this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
         this.element.append(this.loadListOfApplicationsButton.element);
         this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var applications, _i, applications_1, application, applicationControl;
@@ -442,7 +440,7 @@ var ApplicationsControl = /** @class */ (function () {
                         this.stopLoading();
                         for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
                             application = applications_1[_i];
-                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_1__.ApplicationControl(application);
+                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_2__.ApplicationControl(application);
                             this.appendApplicationControl(applicationControl);
                         }
                         return [2 /*return*/];
@@ -758,6 +756,32 @@ var FullDeviceInfoControl = /** @class */ (function () {
     FullDeviceInfoControl.prototype.clear = function () {
     };
     return FullDeviceInfoControl;
+}());
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/border.ts":
+/*!******************************!*\
+  !*** ./ui/helpers/border.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Border": () => (/* binding */ Border)
+/* harmony export */ });
+var Border = /** @class */ (function () {
+    function Border(child) {
+        this.element = $('<div>')
+            .addClass('border')
+            .addClass('border-primary')
+            .addClass('p-3')
+            .addClass('m-3');
+        this.element.append(child);
+    }
+    return Border;
 }());
 
 
