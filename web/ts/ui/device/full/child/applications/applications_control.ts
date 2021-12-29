@@ -27,7 +27,9 @@ export class ApplicationsControl {
             installApplicationButton.startLoading();
             await apiClient.installKSCApplication(device);
             installApplicationButton.stopLoading();
-        })
+        });
+
+        this.element.append(installApplicationButton.element);
 
         // Arbitrary app form
 
@@ -35,6 +37,7 @@ export class ApplicationsControl {
 
         const legend = $('<legend>').html('Install arbitrary application');
         const formElement = $('<div>').addClass('mb-3');
+        legend.append(formElement);
         const label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         const input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
 

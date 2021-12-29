@@ -407,10 +407,12 @@ var ApplicationsControl = /** @class */ (function () {
                 }
             });
         }); });
+        this.element.append(installApplicationButton.element);
         // Arbitrary app form
         var installArbitraryApplicationForm = $('<form>');
         var legend = $('<legend>').html('Install arbitrary application');
         var formElement = $('<div>').addClass('mb-3');
+        legend.append(formElement);
         var label = $('<label>').addClass('form-label').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         var input = $('<input>').prop('type', 'text').addClass('form-control').prop('placeholder', 'Application identifier');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Install', function () {
