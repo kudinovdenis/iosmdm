@@ -78,7 +78,13 @@ func NewCommandsProcessor(pusher PusherI) CommandsProcessorI {
 }
 
 func (processor CommandsProcessorImpl) QueueCommand(device Device, command Command, completion func(command Command, response CommandResponse)) {
-	log.Printf("Queue command: %+v To device: %+s", command, device.UDID)
+	stringCommand, err := plist.Marshal(command, plist.XMLFormat)
+	if err != nil {
+		log.Fatalf("Unable to marshall command for printing. %+s", err)
+		return
+	}
+
+	log.Printf("Queue command: %+v To device: %+s", string(stringCommand), device.UDID)
 	processor.pusher.SendMDMPush(device)
 
 	commandWithCallback := &CommandWithCallback{command: command, callback: completion}
