@@ -18,7 +18,7 @@ type Profile struct {
 
 type ProfileListCommandResponse struct {
 	CommandUUID string
-	ProfileList Profile
+	ProfileList []Profile
 }
 
 func (command ProfileListCommand) UUID() string {

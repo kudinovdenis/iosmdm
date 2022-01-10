@@ -173,7 +173,7 @@ func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, resp
 		var response ProfileListCommandResponse
 		_, err := plist.Unmarshal(responseBody, &response)
 		if err != nil {
-			log.Print("Unable to decode answer")
+			log.Printf("Unable to decode answer: %+s", err)
 			return
 		}
 		callback := commandWithCallback.callback
