@@ -897,11 +897,9 @@ var ProfilesControl = /** @class */ (function () {
         var textField = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__.TextField('Insert b64 data here');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install');
         installButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
-            var b64Encoded;
             return __generator(this, function (_a) {
                 installButton.startLoading();
-                b64Encoded = Buffer.from(textField.text()).toString('base64');
-                this.apiClient.installProfile(this.device, b64Encoded);
+                this.apiClient.installProfile(this.device, btoa(textField.text()));
                 installButton.stopLoading();
                 return [2 /*return*/];
             });
