@@ -801,8 +801,8 @@ var ProfilesControl = /** @class */ (function () {
         this.device = device;
         this.element = $('<div>');
         var listProfilesControl = $('<div>');
-        var listProfilesLegend = $('<h4>').html('Installation Kaspersky Security Cloud (KSC) for iOS');
-        var listProfilesInfo = $('<p>').html('Device will prompt installation.');
+        var listProfilesLegend = $('<h4>').html('Load list of device profiles');
+        var listProfilesInfo = $('<p>').html('Will load all profiles on device.');
         var listProfilesButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load list of profiles');
         var listOfInstalledProfilesText = $('<p>');
         listProfilesButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {

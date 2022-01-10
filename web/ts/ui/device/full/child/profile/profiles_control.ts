@@ -14,8 +14,8 @@ export class ProfilesControl {
 
         const listProfilesControl = $('<div>');
 
-        const listProfilesLegend = $('<h4>').html('Installation Kaspersky Security Cloud (KSC) for iOS');
-        const listProfilesInfo = $('<p>').html('Device will prompt installation.');
+        const listProfilesLegend = $('<h4>').html('Load list of device profiles');
+        const listProfilesInfo = $('<p>').html('Will load all profiles on device.');
         const listProfilesButton = new ButtonControl('Load list of profiles');
         const listOfInstalledProfilesText = $('<p>');
         listProfilesButton.setOnClick(async () => {
