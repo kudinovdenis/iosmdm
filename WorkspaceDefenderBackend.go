@@ -246,7 +246,7 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/profiles/", handleInstalledProfiles)
 	devicesRouter.HandleFunc("/{id}/profiles", handleInstalledProfiles)
-	devicesRouter.HandleFunc("/{id}/profiles/install", handleInstalledProfiles).Queries("data")
+	devicesRouter.HandleFunc("/{id}/profiles/install", handleInstallProfileData)
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
