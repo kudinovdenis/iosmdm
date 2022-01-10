@@ -153,3 +153,25 @@ export class ApplicationInfo {
 	ShortVersion:              string
 	Version:                   string
 }
+
+export class ProfilePayloadContent {
+    PayloadDisplayName:  string
+	PayloadIdentifier:   string
+	PayloadType:         string
+	PayloadVersion:      number
+	PayloadOrganization: string
+	PayloadDescription:  string
+	PayloadUUID:         string
+}
+export class Profile {
+    HasRemovalPasscode:         boolean
+    IsEncrypted:                boolean
+    IsManaged:                  boolean
+    PayloadContent:             ProfilePayloadContent[]
+    PayloadDisplayName:         string
+    PayloadIdentifier:          string
+	PayloadRemovalDisallowed:   boolean
+	PayloadUUID:                string
+	PayloadOrganization:        string
+
+}

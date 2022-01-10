@@ -11,9 +11,26 @@ type ProfileListCommand struct {
 	Command     ProfileListCommandBody
 }
 
+type ProfilePayloadContent struct {
+	PayloadDisplayName  string
+	PayloadIdentifier   string
+	PayloadType         string
+	PayloadVersion      int
+	PayloadOrganization string
+	PayloadDescription  string
+	PayloadUUID         string
+}
+
 type Profile struct {
-	PayloadDisplayName string
-	PayloadIdentifier  string
+	HasRemovalPasscode       bool
+	IsEncrypted              bool
+	IsManaged                bool
+	PayloadContent           []ProfilePayloadContent
+	PayloadDisplayName       string
+	PayloadIdentifier        string
+	PayloadRemovalDisallowed bool
+	PayloadUUID              string
+	PayloadOrganization      string
 }
 
 type ProfileListCommandResponse struct {

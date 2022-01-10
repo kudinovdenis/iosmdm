@@ -177,7 +177,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DeviceRaw": () => (/* binding */ DeviceRaw),
 /* harmony export */   "Device": () => (/* binding */ Device),
-/* harmony export */   "ApplicationInfo": () => (/* binding */ ApplicationInfo)
+/* harmony export */   "ApplicationInfo": () => (/* binding */ ApplicationInfo),
+/* harmony export */   "ProfilePayloadContent": () => (/* binding */ ProfilePayloadContent),
+/* harmony export */   "Profile": () => (/* binding */ Profile)
 /* harmony export */ });
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -213,6 +215,18 @@ var ApplicationInfo = /** @class */ (function () {
     function ApplicationInfo() {
     }
     return ApplicationInfo;
+}());
+
+var ProfilePayloadContent = /** @class */ (function () {
+    function ProfilePayloadContent() {
+    }
+    return ProfilePayloadContent;
+}());
+
+var Profile = /** @class */ (function () {
+    function Profile() {
+    }
+    return Profile;
 }());
 
 
