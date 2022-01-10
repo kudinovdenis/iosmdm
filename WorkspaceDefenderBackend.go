@@ -160,7 +160,31 @@ func handleInstalledProfiles(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("!!!Debug: JSON Data: %+v", jsonData)
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func handleInstallProfileData(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+	params := mux.Vars(r)
+	deviceId := params["id"]
+	data := r.FormValue("data")
+
+	device := devicesController.DeviceWithUDID(deviceId)
+	if device == nil {
+		http.Error(w, "Device not found", http.StatusInternalServerError)
+		return
+	}
+
+	installProfileResultChan := devicesController.InstallProfile(*device, []byte(data))
+	installProfileResult := <-installProfileResultChan
+	log.Printf("Install profile callback called on main. Result: %+v", installProfileResult)
+
+	jsonData, err := json.Marshal(installProfileResult)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonData)
@@ -222,6 +246,7 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/profiles/", handleInstalledProfiles)
 	devicesRouter.HandleFunc("/{id}/profiles", handleInstalledProfiles)
+	devicesRouter.HandleFunc("/{id}/profiles/install", handleInstalledProfiles).Queries("data")
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 

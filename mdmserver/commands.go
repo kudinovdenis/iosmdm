@@ -179,6 +179,18 @@ func (processor CommandsProcessorImpl) DidFinishCommand(commandUUID string, resp
 		callback := commandWithCallback.callback
 		log.Printf("Calling callback for ProfileListCommand with %+v", response)
 		callback(commandWithCallback.command, response)
+
+	case InstallProfileCommand:
+		log.Print("Decoding InstallProfileCommand")
+		var response InstallProfileCommandResponse
+		_, err := plist.Unmarshal(responseBody, &response)
+		if err != nil {
+			log.Printf("Unable to decode answer: %+s", err)
+			return
+		}
+		callback := commandWithCallback.callback
+		log.Printf("Calling callback for InstallProfileCommand with %+v", response)
+		callback(commandWithCallback.command, response)
 	}
 
 	// Remove this command from list

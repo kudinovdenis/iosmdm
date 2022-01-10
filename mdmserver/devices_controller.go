@@ -32,6 +32,7 @@ type DevicesControllerI interface {
 	DeviceInfo(device Device) chan QueryResponses
 
 	InstalledProfiles(device Device) chan []Profile
+	InstallProfile(device Device, data []byte) chan InstallProfileCommandResponse
 }
 
 type DevicesController struct {
@@ -133,6 +134,19 @@ func (devicesController DevicesController) InstalledProfiles(device Device) chan
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
 		result <- response.(ProfileListCommandResponse).ProfileList
+	})
+	return result
+}
+
+func (devicesController DevicesController) InstallProfile(device Device, data []byte) chan InstallProfileCommandResponse {
+	log.Printf("Requested installed profiles for device: %+s", device.UDID)
+	result := make(chan InstallProfileCommandResponse)
+	command := NewInstallProfileCommand(data)
+	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
+		log.Print("Completion called (devices controller)")
+		log.Printf("Command: %+v", command)
+		log.Printf("Response: %+v", response)
+		result <- response.(InstallProfileCommandResponse)
 	})
 	return result
 }

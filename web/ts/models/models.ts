@@ -40,7 +40,6 @@ export class Device implements DeviceI {
         device.PushToken = "n0EZmTGmWsN1J9yfq1sMQ77OoLZdyDS6ELCr1M6/YS4=";
         device.PushMagic = uuidv4();
         device.Topic = uuidv4();
-        console.log("Creating new device with uuid: " + uuid);
         return device;
     }
 }

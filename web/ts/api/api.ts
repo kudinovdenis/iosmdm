@@ -11,6 +11,7 @@ export interface IApi {
     installApplication(device: Device, appId: number): Promise<void>
 
     getInstalledProfiles(device: Device): Promise<Profile[]>
+    installProfile(device: Device, b64Data: string): Promise<void>
     downloadProfileLink(): string;
 }
 
@@ -75,6 +76,10 @@ export class ApiImpl implements IApi {
         else {
             return this.get<Profile[]>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles`);
         }
+    }
+
+    async installProfile(device: Device, b64Data: string): Promise<void> {
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles/install?data=${b64Data}`);
     }
 
     downloadProfileLink(): string {

@@ -28,7 +28,6 @@ export class WebAppControl {
 
     async load() {
         let allDevices = await this.apiClient.getAllDevices();
-        console.log("Get all devices: " + allDevices);
         this.showListOfDevices(allDevices);
     }
 

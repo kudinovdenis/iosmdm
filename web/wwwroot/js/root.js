@@ -145,6 +145,13 @@ var ApiImpl = /** @class */ (function () {
             });
         });
     };
+    ApiImpl.prototype.installProfile = function (device, b64Data) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/profiles/install?data=").concat(b64Data))];
+            });
+        });
+    };
     ApiImpl.prototype.downloadProfileLink = function () {
         return _environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl + '/backend/static/profile/';
     };
@@ -211,7 +218,6 @@ var Device = /** @class */ (function () {
         device.PushToken = "n0EZmTGmWsN1J9yfq1sMQ77OoLZdyDS6ELCr1M6/YS4=";
         device.PushMagic = uuidv4();
         device.Topic = uuidv4();
-        console.log("Creating new device with uuid: " + uuid);
         return device;
     };
     return Device;
@@ -394,7 +400,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _helpers_border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/border */ "./ui/helpers/border.ts");
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
-/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
+/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
+/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -434,6 +441,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var ApplicationsControl = /** @class */ (function () {
     function ApplicationsControl(device, apiClient) {
         var _this = this;
@@ -469,16 +477,16 @@ var ApplicationsControl = /** @class */ (function () {
         var installArbitraryApplicationForm = $('<div>');
         var legend = $('<h4>').html('Installation of arbitrary application');
         var label = $('<p>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
-        var input = $('<input>').prop('placeholder', 'Application id');
+        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Application id');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
-            var applicationId = input.val();
+            var applicationId = input.number();
             apiClient.installApplication(device, applicationId);
             installButton.stopLoading();
         });
         installArbitraryApplicationForm.append(legend);
         installArbitraryApplicationForm.append(label);
-        installArbitraryApplicationForm.append(input);
+        installArbitraryApplicationForm.append(input.element);
         installArbitraryApplicationForm.append(installButton.element);
         this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryApplicationForm).element);
         // Load list of applications
@@ -498,7 +506,7 @@ var ApplicationsControl = /** @class */ (function () {
                         this.stopLoading();
                         for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
                             application = applications_1[_i];
-                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_2__.ApplicationControl(application);
+                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_3__.ApplicationControl(application);
                             this.appendApplicationControl(applicationControl);
                         }
                         return [2 /*return*/];
@@ -799,6 +807,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/border */ "./ui/helpers/border.ts");
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
 /* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -838,11 +847,20 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var ProfilesControl = /** @class */ (function () {
     function ProfilesControl(device, apiClient) {
-        var _this = this;
         this.device = device;
+        this.apiClient = apiClient;
         this.element = $('<div>');
+        var listProfilesBox = this.createListProfilesBox();
+        this.element.append(listProfilesBox);
+        var installProfileBox = this.createInstallProfileBox();
+        this.element.append(installProfileBox);
+    }
+    // MARK: Private methods
+    ProfilesControl.prototype.createListProfilesBox = function () {
+        var _this = this;
         var listProfilesControl = $('<div>');
         var listProfilesLegend = $('<h4>').html('Load list of device profiles');
         var listProfilesInfo = $('<p>').html('Will load all profiles on device.');
@@ -853,11 +871,13 @@ var ProfilesControl = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        listProfilesButton.startLoading();
                         listOfInstalledProfilesTable.clear();
-                        return [4 /*yield*/, apiClient.getInstalledProfiles(device)];
+                        return [4 /*yield*/, this.apiClient.getInstalledProfiles(this.device)];
                     case 1:
                         listOfInstalledProfiles = _a.sent();
                         listOfInstalledProfilesTable.addObject(listOfInstalledProfiles);
+                        listProfilesButton.stopLoading();
                         return [2 /*return*/];
                 }
             });
@@ -867,8 +887,30 @@ var ProfilesControl = /** @class */ (function () {
         listProfilesControl.append(listProfilesButton.element);
         listProfilesControl.append(listOfInstalledProfilesTable.element);
         var listProfilesBox = new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(listProfilesControl);
-        this.element.append(listProfilesBox.element);
-    }
+        return listProfilesBox.element;
+    };
+    ProfilesControl.prototype.createInstallProfileBox = function () {
+        var _this = this;
+        var control = $('<div>');
+        var title = $('<h4>').html('Install arbitrary profile');
+        var legend = $('<p>').html('Payload XML should be in base64');
+        var textField = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__.TextField('Insert b64 data here');
+        var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install');
+        installButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                installButton.startLoading();
+                this.apiClient.installProfile(this.device, textField.text());
+                installButton.stopLoading();
+                return [2 /*return*/];
+            });
+        }); });
+        control.append(title);
+        control.append(legend);
+        control.append(textField.element);
+        control.append(installButton.element);
+        var box = new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(control).element;
+        return box;
+    };
     return ProfilesControl;
 }());
 
@@ -1192,7 +1234,6 @@ var TableControl = /** @class */ (function () {
     };
     // Experimental
     TableControl.prototype.addObject = function (object) {
-        console.log("Add object: ".concat(String(object)));
         var rootKeys = Object.keys(object);
         for (var _i = 0, rootKeys_1 = rootKeys; _i < rootKeys_1.length; _i++) {
             var rootKey = rootKeys_1[_i];
@@ -1200,7 +1241,6 @@ var TableControl = /** @class */ (function () {
         }
     };
     TableControl.prototype.addAny = function (key, o) {
-        console.log("Add any: ".concat(key, ": ").concat(String(o)));
         switch (typeof (o)) {
             case "string":
             case "number":
@@ -1219,6 +1259,33 @@ var TableControl = /** @class */ (function () {
         }
     };
     return TableControl;
+}());
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/textfield.ts":
+/*!*********************************!*\
+  !*** ./ui/helpers/textfield.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TextField": () => (/* binding */ TextField)
+/* harmony export */ });
+var TextField = /** @class */ (function () {
+    function TextField(placeholder) {
+        this.element = $('<input>').prop('placeholder', placeholder);
+    }
+    TextField.prototype.text = function () {
+        return this.element.val();
+    };
+    TextField.prototype.number = function () {
+        return this.element.val();
+    };
+    return TextField;
 }());
 
 
@@ -1320,7 +1387,6 @@ var WebAppControl = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.apiClient.getAllDevices()];
                     case 1:
                         allDevices = _a.sent();
-                        console.log("Get all devices: " + allDevices);
                         this.showListOfDevices(allDevices);
                         return [2 /*return*/];
                 }

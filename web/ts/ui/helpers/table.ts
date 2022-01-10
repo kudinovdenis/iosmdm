@@ -87,7 +87,6 @@ export class TableControl {
     // Experimental
 
     addObject(object: any) {
-        console.log(`Add object: ${String(object)}`);
         const rootKeys = Object.keys(object);
         for (const rootKey of rootKeys) {
             this.addAny(rootKey, object[rootKey]);
@@ -95,7 +94,6 @@ export class TableControl {
     }
 
     private addAny(key: string, o: string | number | bigint | boolean | symbol | undefined | object) {
-        console.log(`Add any: ${key}: ${String(o)}`);
         switch (typeof(o)) {
             case "string":
             case "number":
