@@ -61,7 +61,8 @@ export class ProfilesControl {
         installButton.setOnClick(async () => {
             installButton.startLoading();
 
-            this.apiClient.installProfile(this.device, textField.text());
+            const b64Encoded = Buffer.from(textField.text()).toString('base64');
+            this.apiClient.installProfile(this.device, b64Encoded);
 
             installButton.stopLoading();
         });
