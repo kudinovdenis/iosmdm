@@ -154,12 +154,15 @@ func handleInstalledProfiles(w http.ResponseWriter, r *http.Request) {
 	installedProfilesList := <-installedProfilesChan
 	log.Printf("Installed profiles callback called on main. Profiles: %+v", installedProfilesList)
 
-	w.WriteHeader(http.StatusOK)
 	jsonData, err := json.Marshal(installedProfilesList)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	log.Printf("!!!Debug: JSON Data: %+v", jsonData)
+
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonData)
 }
 
