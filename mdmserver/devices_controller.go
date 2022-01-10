@@ -132,7 +132,7 @@ func (devicesController DevicesController) InstalledProfiles(device Device) chan
 		log.Print("Completion called (devices controller)")
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
-		result <- response.([]Profile)
+		result <- response.(ProfileListCommandResponse).ProfileList
 	})
 	return result
 }
