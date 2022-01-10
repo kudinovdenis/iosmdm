@@ -174,4 +174,27 @@ export class Profile {
 	PayloadUUID:                string
 	PayloadOrganization:        string
 
+    static mock(): Profile {
+        const mockPayloadContent = new ProfilePayloadContent();
+        mockPayloadContent.PayloadDisplayName = "Mock display name";
+        mockPayloadContent.PayloadIdentifier = uuidv4();
+        mockPayloadContent.PayloadType = "Mock Payload type";
+        mockPayloadContent.PayloadVersion = 1;
+        mockPayloadContent.PayloadOrganization = "Mock Payload Organization";
+        mockPayloadContent.PayloadDescription = "Mock Payload Description";
+        mockPayloadContent.PayloadUUID = uuidv4();
+
+        const mockProfile = new Profile();
+        mockProfile.HasRemovalPasscode = false;
+        mockProfile.IsEncrypted = false;
+        mockProfile.IsManaged = false;
+        mockProfile.PayloadContent = [mockPayloadContent];
+        mockProfile.PayloadDisplayName = "Mock Payload Display name";
+        mockProfile.PayloadIdentifier = uuidv4();
+        mockProfile.PayloadRemovalDisallowed = false;
+        mockProfile.PayloadUUID = uuidv4();
+        mockProfile.PayloadOrganization = "Mock Payload Organization";
+
+        return mockProfile;
+    }
 }

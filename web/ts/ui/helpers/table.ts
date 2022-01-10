@@ -38,7 +38,7 @@ export class TableControl {
         </table>
      */
     constructor() {
-        this.element = $('<table>').addClass('table');
+        this.element = $('<table>').addClass('table').addClass('table-striped');
 
         this.header = $('<thead>');
         this.body = $('<tbody>');
@@ -82,6 +82,37 @@ export class TableControl {
 
     clear() {
         this.body.empty();
+    }
+    
+    // Experimental
+
+    addObject(object: any) {
+        console.log(`Add object: ${String(object)}`);
+        const rootKeys = Object.keys(object);
+        for (const rootKey of rootKeys) {
+            this.addAny(rootKey, object[rootKey]);
+        }
+    }
+
+    private addAny(key: string, o: string | number | bigint | boolean | symbol | undefined | object) {
+        console.log(`Add any: ${key}: ${String(o)}`);
+        switch (typeof(o)) {
+            case "string":
+            case "number":
+            case "bigint":
+            case "boolean":
+            case "symbol":
+            case "undefined":
+                this.appendRowText([key, JSON.stringify(o)]);
+                break;
+
+            case "object":
+                const newTable = new TableControl();
+                newTable.addObject(o);
+                const title = $('<p>').html(key);
+                this.appendRow([title, newTable.element]);
+                break;
+        }
     }
 
 }

@@ -2,6 +2,7 @@ import { IApi } from "../../../../../api/api";
 import { Device } from "../../../../../models/models";
 import { Border } from "../../../../helpers/border";
 import { ButtonControl } from "../../../../helpers/button";
+import { TableControl } from "../../../../helpers/table";
 
 export class ProfilesControl {
 
@@ -17,15 +18,16 @@ export class ProfilesControl {
         const listProfilesLegend = $('<h4>').html('Load list of device profiles');
         const listProfilesInfo = $('<p>').html('Will load all profiles on device.');
         const listProfilesButton = new ButtonControl('Load list of profiles');
-        const listOfInstalledProfilesText = $('<p>');
+        const listOfInstalledProfilesTable = new TableControl()
         listProfilesButton.setOnClick(async () => {
-            const listOfInstlledProfiles = await apiClient.getInstalledProfiles(device);
-            listOfInstalledProfilesText.html(JSON.stringify(listOfInstlledProfiles));
+            listOfInstalledProfilesTable.clear();
+            const listOfInstalledProfiles = await apiClient.getInstalledProfiles(device);
+            listOfInstalledProfilesTable.addObject(listOfInstalledProfiles);
         });
         listProfilesControl.append(listProfilesLegend);
         listProfilesControl.append(listProfilesInfo);
         listProfilesControl.append(listProfilesButton.element);
-        listProfilesControl.append(listOfInstalledProfilesText);
+        listProfilesControl.append(listOfInstalledProfilesTable.element);
 
         const listProfilesBox = new Border(listProfilesControl);
 

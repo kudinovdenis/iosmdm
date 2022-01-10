@@ -1,5 +1,5 @@
-// import { environment } from "../environment/environment_dev";
-import { environment } from "../environment/environment_prod";
+import { environment } from "../environment/environment_dev";
+// import { environment } from "../environment/environment_prod";
 import { Device, ApplicationInfo, DeviceI, DeviceRaw, QueryResponses, Profile } from "../models/models";
 
 export interface IApi {
@@ -69,7 +69,12 @@ export class ApiImpl implements IApi {
     // Profiles
 
     async getInstalledProfiles(device: Device): Promise<Profile[]> {
-        return this.get<Profile[]>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles`);
+        if (environment.isDebug) {
+            return Promise.resolve([Profile.mock()]);
+        }
+        else {
+            return this.get<Profile[]>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles`);
+        }
     }
 
     downloadProfileLink(): string {
