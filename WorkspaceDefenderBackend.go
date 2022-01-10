@@ -170,6 +170,8 @@ func handleInstallProfileData(w http.ResponseWriter, r *http.Request) {
 	deviceId := params["id"]
 	data := r.FormValue("data")
 
+	log.Printf("Profile string: %+s", data)
+
 	device := devicesController.DeviceWithUDID(deviceId)
 	if device == nil {
 		http.Error(w, "Device not found", http.StatusInternalServerError)

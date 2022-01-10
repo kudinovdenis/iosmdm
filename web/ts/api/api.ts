@@ -1,4 +1,5 @@
 // import { environment } from "../environment/environment_dev";
+import { post } from "jquery";
 import { environment } from "../environment/environment_prod";
 import { Device, ApplicationInfo, DeviceI, DeviceRaw, QueryResponses, Profile } from "../models/models";
 
@@ -11,7 +12,7 @@ export interface IApi {
     installApplication(device: Device, appId: number): Promise<void>
 
     getInstalledProfiles(device: Device): Promise<Profile[]>
-    installProfile(device: Device, b64Data: string): Promise<void>
+    installProfile(device: Device, profileContent: string): Promise<void>
     downloadProfileLink(): string;
 }
 
@@ -19,6 +20,17 @@ export class ApiImpl implements IApi {
 
     async get<T>(request: RequestInfo): Promise<T> {
         const respone = await fetch(request);
+        const body = respone.json();
+        return body;
+    }
+
+    async post<T>(url: string, data: BodyInit): Promise<T> {
+        const requestInit: RequestInit = {
+            method: "POST",
+            body: data,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+        }
+        const respone = await fetch(url, requestInit);
         const body = respone.json();
         return body;
     }
@@ -78,8 +90,10 @@ export class ApiImpl implements IApi {
         }
     }
 
-    async installProfile(device: Device, b64Data: string): Promise<void> {
-        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles/install?data=${b64Data}`);
+    async installProfile(device: Device, profileContent: string): Promise<void> {
+        const formData = new FormData();
+        formData.append('data', profileContent);
+        return this.post<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles/install`, formData);
     }
 
     downloadProfileLink(): string {

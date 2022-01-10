@@ -61,7 +61,7 @@ export class ProfilesControl {
         installButton.setOnClick(async () => {
             installButton.startLoading();
 
-            this.apiClient.installProfile(this.device, btoa(textField.text()));
+            this.apiClient.installProfile(this.device, textField.text());
 
             installButton.stopLoading();
         });

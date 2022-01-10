@@ -50,7 +50,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// import { environment } from "../environment/environment_dev";
 
 
 var ApiImpl = /** @class */ (function () {
@@ -62,6 +61,26 @@ var ApiImpl = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, fetch(request)];
+                    case 1:
+                        respone = _a.sent();
+                        body = respone.json();
+                        return [2 /*return*/, body];
+                }
+            });
+        });
+    };
+    ApiImpl.prototype.post = function (url, data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var requestInit, respone, body;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        requestInit = {
+                            method: "POST",
+                            body: data,
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                        };
+                        return [4 /*yield*/, fetch(url, requestInit)];
                     case 1:
                         respone = _a.sent();
                         body = respone.json();
@@ -145,10 +164,13 @@ var ApiImpl = /** @class */ (function () {
             });
         });
     };
-    ApiImpl.prototype.installProfile = function (device, b64Data) {
+    ApiImpl.prototype.installProfile = function (device, profileContent) {
         return __awaiter(this, void 0, void 0, function () {
+            var formData;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/profiles/install?data=").concat(b64Data))];
+                formData = new FormData();
+                formData.append('data', profileContent);
+                return [2 /*return*/, this.post("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/profiles/install"), formData)];
             });
         });
     };
@@ -899,7 +921,7 @@ var ProfilesControl = /** @class */ (function () {
         installButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 installButton.startLoading();
-                this.apiClient.installProfile(this.device, btoa(textField.text()));
+                this.apiClient.installProfile(this.device, textField.text());
                 installButton.stopLoading();
                 return [2 /*return*/];
             });
