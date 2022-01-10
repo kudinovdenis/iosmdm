@@ -1,5 +1,5 @@
-// import { environment } from "../environment/environment_dev";
-import { environment } from "../environment/environment_prod";
+import { environment } from "../environment/environment_dev";
+// import { environment } from "../environment/environment_prod";
 import { Device, ApplicationInfo, DeviceI, DeviceRaw, QueryResponses } from "../models/models";
 
 export interface IApi {
@@ -10,6 +10,7 @@ export interface IApi {
     installKSCApplication(device: Device): Promise<void>
     installApplication(device: Device, appId: number): Promise<void>
 
+    getInstalledProfiles(device: Device): Promise<string[]>
     downloadProfileLink(): string;
 }
 
@@ -63,6 +64,12 @@ export class ApiImpl implements IApi {
 
     async installApplication(device: Device, appId: number): Promise<void> {
         return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_application/${appId}`);
+    }
+
+    // Profiles
+
+    async getInstalledProfiles(device: Device): Promise<string[]> {
+        return this.get<string[]>(`${environment.baseUrl}/backend/devices/${device.UDID}/profiles`);
     }
 
     downloadProfileLink(): string {

@@ -30,6 +30,8 @@ type DevicesControllerI interface {
 	InstalledApplicationsList(device Device) chan []InstalledApplication
 	InstallApplication(device Device, applicationId int) chan InstallApplicationCommandResponse
 	DeviceInfo(device Device) chan QueryResponses
+
+	InstalledProfiles(device Device) chan []Profile
 }
 
 type DevicesController struct {
@@ -118,6 +120,19 @@ func (devicesController DevicesController) InstallApplication(device Device, app
 		log.Printf("Command: %+v", command)
 		log.Printf("Response: %+v", response)
 		result <- response.(InstallApplicationCommandResponse)
+	})
+	return result
+}
+
+func (devicesController DevicesController) InstalledProfiles(device Device) chan []Profile {
+	log.Printf("Requested installed profiles for device: %+s", device.UDID)
+	result := make(chan []Profile)
+	command := NewProfileListCommand()
+	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
+		log.Print("Completion called (devices controller)")
+		log.Printf("Command: %+v", command)
+		log.Printf("Response: %+v", response)
+		result <- response.([]Profile)
 	})
 	return result
 }

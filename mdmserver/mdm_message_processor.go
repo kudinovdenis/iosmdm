@@ -86,6 +86,9 @@ func (processor MdmMessageProcessorImpl) ProcessRequest(w http.ResponseWriter, r
 		processor.devicesController.DeviceDidFinishCommand(*device, mdmMessage.CommandUUID, body)
 
 		w.WriteHeader(http.StatusOK)
+	} else if mdmMessage.Status == "Error" {
+		// remove command from queue
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return nil
