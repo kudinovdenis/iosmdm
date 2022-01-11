@@ -101,7 +101,7 @@ func (processor CommandsProcessorImpl) QueueCommand(device Device, command Comma
 		processor.commandsForDeviceId[device.UDID] = newCommandsList
 	}
 
-	log.Printf("Push sent. Command: %+v To device: %+s", command, device.UDID)
+	log.Printf("Push sent. Command: %+v To device: %+s", string(stringCommand), device.UDID)
 }
 
 func (processor CommandsProcessorImpl) NextCommandForDevice(device Device) *Command {
