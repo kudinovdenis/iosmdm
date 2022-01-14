@@ -1,0 +1,15 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [ "2Y8XE5CQ94.com.kaspersky.ios.endpointsecurity" ],
+             "components": [
+               {
+                  "/": "/wat/*",
+                  "comment": "Matches any URL whose path starts with /buy/"
+               }
+             ]
+           }
+       ]
+   }
+}
