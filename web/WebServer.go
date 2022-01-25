@@ -61,7 +61,7 @@ func main() {
 
 	rootRouter := mux.NewRouter()
 	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
-	rootRouter.HandleFunc("/kes_ios/", handleKESInstallPage)
+	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
 
 	log.Fatal(http.ListenAndServe(":8081", rootRouter))
 }
