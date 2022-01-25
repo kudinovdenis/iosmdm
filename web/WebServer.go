@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"time"
 
 	"github.com/gorilla/mux"
 )
 
 func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
+
 	installToken := r.URL.Query().Get("installToken")
 
 	if installToken == "" {
@@ -54,6 +57,23 @@ func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, content)
 }
 
+func logRequest(r *http.Request) {
+	dumpResult, err := httputil.DumpRequest(r, true)
+
+	if err != nil {
+		log.Print("Unable to dump request")
+		return
+	}
+
+	log.Print(string(dumpResult))
+}
+
+func handleOther(w http.ResponseWriter, r *http.Request) {
+	log.Print("Handling unknown path")
+	logRequest(r)
+	w.WriteHeader(http.StatusForbidden)
+}
+
 func main() {
 	// Waiting for Docker logs grabber to attach
 	log.Print("Web server is up.")
@@ -62,6 +82,8 @@ func main() {
 	rootRouter := mux.NewRouter()
 	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
 	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
+
+	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
 	log.Fatal(http.ListenAndServe(":8081", rootRouter))
 }
