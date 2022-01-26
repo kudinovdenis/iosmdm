@@ -29,8 +29,12 @@ func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
 			<meta charset="UTF-8">
 			
 			<script type="text/javascript">
-				function onRedirectToAppStore() {
-					navigator.clipboard.writeText('qr_install_token=%+s');
+				async function onRedirectToAppStore() {
+					async function writeDataToClipboard() {
+						let result = await navigator.clipboard.writeText('qr_install_token=%+s');
+						console.log(result);
+					};
+					await writeDataToClipboard()
 				}
 	
 				window.onload = function() {
