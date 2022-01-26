@@ -29,8 +29,13 @@ func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
 			<meta charset="UTF-8">
 			
 			<script type="text/javascript">
-				window.onload = function() {
+				function onRedirectToAppStore() {
 					navigator.clipboard.writeText('qr_install_token=%+s');
+				}
+	
+				window.onload = function() {
+					let appstoreButton = document.getElementById('appstorebtn')
+					appstoreButton.click()
 					window.location.replace('https://apps.apple.com/ru/app/testflight/id899247664')
 				}
 			</script>
@@ -38,6 +43,12 @@ func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
 		</head>
 		<body>
 			You are being redirected to Testflight...
+	
+			<div class="appstore" id="appstorebtn" onclick="onRedirectToAppStore()">
+				<a href="https://app.appsflyer.com/id666853180?pid=klmyk&amp;c=nogeo_0_link">
+					<img src="https://my.kaspersky.com/Frontend/assets/images/downloads/app-store/en.svg" alt="Apple" title="Apple">
+				</a>
+			</div>
 		</body>
 	</html>`, installToken)
 
