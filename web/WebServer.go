@@ -11,8 +11,6 @@ import (
 )
 
 func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
-	logRequest(r)
-
 	installToken := r.URL.Query().Get("installToken")
 
 	if installToken == "" {
@@ -70,7 +68,6 @@ func logRequest(r *http.Request) {
 
 func handleOther(w http.ResponseWriter, r *http.Request) {
 	log.Print("Handling unknown path")
-	logRequest(r)
 	w.WriteHeader(http.StatusForbidden)
 }
 
@@ -87,9 +84,13 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 	rootRouter := mux.NewRouter()
-	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
-	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
+
 	rootRouter.Use(logMiddleWare)
+
+	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
+
+	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
+	rootRouter.HandleFunc("/kes_ios/", handleKESInstallPage)
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
