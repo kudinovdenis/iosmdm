@@ -36,7 +36,7 @@ func handleKESInstallPage(w http.ResponseWriter, r *http.Request) {
 				window.onload = function() {
 					let appstoreButton = document.getElementById('appstorebtn')
 					appstoreButton.click()
-					window.location.replace('https://app.appsflyer.com/id666853180?pid=klmyk&amp;c=nogeo_0_link')
+					window.location.replace('itms-beta://a')
 				}
 			</script>
 			<title>Page Redirection</title>
@@ -89,6 +89,7 @@ func main() {
 
 	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
 	rootRouter.HandleFunc("/kes_ios/", handleKESInstallPage)
+	// Should be last, otherwise will override previous routes
 	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
