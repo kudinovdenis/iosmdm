@@ -87,10 +87,9 @@ func main() {
 
 	rootRouter.Use(logMiddleWare)
 
-	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
-
 	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
 	rootRouter.HandleFunc("/kes_ios/", handleKESInstallPage)
+	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
