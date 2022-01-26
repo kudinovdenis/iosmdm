@@ -74,6 +74,13 @@ func handleOther(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusForbidden)
 }
 
+func logMiddleWare(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		logRequest(r)
+		next.ServeHTTP(rw, r)
+	})
+}
+
 func main() {
 	// Waiting for Docker logs grabber to attach
 	log.Print("Web server is up.")
@@ -82,6 +89,7 @@ func main() {
 	rootRouter := mux.NewRouter()
 	rootRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("wwwroot")))
 	rootRouter.HandleFunc("/kes_ios", handleKESInstallPage)
+	rootRouter.Use(logMiddleWare)
 
 	rootRouter.NotFoundHandler = http.HandlerFunc(handleOther)
 
