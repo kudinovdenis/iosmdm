@@ -1,16 +1,16 @@
 version: "3.9"
 services:
-  backend:
-    build: .
-    ports:
-      - "8082:8082"
-    volumes:
-      - "~/persist:/var/persist"
+  # backend:
+  #   build: .
+  #   ports:
+  #     - "8082:8082"
+  #   volumes:
+  #     - "~/persist:/var/persist"
 
-  frontend:
-    build: ./web
-    ports:
-      - "8081:8081"
+  # frontend:
+  #   build: ./web
+  #   ports:
+  #     - "8081:8081"
 
   nginx:
     build: "./nginx"
@@ -20,10 +20,10 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - "backend"
-      - "frontend"
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    # depends_on:
+    #   - "backend"
+    #   - "frontend"
+    # command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
     image: certbot/certbot
