@@ -3,6 +3,7 @@ package mdmserver
 import (
 	"log"
 	"net/http"
+	"strings"
 )
 
 type ServerI interface {
@@ -16,16 +17,13 @@ type ServerImpl struct {
 
 func (mdmServer *ServerImpl) ProcessRequest(w http.ResponseWriter, r *http.Request) {
 	contentType := r.Header.Get("Content-Type")
-	switch contentType {
-	case "application/x-apple-aspen-mdm-checkin":
+	if strings.Contains(contentType, "application/x-apple-aspen-mdm-checkin") {
 		log.Print("Received checkin message.")
 		mdmServer.CheckinProcessor.ProcessCheckinRequest(r)
-
-	case "application/x-apple-aspen-mdm":
+	} else if strings.Contains(contentType, "application/x-apple-aspen-mdm") {
 		log.Print("Received MDM Message from device.")
 		mdmServer.MdmMessageProcessor.ProcessRequest(w, r)
-
-	default:
+	} else {
 		log.Print("Unknown message")
 	}
 }
