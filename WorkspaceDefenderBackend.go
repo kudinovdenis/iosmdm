@@ -193,8 +193,8 @@ func handleInstallProfileData(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleProfileDownload(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Disposition", "attachment; filename=EnrollSigned.mobileconfig")
-	http.ServeFile(w, r, "./Static/Profile/EnrollSigned.mobileconfig")
+	w.Header().Set("Content-Disposition", "attachment; filename=EnrollSignedMac.mobileconfig")
+	http.ServeFile(w, r, "./Static/Profile/EnrollSignedMac.mobileconfig")
 }
 
 // Misc
