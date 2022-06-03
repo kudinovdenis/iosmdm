@@ -23,7 +23,7 @@ export class NavbarTitleContentPair {
         for ( var i = 0; i < length; i++ ) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-       return result;
+       return "tab" + result;
     }
 
 }
@@ -74,6 +74,8 @@ export class Navbar extends UIElement {
 
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
+                tabContent.addClass('show');
+                tabContent.addClass('active');
             }
         }
 

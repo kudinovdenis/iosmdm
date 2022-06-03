@@ -1565,7 +1565,7 @@ var NavbarTitleContentPair = /** @class */ (function () {
         for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-        return result;
+        return "tab" + result;
     };
     return NavbarTitleContentPair;
 }());
@@ -1611,6 +1611,8 @@ var Navbar = /** @class */ (function (_super) {
             tabContentContainer.append(tabContent);
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
+                tabContent.addClass('show');
+                tabContent.addClass('active');
             }
         }
         navElement.append(tabTitlesContainer);
