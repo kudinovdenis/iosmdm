@@ -1611,8 +1611,6 @@ var Navbar = /** @class */ (function (_super) {
             tabContentContainer.append(tabContent);
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
-                tabContent.addClass('show');
-                tabContent.addClass('active');
             }
         }
         navElement.append(tabTitlesContainer);

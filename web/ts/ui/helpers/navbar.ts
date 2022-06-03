@@ -74,8 +74,6 @@ export class Navbar extends UIElement {
 
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
-                tabContent.addClass('show');
-                tabContent.addClass('active');
             }
         }
 
