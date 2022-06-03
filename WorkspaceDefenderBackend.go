@@ -219,6 +219,16 @@ func handleMacOSManifestDownload(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./Static/Apps/macOS/MdmTestApp/manifest.plist")
 }
 
+func handleiOSIpaDownload(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Disposition", "attachment; filename=MdmTestApp.pkg")
+	http.ServeFile(w, r, "./Static/Apps/iOS/InternOffer/InternOffer.ipa")
+}
+
+func handleiOSManifestDownload(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Disposition", "attachment; filename=manifest.plist")
+	http.ServeFile(w, r, "./Static/Apps/iOS/InternOffer/manifest.plist")
+}
+
 // Misc
 
 func logRequest(r *http.Request) {
@@ -258,6 +268,8 @@ func main() {
 	staticRouter.HandleFunc("/profile/", handleProfileDownload)
 	staticRouter.HandleFunc("/apps/macos/mdmtestapp/pkg", handleMacOSPkgDownload)
 	staticRouter.HandleFunc("/apps/macos/mdmtestapp/manifest", handleMacOSManifestDownload)
+	staticRouter.HandleFunc("/apps/ios/internoffer/ipa", handleiOSIpaDownload)
+	staticRouter.HandleFunc("/apps/ios/internoffer/manifest", handleiOSManifestDownload)
 
 	devicesRouter := backendRouter.PathPrefix("/devices").Subrouter()
 	devicesRouter.HandleFunc("", handleDevicesRequest)
