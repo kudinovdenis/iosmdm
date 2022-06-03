@@ -377,6 +377,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DevicesControl": () => (/* binding */ DevicesControl)
 /* harmony export */ });
 /* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device_control */ "./ui/device/device_control.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -392,17 +393,65 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
 
 var DevicesControl = /** @class */ (function (_super) {
     __extends(DevicesControl, _super);
-    function DevicesControl() {
+    function DevicesControl(apiClient) {
         var _this = _super.call(this) || this;
         _this.deviceControls = [];
         _this.addClass("DevicesControl");
         _this.addClass("container");
+        _this.apiClient = apiClient;
         _this.row = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         _this.row.addClass('row');
         _this.append(_this.row);
+        _this.getJQueryElement().on('load', function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.load()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         return _this;
     }
     DevicesControl.prototype.clear = function () {
@@ -410,6 +459,28 @@ var DevicesControl = /** @class */ (function (_super) {
             var deviceControl = _a[_i];
             this.removeDeviceControl(deviceControl);
         }
+    };
+    DevicesControl.prototype.load = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var allDevices;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.apiClient.getAllDevices()];
+                    case 1:
+                        allDevices = _a.sent();
+                        this.showListOfDevices(allDevices);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    DevicesControl.prototype.showListOfDevices = function (devices) {
+        for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
+            var device = devices_1[_i];
+            var deviceControl = new _device_control__WEBPACK_IMPORTED_MODULE_1__.DeviceControl(device, this.apiClient);
+            this.appendDeviceControl(deviceControl);
+        }
+        ;
     };
     DevicesControl.prototype.appendDeviceControl = function (deviceControl) {
         this.deviceControls.push(deviceControl);
@@ -1397,6 +1468,49 @@ var Paragraph = /** @class */ (function (_super) {
 
 /***/ }),
 
+/***/ "./ui/helpers/link_button.ts":
+/*!***********************************!*\
+  !*** ./ui/helpers/link_button.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LinkButton": () => (/* binding */ LinkButton)
+/* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var LinkButton = /** @class */ (function (_super) {
+    __extends(LinkButton, _super);
+    function LinkButton(title, link) {
+        var _this = _super.call(this, $('<a>')) || this;
+        _this.addClass('btn btn-primary');
+        _this.getJQueryElement().html('Install profile');
+        _this.getJQueryElement().attr('href', link);
+        return _this;
+    }
+    return LinkButton;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
 /***/ "./ui/helpers/menu/side_menu.ts":
 /*!**************************************!*\
   !*** ./ui/helpers/menu/side_menu.ts ***!
@@ -1405,6 +1519,7 @@ var Paragraph = /** @class */ (function (_super) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MenuItem": () => (/* binding */ MenuItem),
 /* harmony export */   "SideMenu": () => (/* binding */ SideMenu)
 /* harmony export */ });
 /* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../html/div */ "./ui/helpers/html/div.ts");
@@ -1428,6 +1543,14 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+var MenuItem = /** @class */ (function () {
+    function MenuItem(identifier, content) {
+        this.identifier = identifier;
+        this.content = content;
+    }
+    return MenuItem;
+}());
+
 var SideMenu = /** @class */ (function (_super) {
     __extends(SideMenu, _super);
     function SideMenu(items, onItemSelected) {
@@ -1435,7 +1558,7 @@ var SideMenu = /** @class */ (function (_super) {
         _this.menuTable = new _table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
         var _loop_1 = function (item) {
             var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
-            menuButton.append(item);
+            menuButton.append(item.content);
             menuButton.setOnClick(function () {
                 onItemSelected(item);
             });
@@ -1930,11 +2053,14 @@ var UIElement = /** @class */ (function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "WorkspaceMenuModel": () => (/* binding */ WorkspaceMenuModel),
 /* harmony export */   "Workspace": () => (/* binding */ Workspace)
 /* harmony export */ });
-/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _html_paragraph__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./html/paragraph */ "./ui/helpers/html/paragraph.ts");
-/* harmony import */ var _menu_side_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu/side_menu */ "./ui/helpers/menu/side_menu.ts");
+/* harmony import */ var _device_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../device/devices_control */ "./ui/device/devices_control.ts");
+/* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../service_control */ "./ui/service_control.ts");
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _html_paragraph__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./menu/side_menu */ "./ui/helpers/menu/side_menu.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1953,26 +2079,97 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+
+
+var WorkspaceMenuModel = /** @class */ (function () {
+    function WorkspaceMenuModel(menuItem, content) {
+        this.menuItem = menuItem;
+        this.content = content;
+        this.identifier = this.makeid(10);
+    }
+    WorkspaceMenuModel.prototype.makeid = function (length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        // identifier must start with alphabetical character.
+        return "menu" + result;
+    };
+    return WorkspaceMenuModel;
+}());
+
 var Workspace = /** @class */ (function (_super) {
     __extends(Workspace, _super);
-    function Workspace(content) {
+    function Workspace(apiClient) {
         var _this = _super.call(this) || this;
-        var menuItem1 = new _html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph("Item1");
-        var menuItem2 = new _html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph("Item2");
-        _this.sideMenu = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_2__.SideMenu([menuItem1, menuItem2], function (item) {
+        var menuItem1 = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("id1", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Service'));
+        var menuItem2 = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("id2", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Devices'));
+        _this.content = new _html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        _this.sideMenu = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.SideMenu([menuItem1, menuItem2], function (item) {
             console.log("Selected item: ".concat(JSON.parse(JSON.stringify(item))));
+            switch (item.identifier) {
+                case 'id1':
+                    _this.content.empty();
+                    var services = new _service_control__WEBPACK_IMPORTED_MODULE_1__.ServiceControl(apiClient);
+                    _this.content.append(services);
+                case 'id2':
+                    _this.content.empty();
+                    var devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl(apiClient);
+                    _this.content.append(devicesControl);
+            }
         });
         _this.sideMenu.addClass('w-25');
-        content.addClass('w-75');
-        var container = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
+        _this.content.addClass('w-75');
+        var container = new _html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
         container.addClass('d-flex align-items-stretch');
         container.append(_this.sideMenu);
-        container.append(content);
+        container.append(_this.content);
         _this.append(container);
         return _this;
     }
     return Workspace;
-}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
+}(_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
+
+
+
+/***/ }),
+
+/***/ "./ui/service_control.ts":
+/*!*******************************!*\
+  !*** ./ui/service_control.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ServiceControl": () => (/* binding */ ServiceControl)
+/* harmony export */ });
+/* harmony import */ var _helpers_link_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/link_button */ "./ui/helpers/link_button.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var ServiceControl = /** @class */ (function (_super) {
+    __extends(ServiceControl, _super);
+    function ServiceControl(apiClient) {
+        return _super.call(this, 'Install profile', apiClient.downloadProfileLink()) || this;
+    }
+    return ServiceControl;
+}(_helpers_link_button__WEBPACK_IMPORTED_MODULE_0__.LinkButton));
 
 
 
@@ -1988,10 +2185,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WebAppControl": () => (/* binding */ WebAppControl)
 /* harmony export */ });
-/* harmony import */ var _device_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./device/devices_control */ "./ui/device/devices_control.ts");
-/* harmony import */ var _device_device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device/device_control */ "./ui/device/device_control.ts");
-/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _helpers_workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers/workspace */ "./ui/helpers/workspace.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _helpers_workspace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers/workspace */ "./ui/helpers/workspace.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2007,44 +2202,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
 
 
 var WebAppControl = /** @class */ (function (_super) {
@@ -2052,38 +2209,13 @@ var WebAppControl = /** @class */ (function (_super) {
     function WebAppControl(apiClient) {
         var _this = _super.call(this) || this;
         _this.addClass("WebAppControl");
-        // this.serviceControl = new ServiceControl(apiClient);
-        _this.devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
-        _this.workspace = new _helpers_workspace__WEBPACK_IMPORTED_MODULE_3__.Workspace(_this.devicesControl);
+        _this.workspace = new _helpers_workspace__WEBPACK_IMPORTED_MODULE_1__.Workspace(apiClient);
         _this.apiClient = apiClient;
         _this.append(_this.workspace);
-        $(document.body).append(_this.getJQueryElement());
         return _this;
     }
-    WebAppControl.prototype.load = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var allDevices;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.apiClient.getAllDevices()];
-                    case 1:
-                        allDevices = _a.sent();
-                        this.showListOfDevices(allDevices);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    WebAppControl.prototype.showListOfDevices = function (devices) {
-        for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
-            var device = devices_1[_i];
-            var deviceControl = new _device_device_control__WEBPACK_IMPORTED_MODULE_1__.DeviceControl(device, this.apiClient);
-            this.devicesControl.appendDeviceControl(deviceControl);
-        }
-        ;
-    };
     return WebAppControl;
-}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -2154,56 +2286,11 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api/api */ "./api/api.ts");
 /* harmony import */ var _ui_web_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/web_app */ "./ui/web_app.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 
 
 var apiClient = new _api_api__WEBPACK_IMPORTED_MODULE_0__.ApiImpl();
 var webAppControl = new _ui_web_app__WEBPACK_IMPORTED_MODULE_1__.WebAppControl(apiClient);
-(function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, webAppControl.load()];
-            case 1:
-                _a.sent();
-                return [2 /*return*/];
-        }
-    });
-}); })();
+$(document.body).append(webAppControl.getJQueryElement());
 
 })();
 

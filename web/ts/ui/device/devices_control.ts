@@ -1,3 +1,5 @@
+import { IApi } from "../../api/api";
+import { Device } from "../../models/models";
 import { Div } from "../helpers/html/div";
 import { UIElement } from "../helpers/uielement";
 import { DeviceControl } from "./device_control";
@@ -6,21 +8,42 @@ export class DevicesControl extends Div {
 
     deviceControls: DeviceControl[] = [];
     row: UIElement;
+    apiClient: IApi;
 
-    constructor() {
+    constructor(apiClient: IApi) {
         super();
+
         this.addClass("DevicesControl");
         this.addClass("container");
+
+        this.apiClient = apiClient;
+
         this.row = new Div()
         this.row.addClass('row');
 
         this.append(this.row);
+
+        this.getJQueryElement().on('load', async () => {
+            await this.load();
+        });
     }
 
     clear() {
         for (const deviceControl of this.deviceControls) {
             this.removeDeviceControl(deviceControl);
         }
+    }
+
+    async load() {
+        let allDevices = await this.apiClient.getAllDevices();
+        this.showListOfDevices(allDevices);
+    }
+
+    private showListOfDevices(devices: Device[]) {
+        for (const device of devices) {
+            const deviceControl = new DeviceControl(device, this.apiClient);
+            this.appendDeviceControl(deviceControl);
+        };
     }
 
     appendDeviceControl(deviceControl: DeviceControl) {

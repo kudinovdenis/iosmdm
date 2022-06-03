@@ -3,6 +3,4 @@ import { WebAppControl } from './ui/web_app'
 
 let apiClient: IApi = new ApiImpl();
 let webAppControl = new WebAppControl(apiClient);
-(async () => {
-    await webAppControl.load();
-})();
+$(document.body).append(webAppControl.getJQueryElement());
