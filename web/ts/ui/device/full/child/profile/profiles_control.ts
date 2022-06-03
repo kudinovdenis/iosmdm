@@ -5,31 +5,30 @@ import { ButtonControl } from "../../../../helpers/button";
 import { TableControl } from "../../../../helpers/table";
 import { TextField } from "../../../../helpers/textfield";
 
-export class ProfilesControl {
+export class ProfilesControl extends Div {
 
-    element: JQuery<HTMLElement>;
     device: Device;
     apiClient: IApi;
 
     constructor(device: Device, apiClient: IApi) {
+        super();
         this.device = device;
         this.apiClient = apiClient;
-        this.element = $('<div>');
         
         const listProfilesBox = this.createListProfilesBox();
-        this.element.append(listProfilesBox);
+        this.append(listProfilesBox);
 
         const installProfileBox = this.createInstallProfileBox();
-        this.element.append(installProfileBox);
+        this.append(installProfileBox);
     }
 
     // MARK: Private methods
 
-    private createListProfilesBox(): JQuery<HTMLElement> {
-        const listProfilesControl = $('<div>');
+    private createListProfilesBox(): UIElement {
+        const listProfilesControl = new Div();
 
-        const listProfilesLegend = $('<h4>').html('Load list of device profiles');
-        const listProfilesInfo = $('<p>').html('Will load all profiles on device.');
+        const listProfilesLegend = new Header4('Load list of device profiles');
+        const listProfilesInfo = new Paragraph('Will load all profiles on device.');
         const listProfilesButton = new ButtonControl('Load list of profiles');
         const listOfInstalledProfilesTable = new TableControl()
         listProfilesButton.setOnClick(async () => {
@@ -43,19 +42,19 @@ export class ProfilesControl {
         });
         listProfilesControl.append(listProfilesLegend);
         listProfilesControl.append(listProfilesInfo);
-        listProfilesControl.append(listProfilesButton.element);
-        listProfilesControl.append(listOfInstalledProfilesTable.element);
+        listProfilesControl.append(listProfilesButton);
+        listProfilesControl.append(listOfInstalledProfilesTable);
 
         const listProfilesBox = new Border(listProfilesControl);
 
-        return listProfilesBox.element;
+        return listProfilesBox;
     }
 
-    private createInstallProfileBox(): JQuery<HTMLElement> {
-        const control = $('<div>');
+    private createInstallProfileBox(): UIElement {
+        const control = new Div();
 
-        const title = $('<h4>').html('Install arbitrary profile');
-        const legend = $('<p>').html('Payload XML should be in base64');
+        const title = new Header4('Install arbitrary profile');
+        const legend = new Paragraph('Payload XML should be in base64');
         const textField = new TextField('Insert b64 data here');
         const installButton = new ButtonControl('Install');
         installButton.setOnClick(async () => {
@@ -68,10 +67,10 @@ export class ProfilesControl {
 
         control.append(title);
         control.append(legend);
-        control.append(textField.element);
-        control.append(installButton.element);
+        control.append(textField);
+        control.append(installButton);
 
-        const box = new Border(control).element;
+        const box = new Border(control);
 
         return box;
     }

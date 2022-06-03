@@ -3,13 +3,12 @@ import { Device, QueryResponses } from "../../../../../models/models";
 import { ButtonControl } from "../../../../helpers/button";
 import { TableControl } from "../../../../helpers/table";
 
-export class DeviceBasicInfoControl {
+export class DeviceBasicInfoControl extends UIElement {
 
-    element: JQuery<HTMLElement>;
     table: TableControl;
 
     constructor(device: Device, apiClient: IApi) {
-       this.element = $('<div>')
+       super($('<div>'));
        
        this.table = new TableControl();
        this.table.setHeadersText(["Parameter", "Value", "Description"]);
@@ -19,10 +18,10 @@ export class DeviceBasicInfoControl {
        this.table.appendRowText(["Topic", device.Topic, "Unique string describing client-server interaction"]);
        this.table.appendRowText(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
 
-       this.element.append(this.table.element);
+       this.append(this.table);
 
        const queryAdditionalInfoButton = new ButtonControl('Query additional device information');
-       this.element.append(queryAdditionalInfoButton.element);
+       this.append(queryAdditionalInfoButton);
        queryAdditionalInfoButton.setOnClick(async () => {
            queryAdditionalInfoButton.startLoading();
            const deviceInfo = await apiClient.getDeviceInfo(device);
@@ -55,7 +54,9 @@ export class DeviceBasicInfoControl {
                 serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
 
-            this.table.appendRow([$('<p>').html(`ServiceSubscription[${i}]`), serviceSubscriptionTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+            const serviceSubscriptionP = new Paragraph(`ServiceSubscription[${i}]`);
+            const serviceSubscriptionDescriptionP = new Paragraph(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"));
+            this.table.appendRow([serviceSubscriptionP, serviceSubscriptionTable, serviceSubscriptionDescriptionP]);
 
             i += 1
         }
@@ -71,7 +72,9 @@ export class DeviceBasicInfoControl {
             osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
 
-        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
+        const osUpdateSettings = new Paragraph('OSUpdateSettings');
+        const osUpdateSettingsDescription = new Paragraph(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"));
+        this.table.appendRow([osUpdateSettings, osUpdateSettingsInfoTable, osUpdateSettingsDescription]);
     }
 
     private descriptionForDeviceInfoKeyName(key: string): string {

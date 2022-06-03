@@ -1,9 +1,7 @@
-export class TableControl {
+export class TableControl extends UIElement {
 
-    element: JQuery<HTMLElement>
-
-    private header: JQuery<HTMLElement>
-    private body: JQuery<HTMLElement>
+    private header: UIElement;
+    private body: UIElement;
 
     /**
      * 
@@ -38,13 +36,15 @@ export class TableControl {
         </table>
      */
     constructor() {
-        this.element = $('<table>').addClass('table').addClass('table-striped');
+        super($('<table>'));
+        this.addClass('table');
+        this.addClass('table-striped')
 
-        this.header = $('<thead>');
-        this.body = $('<tbody>');
+        this.header = new UIElement($('<thead>'));
+        this.body = new UIElement($('<tbody>'));
 
-        this.element.append(this.header);
-        this.element.append(this.body);
+        this.append(this.header);
+        this.append(this.body);
     }
 
     setHeadersText(headers: string[]) {
@@ -55,9 +55,9 @@ export class TableControl {
     }
 
     setHeaders(headers: JQuery<HTMLElement>[]) {
-        const row = $('<tr>');
+        const row = new UIElement($('<tr>'));
         for (const header of headers) {
-            const col = $('<th>').append(header);
+            const col = new UIElement($('<th>').append(header));
             row.append(col);
         }
         this.header.empty();
@@ -66,15 +66,16 @@ export class TableControl {
 
     appendRowText(rowContent: string[]) {
         const rowContentElements = rowContent.map((val) => {
-            return $('<p>').html(val);
+            return new Paragraph(val);
         })
         this.appendRow(rowContentElements);
     }
 
-    appendRow(rowContent: JQuery<HTMLElement>[]) {
-        const row = $('<tr>');
+    appendRow(rowContent: UIElement[]) {
+        const row = new UIElement($('<tr>'));
         for (const rowColumn of rowContent) {
-            const col = $('<td>').append(rowColumn);
+            const col = new UIElement($('<td>'))
+            col.append(rowColumn);
             row.append(col);
         }
         this.body.append(row);
@@ -107,8 +108,8 @@ export class TableControl {
             case "object":
                 const newTable = new TableControl();
                 newTable.addObject(o);
-                const title = $('<p>').html(key);
-                this.appendRow([title, newTable.element]);
+                const title = new Paragraph(key);
+                this.appendRow([title, newTable]);
                 break;
         }
     }

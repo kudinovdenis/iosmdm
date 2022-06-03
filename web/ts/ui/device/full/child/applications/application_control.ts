@@ -2,29 +2,28 @@
 
 import { ApplicationInfo } from "../../../../../models/models"
 
-export class ApplicationControl {
+export class ApplicationControl extends UIElement {
 
-    element: JQuery<HTMLElement>
     applicationInfo: ApplicationInfo
 
     constructor(applicationInfo: ApplicationInfo) {
-        this.element = $("<div>")
+        super($("<div>")
             .addClass('card')
-            .addClass('ApplicationControl')
+            .addClass('ApplicationControl'));
 
-        const nameDiv = $('<p>').text(`App: ${ applicationInfo.Name }`);
-        const identifierDiv = $('<p>').text(`Identifier: ${ applicationInfo.Identifier }`);
-        const appVersionDiv = $('<p>').text(`Version: ${ applicationInfo.Version }`);
+        const nameDiv = new UIElement($('<p>').text(`App: ${ applicationInfo.Name }`));
+        const identifierDiv = new UIElement($('<p>').text(`Identifier: ${ applicationInfo.Identifier }`));
+        const appVersionDiv = new UIElement($('<p>').text(`Version: ${ applicationInfo.Version }`));
 
-        this.element.append(nameDiv);
-        this.element.append(identifierDiv);
-        this.element.append(appVersionDiv);
+        this.append(nameDiv);
+        this.append(identifierDiv);
+        this.append(appVersionDiv);
 
         this.applicationInfo = applicationInfo;
     }
 
     clear() {
-        this.element.empty();
+        this.empty();
     }
 
 }

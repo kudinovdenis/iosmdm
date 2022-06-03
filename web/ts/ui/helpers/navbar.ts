@@ -1,12 +1,12 @@
 export class NavbarTitleContentPair {
 
     title: string;
-    content: JQuery<HTMLElement>;
+    content: UIElement
     tabIdentifier: string
     contentIdentifier: string
     isSelected: boolean;
 
-    constructor(title: string, content: JQuery<HTMLElement>, isSelected: boolean) {
+    constructor(title: string, content: UIElement, isSelected: boolean) {
         this.title = title;
         this.content = content;
         this.isSelected = isSelected;
@@ -26,7 +26,7 @@ export class NavbarTitleContentPair {
 
 }
 
-export class Navbar {
+export class Navbar extends UIElement {
     /**
      *  <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -41,46 +41,46 @@ export class Navbar {
             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
         </div>
      */
-    element: JQuery<HTMLElement>;
 
     constructor(data: NavbarTitleContentPair[]) {
-        this.element = $('<div>');
+        super($('<div>'));
 
-        const navElement = $('<nav>');
+        const navElement = new UIElement($('<nav>'));
 
-        const tabTitlesContainer = $('<div>')
+        const tabTitlesContainer = new UIElement($('<div>')
             .addClass('nav')
-            .addClass('nav-tabs');
+            .addClass('nav-tabs'));
 
-        const tabContentContainer = $('<div>').addClass('tab-content');
+        const tabContentContainer = new UIElement($('<div>').addClass('tab-content'));
 
         for (const titleContentPair of data) {
-            const tabTitle = $('<div>')
+            const tabTitle = new UIElement($('<div>')
                 .addClass('nav-link')
                 .attr('data-bs-toggle', 'tab')
                 .attr('data-bs-target', `#${titleContentPair.contentIdentifier}`)
                 .attr('id', titleContentPair.tabIdentifier)
                 .attr('type', 'button')
-                .html(titleContentPair.title);
+                .html(titleContentPair.title));
             tabTitlesContainer.append(tabTitle);
 
-            const tabContent = $('<div>')
+            const tabContent = new UIElement($('<div>')
                 .addClass('tab-pane')
                 .addClass('fade')
-                .attr('id', titleContentPair.contentIdentifier);
+                .attr('id', titleContentPair.contentIdentifier));
             tabContent.append(titleContentPair.content);
             tabContentContainer.append(tabContent);
 
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
-                tabContent.addClass('show').addClass('active');
+                tabContent.addClass('show');
+                tabContent.addClass('active');
             }
         }
 
         navElement.append(tabTitlesContainer);
 
-        this.element.append(navElement);
-        this.element.append(tabContentContainer);
+        this.append(navElement);
+        this.append(tabContentContainer);
     }
     
 }

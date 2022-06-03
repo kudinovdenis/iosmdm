@@ -1,39 +1,27 @@
-export class ButtonControl {
+export class ButtonControl extends UIElement {
 
-    element: JQuery<HTMLElement>;
-    private spiner: JQuery<HTMLElement>;
+    private spiner: Spiner;
 
     constructor(title: string, onClick?: () => void) {
-        this.element = $('<button>')
-            .addClass('btn')
-            .addClass('btn-primary');
+        super($('<button>'));
+        this.addClass('btn');
+        this.addClass('btn-primary');
 
-        this.element.html(title);
+        this.getJQueryElement().html(title);
 
-        this.spiner = this.createSpinner();
+        this.spiner = new Spiner();
 
-        this.element.on('click', onClick);
+        this.setOnClick(onClick);
     }
 
     startLoading() {
-        this.element.prop('disabled', true);
-        this.element.prepend(this.spiner);
+        this.disableUserInteraction();
+        this.placeElementOnTop(this.spiner);
     }
 
     stopLoading() {
-        this.element.prop('disabled', false);
+        this.enableUserInteraction();
         this.spiner.remove();
-    }
-
-    setOnClick(onClick?: () => void) {
-        this.element.on('click', onClick);
-    }
-
-    private createSpinner(): JQuery<HTMLElement> {
-        const spinner = $("<span>")
-            .addClass('spinner-grow')
-            .addClass('spinner-grow-sm')
-        return spinner;
     }
 
 }

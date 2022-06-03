@@ -1,17 +1,16 @@
-export class TextField {
-
-    element: JQuery<HTMLElement>;
+export class TextField extends UIElement {
 
     constructor(placeholder: string) {
-        this.element = $('<input>').prop('placeholder', placeholder);
+        super($('<input>'))
+        this.getJQueryElement().prop('placeholder', placeholder);
     }
 
     text(): string {
-        return this.element.val() as string;
+        return this.getJQueryElement().val() as string;
     }
 
     number(): number {
-        return this.element.val() as number;
+        return this.getJQueryElement().val() as number;
     }
     
 }

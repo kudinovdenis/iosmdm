@@ -1,22 +1,30 @@
-export class ModalWindow {
+export class ModalWindow extends Div {
 
-    element: JQuery<HTMLElement>;
+    constructor(title: string, body: UIElement) {
+        super();
+        this.addClass('modal');
+        this.addClass('fade');
 
-    constructor(title: string, body: JQuery<HTMLElement>) {
-        this.element = $('<div>').addClass('modal').addClass('fade');
-        const modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-xl');
+        const modalDialog = new Div()
+        modalDialog.addClass('modal-dialog');
+        modalDialog.addClass('modal-xl');
 
-        const modalContent = $('<div>').addClass('modal-content');
+        const modalContent = new Div();
+        modalContent.addClass('modal-content');
 
         modalContent.append(this.modalHeader(title));
         modalContent.append(this.modalBody(body));
 
         modalDialog.append(modalContent);
 
-        this.element.append(modalDialog);
+        this.append(modalDialog);
     }
 
-    modalHeader(title: string): JQuery<HTMLElement> {
+    show() {
+        this.getJQueryElement().modal('show');
+    }
+
+    private modalHeader(title: string): UIElement {
         /**
          * <!-- Modal Header -->
       <div class="modal-header">
@@ -24,23 +32,28 @@ export class ModalWindow {
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
          */
-        const header = $('<div>').addClass('modal-header');
-        const modalTitle = $('<div>').addClass('modal-title')
-        modalTitle.html(title);
-        const closeButton = $('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal')
+        const header = new Div();
+        header.addClass('modal-header');
 
-        header.append(title);
+        const modalTitle = new Header4(title);
+        modalTitle.addClass('modal-title');
+
+        const closeButton = new UIElement($('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal'));
+
+        header.append(modalTitle);
         header.append(closeButton);
 
         return header;
     }
 
-    modalBody(body: JQuery<HTMLElement>): JQuery<HTMLElement> {
+    private modalBody(body: UIElement): UIElement {
         // anything goes in html
-        const modalBody = $('<div>').addClass('modal-body');
+        const modalBody = new Div();
+        modalBody.addClass('modal-body');
+
         modalBody.append(body);
 
-        return body;
+        return modalBody;
     }
 
 }

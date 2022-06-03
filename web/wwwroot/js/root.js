@@ -307,36 +307,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./full/full_device_info */ "./ui/device/full/full_device_info.ts");
 /* harmony import */ var _helpers_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/modal */ "./ui/helpers/modal.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
-var DeviceControl = /** @class */ (function () {
+var DeviceControl = /** @class */ (function (_super) {
+    __extends(DeviceControl, _super);
     function DeviceControl(device, apiClient) {
-        this.element = $('<div>').addClass('col');
-        this.card = $('<a>')
+        var _this = _super.call(this) || this;
+        _this.addClass('col');
+        _this.card = new UIElement($('<a>')
             .addClass('DeviceControl')
             .addClass('card')
             .addClass('p-3') // padding (inside)
             .addClass('m-3') // margin (outside)
-            .attr('style', 'width: 18rem;');
-        var udidDiv = $('<p>').text("Device: ".concat(device.UDID, "."));
-        var lastConnectionDateDiv = $('<p>').text("LastConnectionDate: ".concat(device.LastConnectionDate));
-        this.card.append(udidDiv);
-        this.card.append(lastConnectionDateDiv);
-        this.device = device;
-        this.apiClient = apiClient;
-        this.fullDeviceInfoControl = new _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__.FullDeviceInfoControl(device, apiClient);
-        var modalFullDeviceIfoControl = new _helpers_modal__WEBPACK_IMPORTED_MODULE_1__.ModalWindow("Device info", this.fullDeviceInfoControl.element);
-        this.element.append(modalFullDeviceIfoControl.element);
-        this.card.on('click', function () {
-            modalFullDeviceIfoControl.element.modal('show');
+            .attr('style', 'width: 18rem;'));
+        var udidDiv = new Paragraph("Device: ".concat(device.UDID, "."));
+        var lastConnectionDateDiv = new Paragraph("LastConnectionDate: ".concat(device.LastConnectionDate));
+        _this.card.append(udidDiv);
+        _this.card.append(lastConnectionDateDiv);
+        _this.device = device;
+        _this.apiClient = apiClient;
+        _this.fullDeviceInfoControl = new _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__.FullDeviceInfoControl(device, apiClient);
+        var modalFullDeviceIfoControl = new _helpers_modal__WEBPACK_IMPORTED_MODULE_1__.ModalWindow("Device info", _this.fullDeviceInfoControl);
+        _this.append(modalFullDeviceIfoControl);
+        _this.card.setOnClick(function () {
+            modalFullDeviceIfoControl.show();
         });
-        this.element.append(this.card);
+        _this.append(_this.card);
+        return _this;
     }
     DeviceControl.prototype.clear = function () {
         this.fullDeviceInfoControl.clear();
     };
     return DeviceControl;
-}());
+}(Div));
 
 
 
@@ -352,12 +370,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DevicesControl": () => (/* binding */ DevicesControl)
 /* harmony export */ });
-var DevicesControl = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var DevicesControl = /** @class */ (function (_super) {
+    __extends(DevicesControl, _super);
     function DevicesControl() {
-        this.deviceControls = [];
-        this.element = $("<div>").addClass("DevicesControl").addClass("container");
-        this.row = $('<div>').addClass('row');
-        this.element.append(this.row);
+        var _this = _super.call(this) || this;
+        _this.deviceControls = [];
+        _this.addClass("DevicesControl");
+        _this.addClass("container");
+        _this.row = new Div();
+        _this.row.addClass('row');
+        _this.append(_this.row);
+        return _this;
     }
     DevicesControl.prototype.clear = function () {
         for (var _i = 0, _a = this.deviceControls; _i < _a.length; _i++) {
@@ -367,17 +405,17 @@ var DevicesControl = /** @class */ (function () {
     };
     DevicesControl.prototype.appendDeviceControl = function (deviceControl) {
         this.deviceControls.push(deviceControl);
-        this.row.append(deviceControl.element);
+        this.row.append(deviceControl);
     };
     DevicesControl.prototype.removeDeviceControl = function (deviceControl) {
-        deviceControl.element.remove();
+        deviceControl.remove();
         var index = this.deviceControls.indexOf(deviceControl, 0);
         if (index > -1) {
             this.deviceControls.splice(index, 1);
         }
     };
     return DevicesControl;
-}());
+}(Div));
 
 
 
@@ -394,24 +432,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ApplicationControl": () => (/* binding */ ApplicationControl)
 /* harmony export */ });
 /// <reference types="jquery" />
-var ApplicationControl = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var ApplicationControl = /** @class */ (function (_super) {
+    __extends(ApplicationControl, _super);
     function ApplicationControl(applicationInfo) {
-        this.element = $("<div>")
+        var _this = _super.call(this, $("<div>")
             .addClass('card')
-            .addClass('ApplicationControl');
-        var nameDiv = $('<p>').text("App: ".concat(applicationInfo.Name));
-        var identifierDiv = $('<p>').text("Identifier: ".concat(applicationInfo.Identifier));
-        var appVersionDiv = $('<p>').text("Version: ".concat(applicationInfo.Version));
-        this.element.append(nameDiv);
-        this.element.append(identifierDiv);
-        this.element.append(appVersionDiv);
-        this.applicationInfo = applicationInfo;
+            .addClass('ApplicationControl')) || this;
+        var nameDiv = new UIElement($('<p>').text("App: ".concat(applicationInfo.Name)));
+        var identifierDiv = new UIElement($('<p>').text("Identifier: ".concat(applicationInfo.Identifier)));
+        var appVersionDiv = new UIElement($('<p>').text("Version: ".concat(applicationInfo.Version)));
+        _this.append(nameDiv);
+        _this.append(identifierDiv);
+        _this.append(appVersionDiv);
+        _this.applicationInfo = applicationInfo;
+        return _this;
     }
     ApplicationControl.prototype.clear = function () {
-        this.element.empty();
+        this.empty();
     };
     return ApplicationControl;
-}());
+}(UIElement));
 
 
 
@@ -431,6 +486,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
 /* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
 /* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -471,19 +541,52 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-var ApplicationsControl = /** @class */ (function () {
+var ApplicationsControl = /** @class */ (function (_super) {
+    __extends(ApplicationsControl, _super);
     function ApplicationsControl(device, apiClient) {
+        var _this = _super.call(this) || this;
+        _this.applicationControls = [];
+        _this.addClass('ApplicationsControl');
+        _this.addClass('container');
+        _this.device = device;
+        _this.apiClient = apiClient;
+        // install KSC for iOS app button
+        var installKSCForiOSForm = _this.makeInstallKSCForiOSForm(apiClient, device);
+        _this.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installKSCForiOSForm));
+        // Arbitrary app form        
+        var installArbitraryAppFromAppStoreForm = _this.makeInstallArbitraryAppFromAppStoreForm(apiClient, device);
+        _this.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryAppFromAppStoreForm));
+        // Install with manifest URL
+        var installByManifestURLForm = _this.makeInstallWithManifestURLForm(apiClient, device);
+        _this.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installByManifestURLForm));
+        // Load list of applications
+        _this.applicationsListForm = _this.makeLoadListOfApplicationsForm(apiClient, device);
+        _this.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(_this.applicationsListForm));
+        return _this;
+    }
+    ApplicationsControl.prototype.clear = function () {
+        for (var _i = 0, _a = this.applicationControls; _i < _a.length; _i++) {
+            var applicationControl = _a[_i];
+            this.removeApplicationControl(applicationControl);
+        }
+    };
+    ApplicationsControl.prototype.appendApplicationControl = function (applicationControl) {
+        this.applicationControls.push(applicationControl);
+        this.applicationsListForm.append(applicationControl);
+    };
+    ApplicationsControl.prototype.removeApplicationControl = function (applicationControl) {
+        applicationControl.remove();
+        var index = this.applicationControls.indexOf(applicationControl, 0);
+        if (index > -1) {
+            this.applicationControls.splice(index, 1);
+        }
+    };
+    // MARK: Private
+    ApplicationsControl.prototype.makeInstallKSCForiOSForm = function (apiClient, device) {
         var _this = this;
-        this.applicationControls = [];
-        this.device = device;
-        this.apiClient = apiClient;
-        this.element = $('<div>')
-            .addClass('ApplicationsControl')
-            .addClass('container');
-        // install KSC button
-        var installKSCForm = $('<div>');
-        var installKSCLegend = $('<h4>').html('Installation Kaspersky Security Cloud (KSC) for iOS');
-        var installKSCInfo = $('<p>').html('Device will prompt installation.');
+        var installKSCForm = new Div();
+        var installKSCLegend = new Header4('Installation Kaspersky Security Cloud (KSC) for iOS');
+        var installKSCInfo = new Paragraph('Device will prompt installation.');
         var installKSCButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Tap to install from AppStore');
         installKSCButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -500,12 +603,13 @@ var ApplicationsControl = /** @class */ (function () {
         }); });
         installKSCForm.append(installKSCLegend);
         installKSCForm.append(installKSCInfo);
-        installKSCForm.append(installKSCButton.element);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installKSCForm).element);
-        // Arbitrary app form
-        var installArbitraryApplicationForm = $('<div>');
-        var legend = $('<h4>').html('Installation of arbitrary application');
-        var label = $('<p>').html('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        installKSCForm.append(installKSCButton);
+        return installKSCForm;
+    };
+    ApplicationsControl.prototype.makeInstallArbitraryAppFromAppStoreForm = function (apiClient, device) {
+        var installArbitraryApplicationForm = new Div();
+        var legend = new Header4('Installation of arbitrary application');
+        var label = new Paragraph('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
         var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Application id');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
@@ -515,68 +619,14 @@ var ApplicationsControl = /** @class */ (function () {
         });
         installArbitraryApplicationForm.append(legend);
         installArbitraryApplicationForm.append(label);
-        installArbitraryApplicationForm.append(input.element);
-        installArbitraryApplicationForm.append(installButton.element);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryApplicationForm).element);
-        // Install with manifest URL
-        var installByManifestURLForm = this.installWithManifestURLForm(apiClient, device);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installByManifestURLForm).element);
-        // Load list of applications
-        this.applicationsListForm = $('<div>');
-        var applicationsListLegend = $('<h4>').html('Request installed applications list');
-        this.loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
-        this.loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
-            var applications, _i, applications_1, application, applicationControl;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.clear();
-                        this.startLoading();
-                        return [4 /*yield*/, apiClient.getListOfApplications(device)];
-                    case 1:
-                        applications = _a.sent();
-                        this.stopLoading();
-                        for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
-                            application = applications_1[_i];
-                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_3__.ApplicationControl(application);
-                            this.appendApplicationControl(applicationControl);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        }); });
-        this.applicationsListForm.append(applicationsListLegend);
-        this.applicationsListForm.append(this.loadListOfApplicationsButton.element);
-        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(this.applicationsListForm).element);
-    }
-    ApplicationsControl.prototype.clear = function () {
-        for (var _i = 0, _a = this.applicationControls; _i < _a.length; _i++) {
-            var applicationControl = _a[_i];
-            this.removeApplicationControl(applicationControl);
-        }
+        installArbitraryApplicationForm.append(input);
+        installArbitraryApplicationForm.append(installButton);
+        return installArbitraryApplicationForm;
     };
-    ApplicationsControl.prototype.appendApplicationControl = function (applicationControl) {
-        this.applicationControls.push(applicationControl);
-        this.applicationsListForm.append(applicationControl.element);
-    };
-    ApplicationsControl.prototype.removeApplicationControl = function (applicationControl) {
-        applicationControl.element.remove();
-        var index = this.applicationControls.indexOf(applicationControl, 0);
-        if (index > -1) {
-            this.applicationControls.splice(index, 1);
-        }
-    };
-    ApplicationsControl.prototype.startLoading = function () {
-        this.loadListOfApplicationsButton.startLoading();
-    };
-    ApplicationsControl.prototype.stopLoading = function () {
-        this.loadListOfApplicationsButton.stopLoading();
-    };
-    // MARK: Private
-    ApplicationsControl.prototype.installWithManifestURLForm = function (apiClient, device) {
-        var form = $('<div>');
-        var legend = $('<h4>').html('Installation by Manifest URL');
-        var label = $('<p>').html('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
+    ApplicationsControl.prototype.makeInstallWithManifestURLForm = function (apiClient, device) {
+        var form = new Div();
+        var legend = new Header4('Installation by Manifest URL');
+        var label = new Paragraph('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
         var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Manifest URL');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
@@ -586,12 +636,41 @@ var ApplicationsControl = /** @class */ (function () {
         });
         form.append(legend);
         form.append(label);
-        form.append(input.element);
-        form.append(installButton.element);
+        form.append(input);
+        form.append(installButton);
         return form;
     };
+    ApplicationsControl.prototype.makeLoadListOfApplicationsForm = function (apiClient, device) {
+        var _this = this;
+        var applicationsListForm = new Div();
+        var applicationsListLegend = new Header4('Request installed applications list');
+        var loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
+        loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
+            var applications, _i, applications_1, application, applicationControl;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.clear();
+                        loadListOfApplicationsButton.startLoading();
+                        return [4 /*yield*/, apiClient.getListOfApplications(device)];
+                    case 1:
+                        applications = _a.sent();
+                        loadListOfApplicationsButton.stopLoading();
+                        for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
+                            application = applications_1[_i];
+                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_3__.ApplicationControl(application);
+                            this.appendApplicationControl(applicationControl);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        applicationsListForm.append(applicationsListLegend);
+        applicationsListForm.append(loadListOfApplicationsButton);
+        return applicationsListForm;
+    };
     return ApplicationsControl;
-}());
+}(Div));
 
 
 
@@ -609,6 +688,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
 /* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -647,20 +741,20 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
-var DeviceBasicInfoControl = /** @class */ (function () {
+var DeviceBasicInfoControl = /** @class */ (function (_super) {
+    __extends(DeviceBasicInfoControl, _super);
     function DeviceBasicInfoControl(device, apiClient) {
-        var _this = this;
-        this.element = $('<div>');
-        this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
-        this.table.setHeadersText(["Parameter", "Value", "Description"]);
-        this.table.appendRowText(["Identifier", device.UDID, "UDID"]);
-        this.table.appendRowText(["Push token", device.PushToken, "Used to send push"]);
-        this.table.appendRowText(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
-        this.table.appendRowText(["Topic", device.Topic, "Unique string describing client-server interaction"]);
-        this.table.appendRowText(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
-        this.element.append(this.table.element);
+        var _this = _super.call(this, $('<div>')) || this;
+        _this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        _this.table.setHeadersText(["Parameter", "Value", "Description"]);
+        _this.table.appendRowText(["Identifier", device.UDID, "UDID"]);
+        _this.table.appendRowText(["Push token", device.PushToken, "Used to send push"]);
+        _this.table.appendRowText(["Push magic", device.PushMagic, "Used to send MDM payloads"]);
+        _this.table.appendRowText(["Topic", device.Topic, "Unique string describing client-server interaction"]);
+        _this.table.appendRowText(["CheckedOut", device.CheckedOut ? "true" : "false", "Is device removed from MDM"]);
+        _this.append(_this.table);
         var queryAdditionalInfoButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_0__.ButtonControl('Query additional device information');
-        this.element.append(queryAdditionalInfoButton.element);
+        _this.append(queryAdditionalInfoButton);
         queryAdditionalInfoButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var deviceInfo;
             return __generator(this, function (_a) {
@@ -676,6 +770,7 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                 }
             });
         }); });
+        return _this;
     }
     DeviceBasicInfoControl.prototype.fillTable = function (deviceInfo) {
         var keys = Object.keys(deviceInfo);
@@ -699,7 +794,9 @@ var DeviceBasicInfoControl = /** @class */ (function () {
                 var key = serviceSubscriptionKeys_1[_b];
                 serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
-            this.table.appendRow([$('<p>').html("ServiceSubscription[".concat(i, "]")), serviceSubscriptionTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"))]);
+            var serviceSubscriptionP = new Paragraph("ServiceSubscription[".concat(i, "]"));
+            var serviceSubscriptionDescriptionP = new Paragraph(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"));
+            this.table.appendRow([serviceSubscriptionP, serviceSubscriptionTable, serviceSubscriptionDescriptionP]);
             i += 1;
         }
         // OSUpdateSettings
@@ -711,7 +808,9 @@ var DeviceBasicInfoControl = /** @class */ (function () {
             var key = osUpdateSettingsInfoKeys_1[_c];
             osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
-        this.table.appendRow([$('<p>').html('OSUpdateSettings'), osUpdateSettingsInfoTable.element, $('<p>').html(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"))]);
+        var osUpdateSettings = new Paragraph('OSUpdateSettings');
+        var osUpdateSettingsDescription = new Paragraph(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"));
+        this.table.appendRow([osUpdateSettings, osUpdateSettingsInfoTable, osUpdateSettingsDescription]);
     };
     DeviceBasicInfoControl.prototype.descriptionForDeviceInfoKeyName = function (key) {
         switch (key) {
@@ -838,7 +937,7 @@ var DeviceBasicInfoControl = /** @class */ (function () {
         }
     };
     return DeviceBasicInfoControl;
-}());
+}(UIElement));
 
 
 
@@ -858,6 +957,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
 /* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
 /* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -898,22 +1012,24 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-var ProfilesControl = /** @class */ (function () {
+var ProfilesControl = /** @class */ (function (_super) {
+    __extends(ProfilesControl, _super);
     function ProfilesControl(device, apiClient) {
-        this.device = device;
-        this.apiClient = apiClient;
-        this.element = $('<div>');
-        var listProfilesBox = this.createListProfilesBox();
-        this.element.append(listProfilesBox);
-        var installProfileBox = this.createInstallProfileBox();
-        this.element.append(installProfileBox);
+        var _this = _super.call(this) || this;
+        _this.device = device;
+        _this.apiClient = apiClient;
+        var listProfilesBox = _this.createListProfilesBox();
+        _this.append(listProfilesBox);
+        var installProfileBox = _this.createInstallProfileBox();
+        _this.append(installProfileBox);
+        return _this;
     }
     // MARK: Private methods
     ProfilesControl.prototype.createListProfilesBox = function () {
         var _this = this;
-        var listProfilesControl = $('<div>');
-        var listProfilesLegend = $('<h4>').html('Load list of device profiles');
-        var listProfilesInfo = $('<p>').html('Will load all profiles on device.');
+        var listProfilesControl = new Div();
+        var listProfilesLegend = new Header4('Load list of device profiles');
+        var listProfilesInfo = new Paragraph('Will load all profiles on device.');
         var listProfilesButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load list of profiles');
         var listOfInstalledProfilesTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_2__.TableControl();
         listProfilesButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -934,16 +1050,16 @@ var ProfilesControl = /** @class */ (function () {
         }); });
         listProfilesControl.append(listProfilesLegend);
         listProfilesControl.append(listProfilesInfo);
-        listProfilesControl.append(listProfilesButton.element);
-        listProfilesControl.append(listOfInstalledProfilesTable.element);
+        listProfilesControl.append(listProfilesButton);
+        listProfilesControl.append(listOfInstalledProfilesTable);
         var listProfilesBox = new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(listProfilesControl);
-        return listProfilesBox.element;
+        return listProfilesBox;
     };
     ProfilesControl.prototype.createInstallProfileBox = function () {
         var _this = this;
-        var control = $('<div>');
-        var title = $('<h4>').html('Install arbitrary profile');
-        var legend = $('<p>').html('Payload XML should be in base64');
+        var control = new Div();
+        var title = new Header4('Install arbitrary profile');
+        var legend = new Paragraph('Payload XML should be in base64');
         var textField = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__.TextField('Insert b64 data here');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install');
         installButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -956,13 +1072,13 @@ var ProfilesControl = /** @class */ (function () {
         }); });
         control.append(title);
         control.append(legend);
-        control.append(textField.element);
-        control.append(installButton.element);
-        var box = new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(control).element;
+        control.append(textField);
+        control.append(installButton);
+        var box = new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(control);
         return box;
     };
     return ProfilesControl;
-}());
+}(Div));
 
 
 
@@ -982,28 +1098,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./child/applications/applications_control */ "./ui/device/full/child/applications/applications_control.ts");
 /* harmony import */ var _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./child/basic/device_basic_info */ "./ui/device/full/child/basic/device_basic_info.ts");
 /* harmony import */ var _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./child/profile/profiles_control */ "./ui/device/full/child/profile/profiles_control.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
 
 
-var FullDeviceInfoControl = /** @class */ (function () {
+var FullDeviceInfoControl = /** @class */ (function (_super) {
+    __extends(FullDeviceInfoControl, _super);
     function FullDeviceInfoControl(device, apiClient) {
-        this.element = $('<div>').addClass('FullDeviceInfoControl');
-        this.deviceBasicInfo = new _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_2__.DeviceBasicInfoControl(device, apiClient);
-        this.applicationsControl = new _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_1__.ApplicationsControl(device, apiClient);
-        this.profilesControl = new _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_3__.ProfilesControl(device, apiClient);
+        var _this = _super.call(this, $('<div>').addClass('FullDeviceInfoControl')) || this;
+        _this.deviceBasicInfo = new _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_2__.DeviceBasicInfoControl(device, apiClient);
+        _this.applicationsControl = new _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_1__.ApplicationsControl(device, apiClient);
+        _this.profilesControl = new _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_3__.ProfilesControl(device, apiClient);
         var navBarData = [
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Basic info', this.deviceBasicInfo.element, true),
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Applications', this.applicationsControl.element, false),
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Profiles', this.profilesControl.element, false)
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Basic info', _this.deviceBasicInfo, true),
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Applications', _this.applicationsControl, false),
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Profiles', _this.profilesControl, false)
         ];
         var navBar = new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.Navbar(navBarData);
-        this.element.append(navBar.element);
+        _this.append(navBar);
+        return _this;
     }
     FullDeviceInfoControl.prototype.clear = function () {
     };
     return FullDeviceInfoControl;
-}());
+}(UIElement));
 
 
 
@@ -1019,17 +1152,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Border": () => (/* binding */ Border)
 /* harmony export */ });
-var Border = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Border = /** @class */ (function (_super) {
+    __extends(Border, _super);
     function Border(child) {
-        this.element = $('<div>')
+        var _this = _super.call(this, $('<div>')
             .addClass('border')
             .addClass('border-primary')
             .addClass('p-3')
-            .addClass('m-3');
-        this.element.append(child);
+            .addClass('m-3')) || this;
+        _this.append(child);
+        return _this;
     }
     return Border;
-}());
+}(UIElement));
 
 
 
@@ -1045,34 +1195,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ButtonControl": () => (/* binding */ ButtonControl)
 /* harmony export */ });
-var ButtonControl = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var ButtonControl = /** @class */ (function (_super) {
+    __extends(ButtonControl, _super);
     function ButtonControl(title, onClick) {
-        this.element = $('<button>')
-            .addClass('btn')
-            .addClass('btn-primary');
-        this.element.html(title);
-        this.spiner = this.createSpinner();
-        this.element.on('click', onClick);
+        var _this = _super.call(this, $('<button>')) || this;
+        _this.addClass('btn');
+        _this.addClass('btn-primary');
+        _this.getJQueryElement().html(title);
+        _this.spiner = new Spiner();
+        _this.setOnClick(onClick);
+        return _this;
     }
     ButtonControl.prototype.startLoading = function () {
-        this.element.prop('disabled', true);
-        this.element.prepend(this.spiner);
+        this.disableUserInteraction();
+        this.placeElementOnTop(this.spiner);
     };
     ButtonControl.prototype.stopLoading = function () {
-        this.element.prop('disabled', false);
+        this.enableUserInteraction();
         this.spiner.remove();
     };
-    ButtonControl.prototype.setOnClick = function (onClick) {
-        this.element.on('click', onClick);
-    };
-    ButtonControl.prototype.createSpinner = function () {
-        var spinner = $("<span>")
-            .addClass('spinner-grow')
-            .addClass('spinner-grow-sm');
-        return spinner;
-    };
     return ButtonControl;
-}());
+}(UIElement));
 
 
 
@@ -1088,16 +1246,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ModalWindow": () => (/* binding */ ModalWindow)
 /* harmony export */ });
-var ModalWindow = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var ModalWindow = /** @class */ (function (_super) {
+    __extends(ModalWindow, _super);
     function ModalWindow(title, body) {
-        this.element = $('<div>').addClass('modal').addClass('fade');
-        var modalDialog = $('<div>').addClass('modal-dialog').addClass('modal-xl');
-        var modalContent = $('<div>').addClass('modal-content');
-        modalContent.append(this.modalHeader(title));
-        modalContent.append(this.modalBody(body));
+        var _this = _super.call(this) || this;
+        _this.addClass('modal');
+        _this.addClass('fade');
+        var modalDialog = new Div();
+        modalDialog.addClass('modal-dialog');
+        modalDialog.addClass('modal-xl');
+        var modalContent = new Div();
+        modalContent.addClass('modal-content');
+        modalContent.append(_this.modalHeader(title));
+        modalContent.append(_this.modalBody(body));
         modalDialog.append(modalContent);
-        this.element.append(modalDialog);
+        _this.append(modalDialog);
+        return _this;
     }
+    ModalWindow.prototype.show = function () {
+        this.getJQueryElement().modal('show');
+    };
     ModalWindow.prototype.modalHeader = function (title) {
         /**
          * <!-- Modal Header -->
@@ -1106,22 +1289,24 @@ var ModalWindow = /** @class */ (function () {
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
          */
-        var header = $('<div>').addClass('modal-header');
-        var modalTitle = $('<div>').addClass('modal-title');
-        modalTitle.html(title);
-        var closeButton = $('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal');
-        header.append(title);
+        var header = new Div();
+        header.addClass('modal-header');
+        var modalTitle = new Header4(title);
+        modalTitle.addClass('modal-title');
+        var closeButton = new UIElement($('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal'));
+        header.append(modalTitle);
         header.append(closeButton);
         return header;
     };
     ModalWindow.prototype.modalBody = function (body) {
         // anything goes in html
-        var modalBody = $('<div>').addClass('modal-body');
+        var modalBody = new Div();
+        modalBody.addClass('modal-body');
         modalBody.append(body);
-        return body;
+        return modalBody;
     };
     return ModalWindow;
-}());
+}(Div));
 
 
 
@@ -1138,6 +1323,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "NavbarTitleContentPair": () => (/* binding */ NavbarTitleContentPair),
 /* harmony export */   "Navbar": () => (/* binding */ Navbar)
 /* harmony export */ });
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var NavbarTitleContentPair = /** @class */ (function () {
     function NavbarTitleContentPair(title, content, isSelected) {
         this.title = title;
@@ -1158,41 +1358,58 @@ var NavbarTitleContentPair = /** @class */ (function () {
     return NavbarTitleContentPair;
 }());
 
-var Navbar = /** @class */ (function () {
+var Navbar = /** @class */ (function (_super) {
+    __extends(Navbar, _super);
+    /**
+     *  <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+        </div>
+     */
     function Navbar(data) {
-        this.element = $('<div>');
-        var navElement = $('<nav>');
-        var tabTitlesContainer = $('<div>')
+        var _this = _super.call(this, $('<div>')) || this;
+        var navElement = new UIElement($('<nav>'));
+        var tabTitlesContainer = new UIElement($('<div>')
             .addClass('nav')
-            .addClass('nav-tabs');
-        var tabContentContainer = $('<div>').addClass('tab-content');
+            .addClass('nav-tabs'));
+        var tabContentContainer = new UIElement($('<div>').addClass('tab-content'));
         for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
             var titleContentPair = data_1[_i];
-            var tabTitle = $('<div>')
+            var tabTitle = new UIElement($('<div>')
                 .addClass('nav-link')
                 .attr('data-bs-toggle', 'tab')
                 .attr('data-bs-target', "#".concat(titleContentPair.contentIdentifier))
                 .attr('id', titleContentPair.tabIdentifier)
                 .attr('type', 'button')
-                .html(titleContentPair.title);
+                .html(titleContentPair.title));
             tabTitlesContainer.append(tabTitle);
-            var tabContent = $('<div>')
+            var tabContent = new UIElement($('<div>')
                 .addClass('tab-pane')
                 .addClass('fade')
-                .attr('id', titleContentPair.contentIdentifier);
+                .attr('id', titleContentPair.contentIdentifier));
             tabContent.append(titleContentPair.content);
             tabContentContainer.append(tabContent);
             if (titleContentPair.isSelected) {
                 tabTitle.addClass('active');
-                tabContent.addClass('show').addClass('active');
+                tabContent.addClass('show');
+                tabContent.addClass('active');
             }
         }
         navElement.append(tabTitlesContainer);
-        this.element.append(navElement);
-        this.element.append(tabContentContainer);
+        _this.append(navElement);
+        _this.append(tabContentContainer);
+        return _this;
     }
     return Navbar;
-}());
+}(UIElement));
 
 
 
@@ -1208,7 +1425,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TableControl": () => (/* binding */ TableControl)
 /* harmony export */ });
-var TableControl = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var TableControl = /** @class */ (function (_super) {
+    __extends(TableControl, _super);
     /**
      *
      *  <table class="table">
@@ -1242,11 +1475,14 @@ var TableControl = /** @class */ (function () {
         </table>
      */
     function TableControl() {
-        this.element = $('<table>').addClass('table').addClass('table-striped');
-        this.header = $('<thead>');
-        this.body = $('<tbody>');
-        this.element.append(this.header);
-        this.element.append(this.body);
+        var _this = _super.call(this, $('<table>')) || this;
+        _this.addClass('table');
+        _this.addClass('table-striped');
+        _this.header = new UIElement($('<thead>'));
+        _this.body = new UIElement($('<tbody>'));
+        _this.append(_this.header);
+        _this.append(_this.body);
+        return _this;
     }
     TableControl.prototype.setHeadersText = function (headers) {
         var headersElements = headers.map(function (val) {
@@ -1255,10 +1491,10 @@ var TableControl = /** @class */ (function () {
         this.setHeaders(headersElements);
     };
     TableControl.prototype.setHeaders = function (headers) {
-        var row = $('<tr>');
+        var row = new UIElement($('<tr>'));
         for (var _i = 0, headers_1 = headers; _i < headers_1.length; _i++) {
             var header = headers_1[_i];
-            var col = $('<th>').append(header);
+            var col = new UIElement($('<th>').append(header));
             row.append(col);
         }
         this.header.empty();
@@ -1266,15 +1502,16 @@ var TableControl = /** @class */ (function () {
     };
     TableControl.prototype.appendRowText = function (rowContent) {
         var rowContentElements = rowContent.map(function (val) {
-            return $('<p>').html(val);
+            return new Paragraph(val);
         });
         this.appendRow(rowContentElements);
     };
     TableControl.prototype.appendRow = function (rowContent) {
-        var row = $('<tr>');
+        var row = new UIElement($('<tr>'));
         for (var _i = 0, rowContent_1 = rowContent; _i < rowContent_1.length; _i++) {
             var rowColumn = rowContent_1[_i];
-            var col = $('<td>').append(rowColumn);
+            var col = new UIElement($('<td>'));
+            col.append(rowColumn);
             row.append(col);
         }
         this.body.append(row);
@@ -1303,13 +1540,13 @@ var TableControl = /** @class */ (function () {
             case "object":
                 var newTable = new TableControl();
                 newTable.addObject(o);
-                var title = $('<p>').html(key);
-                this.appendRow([title, newTable.element]);
+                var title = new Paragraph(key);
+                this.appendRow([title, newTable]);
                 break;
         }
     };
     return TableControl;
-}());
+}(UIElement));
 
 
 
@@ -1325,18 +1562,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TextField": () => (/* binding */ TextField)
 /* harmony export */ });
-var TextField = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var TextField = /** @class */ (function (_super) {
+    __extends(TextField, _super);
     function TextField(placeholder) {
-        this.element = $('<input>').prop('placeholder', placeholder);
+        var _this = _super.call(this, $('<input>')) || this;
+        _this.getJQueryElement().prop('placeholder', placeholder);
+        return _this;
     }
     TextField.prototype.text = function () {
-        return this.element.val();
+        return this.getJQueryElement().val();
     };
     TextField.prototype.number = function () {
-        return this.element.val();
+        return this.getJQueryElement().val();
     };
     return TextField;
-}());
+}(UIElement));
 
 
 
@@ -1352,16 +1607,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ServiceControl": () => (/* binding */ ServiceControl)
 /* harmony export */ });
-var ServiceControl = /** @class */ (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var ServiceControl = /** @class */ (function (_super) {
+    __extends(ServiceControl, _super);
     function ServiceControl(apiClient) {
-        this.apiClient = apiClient;
-        this.element = $('<a>')
-            .addClass('btn btn-primary')
-            .html('Install profile')
-            .attr('href', this.apiClient.downloadProfileLink());
+        return _super.call(this, 'Install profile', apiClient.downloadProfileLink()) || this;
     }
     return ServiceControl;
-}());
+}(LinkButton));
 
 
 
@@ -1380,6 +1647,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _device_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./device/devices_control */ "./ui/device/devices_control.ts");
 /* harmony import */ var _device_device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device/device_control */ "./ui/device/device_control.ts");
 /* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service_control */ "./ui/service_control.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1419,15 +1701,18 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-var WebAppControl = /** @class */ (function () {
+var WebAppControl = /** @class */ (function (_super) {
+    __extends(WebAppControl, _super);
     function WebAppControl(apiClient) {
-        this.element = $("<div>").addClass("WebAppControl");
-        this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_2__.ServiceControl(apiClient);
-        this.devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
-        this.apiClient = apiClient;
-        this.element.append(this.serviceControl.element);
-        this.element.append(this.devicesControl.element);
-        $(document.body).append(this.element);
+        var _this = _super.call(this) || this;
+        _this.addClass("WebAppControl");
+        _this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_2__.ServiceControl(apiClient);
+        _this.devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
+        _this.apiClient = apiClient;
+        _this.append(_this.serviceControl);
+        _this.append(_this.devicesControl);
+        $(document.body).append(_this.getJQueryElement());
+        return _this;
     }
     WebAppControl.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -1452,7 +1737,7 @@ var WebAppControl = /** @class */ (function () {
         ;
     };
     return WebAppControl;
-}());
+}(Div));
 
 
 

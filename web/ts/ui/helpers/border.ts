@@ -1,15 +1,13 @@
-export class Border {
+export class Border extends UIElement {
 
-    element: JQuery<HTMLElement>
-
-    constructor(child: JQuery<HTMLElement>) {
-        this.element = $('<div>')
+    constructor(child: UIElement) {
+        super($('<div>')
             .addClass('border')
             .addClass('border-primary')
             .addClass('p-3')
-            .addClass('m-3');
+            .addClass('m-3'));
 
-        this.element.append(child);
+        this.append(child);
     }
 
 }

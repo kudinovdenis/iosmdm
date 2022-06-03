@@ -5,25 +5,26 @@ import { DeviceControl } from "./device/device_control";
 import { ServiceControl } from "./service_control";
 
 
-export class WebAppControl {
+export class WebAppControl extends Div {
 
-    element: JQuery<HTMLElement>
     serviceControl: ServiceControl
     devicesControl: DevicesControl
 
     apiClient: IApi;
 
     constructor(apiClient: IApi) {
-        this.element = $("<div>").addClass("WebAppControl");
+
+        super();
+        this.addClass("WebAppControl");
 
         this.serviceControl = new ServiceControl(apiClient);
         this.devicesControl = new DevicesControl();
         this.apiClient = apiClient;
 
-        this.element.append(this.serviceControl.element);
-        this.element.append(this.devicesControl.element);
+        this.append(this.serviceControl);
+        this.append(this.devicesControl);
 
-        $(document.body).append(this.element);
+        $(document.body).append(this.getJQueryElement());
     }
 
     async load() {

@@ -3,26 +3,25 @@ import { Device } from "../../models/models";
 import { FullDeviceInfoControl } from "./full/full_device_info";
 import { ModalWindow } from "../helpers/modal";
 
-export class DeviceControl {
-
-    element: JQuery<HTMLElement>;
+export class DeviceControl extends Div {
 
     fullDeviceInfoControl: FullDeviceInfoControl;
     device: Device;
     apiClient: IApi;
-    card: JQuery<HTMLElement>;
+    card: UIElement;
 
     constructor(device: Device, apiClient: IApi) {
-        this.element = $('<div>').addClass('col');
-        this.card = $('<a>')
+        super();
+        this.addClass('col');
+        this.card = new UIElement($('<a>')
             .addClass('DeviceControl')
             .addClass('card')
             .addClass('p-3') // padding (inside)
             .addClass('m-3') // margin (outside)
-            .attr('style', 'width: 18rem;')
+            .attr('style', 'width: 18rem;'));
 
-        const udidDiv = $('<p>').text(`Device: ${ device.UDID }.`);
-        const lastConnectionDateDiv = $('<p>').text(`LastConnectionDate: ${ device.LastConnectionDate }`);
+        const udidDiv = new Paragraph(`Device: ${ device.UDID }.`);
+        const lastConnectionDateDiv = new Paragraph(`LastConnectionDate: ${ device.LastConnectionDate }`);
 
         this.card.append(udidDiv);
         this.card.append(lastConnectionDateDiv);
@@ -31,14 +30,14 @@ export class DeviceControl {
         this.apiClient = apiClient;
 
         this.fullDeviceInfoControl = new FullDeviceInfoControl(device, apiClient);
-        const modalFullDeviceIfoControl = new ModalWindow(`Device info`, this.fullDeviceInfoControl.element);
-        this.element.append(modalFullDeviceIfoControl.element);
+        const modalFullDeviceIfoControl = new ModalWindow(`Device info`, this.fullDeviceInfoControl);
+        this.append(modalFullDeviceIfoControl);
 
-        this.card.on('click', () => {
-            modalFullDeviceIfoControl.element.modal('show');
-        })
+        this.card.setOnClick(() => {
+            modalFullDeviceIfoControl.show();
+        });
 
-        this.element.append(this.card);
+        this.append(this.card);
     }
 
     clear() {
