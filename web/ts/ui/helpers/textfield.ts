@@ -1,3 +1,5 @@
+import { UIElement } from "./uielement";
+
 export class TextField extends UIElement {
 
     constructor(placeholder: string) {

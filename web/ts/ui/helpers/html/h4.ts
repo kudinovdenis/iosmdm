@@ -1,4 +1,6 @@
-class Header4 extends UIElement {
+import { UIElement } from "../uielement";
+
+export class Header4 extends UIElement {
     constructor(title: string) {
         super($('<h4>'));
         this.setTitle(title);

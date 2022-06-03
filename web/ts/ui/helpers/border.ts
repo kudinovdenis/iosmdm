@@ -1,3 +1,5 @@
+import { UIElement } from "./uielement";
+
 export class Border extends UIElement {
 
     constructor(child: UIElement) {

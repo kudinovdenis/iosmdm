@@ -1,3 +1,6 @@
+import { Spiner } from "./spiner";
+import { UIElement } from "./uielement";
+
 export class ButtonControl extends UIElement {
 
     private spiner: Spiner;

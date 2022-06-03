@@ -1,4 +1,6 @@
-class Spiner extends UIElement {
+import { UIElement } from "./uielement";
+
+export class Spiner extends UIElement {
 
     constructor() {
         super($("<span>"));

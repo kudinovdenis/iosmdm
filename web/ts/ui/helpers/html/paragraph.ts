@@ -1,4 +1,6 @@
-class Paragraph extends UIElement {
+import { UIElement } from "../uielement";
+
+export class Paragraph extends UIElement {
 
     constructor(text: string) {
         super($('<p>'));

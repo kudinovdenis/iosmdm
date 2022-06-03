@@ -1,4 +1,6 @@
-class LinkButton extends UIElement {
+import { UIElement } from "./uielement";
+
+export class LinkButton extends UIElement {
 
     constructor(title: string, link: string) {
         super($('<a>'));

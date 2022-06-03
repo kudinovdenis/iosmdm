@@ -1,6 +1,7 @@
 /// <reference types="jquery" />
 
 import { ApplicationInfo } from "../../../../../models/models"
+import { UIElement } from "../../../../helpers/uielement";
 
 export class ApplicationControl extends UIElement {
 

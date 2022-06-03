@@ -2,6 +2,7 @@ import { IApi } from "../api/api";
 import { Device } from "../models/models"
 import { DevicesControl } from "./device/devices_control";
 import { DeviceControl } from "./device/device_control";
+import { Div } from "./helpers/html/div";
 import { ServiceControl } from "./service_control";
 
 

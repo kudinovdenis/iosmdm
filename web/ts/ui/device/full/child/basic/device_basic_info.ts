@@ -1,7 +1,9 @@
 import { IApi } from "../../../../../api/api";
 import { Device, QueryResponses } from "../../../../../models/models";
 import { ButtonControl } from "../../../../helpers/button";
+import { Paragraph } from "../../../../helpers/html/paragraph";
 import { TableControl } from "../../../../helpers/table";
+import { UIElement } from "../../../../helpers/uielement";
 
 export class DeviceBasicInfoControl extends UIElement {
 

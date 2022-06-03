@@ -1,4 +1,5 @@
 import { IApi } from "../api/api";
+import { LinkButton } from "./helpers/link_button";
 
 export class ServiceControl extends LinkButton {
 

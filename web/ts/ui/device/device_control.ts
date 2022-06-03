@@ -2,6 +2,9 @@ import { IApi } from "../../api/api";
 import { Device } from "../../models/models";
 import { FullDeviceInfoControl } from "./full/full_device_info";
 import { ModalWindow } from "../helpers/modal";
+import { Div } from "../helpers/html/div";
+import { Paragraph } from "../helpers/html/paragraph";
+import { UIElement } from "../helpers/uielement";
 
 export class DeviceControl extends Div {
 

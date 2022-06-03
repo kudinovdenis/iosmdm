@@ -1,3 +1,5 @@
+import { Div } from "../helpers/html/div";
+import { UIElement } from "../helpers/uielement";
 import { DeviceControl } from "./device_control";
 
 export class DevicesControl extends Div {

@@ -1,4 +1,4 @@
-class UIElement {
+export class UIElement {
 
     private jqueryElement: JQuery<HTMLElement>
 

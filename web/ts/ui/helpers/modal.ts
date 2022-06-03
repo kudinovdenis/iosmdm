@@ -1,3 +1,7 @@
+import { Div } from "./html/div";
+import { Header4 } from "./html/h4";
+import { UIElement } from "./uielement";
+
 export class ModalWindow extends Div {
 
     constructor(title: string, body: UIElement) {

@@ -2,8 +2,12 @@ import { IApi } from "../../../../../api/api";
 import { Device } from "../../../../../models/models";
 import { Border } from "../../../../helpers/border";
 import { ButtonControl } from "../../../../helpers/button";
+import { Div } from "../../../../helpers/html/div";
+import { Header4 } from "../../../../helpers/html/h4";
+import { Paragraph } from "../../../../helpers/html/paragraph";
 import { TableControl } from "../../../../helpers/table";
 import { TextField } from "../../../../helpers/textfield";
+import { UIElement } from "../../../../helpers/uielement";
 
 export class ProfilesControl extends Div {
 

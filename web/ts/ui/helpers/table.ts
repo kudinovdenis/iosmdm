@@ -1,3 +1,6 @@
+import { Paragraph } from "./html/paragraph";
+import { UIElement } from "./uielement";
+
 export class TableControl extends UIElement {
 
     private header: UIElement;
