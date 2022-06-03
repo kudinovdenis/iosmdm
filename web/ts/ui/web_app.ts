@@ -3,14 +3,14 @@ import { Device } from "../models/models"
 import { DevicesControl } from "./device/devices_control";
 import { DeviceControl } from "./device/device_control";
 import { Div } from "./helpers/html/div";
+import { Workspace } from "./helpers/workspace";
 import { ServiceControl } from "./service_control";
 
 
 export class WebAppControl extends Div {
 
-    serviceControl: ServiceControl
+    workspace: Workspace;
     devicesControl: DevicesControl
-
     apiClient: IApi;
 
     constructor(apiClient: IApi) {
@@ -18,12 +18,12 @@ export class WebAppControl extends Div {
         super();
         this.addClass("WebAppControl");
 
-        this.serviceControl = new ServiceControl(apiClient);
+        // this.serviceControl = new ServiceControl(apiClient);
         this.devicesControl = new DevicesControl();
+        this.workspace = new Workspace(this.devicesControl);
         this.apiClient = apiClient;
 
-        this.append(this.serviceControl);
-        this.append(this.devicesControl);
+        this.append(this.workspace);
 
         $(document.body).append(this.getJQueryElement());
     }

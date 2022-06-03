@@ -1397,17 +1397,19 @@ var Paragraph = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./ui/helpers/link_button.ts":
-/*!***********************************!*\
-  !*** ./ui/helpers/link_button.ts ***!
-  \***********************************/
+/***/ "./ui/helpers/menu/side_menu.ts":
+/*!**************************************!*\
+  !*** ./ui/helpers/menu/side_menu.ts ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "LinkButton": () => (/* binding */ LinkButton)
+/* harmony export */   "SideMenu": () => (/* binding */ SideMenu)
 /* harmony export */ });
-/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../table */ "./ui/helpers/table.ts");
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1424,17 +1426,31 @@ var __extends = (undefined && undefined.__extends) || (function () {
     };
 })();
 
-var LinkButton = /** @class */ (function (_super) {
-    __extends(LinkButton, _super);
-    function LinkButton(title, link) {
-        var _this = _super.call(this, $('<a>')) || this;
-        _this.addClass('btn btn-primary');
-        _this.getJQueryElement().html('Install profile');
-        _this.getJQueryElement().attr('href', link);
+
+
+var SideMenu = /** @class */ (function (_super) {
+    __extends(SideMenu, _super);
+    function SideMenu(items, onItemSelected) {
+        var _this = _super.call(this) || this;
+        _this.menuTable = new _table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        var _loop_1 = function (item) {
+            var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
+            menuButton.append(item);
+            menuButton.setOnClick(function () {
+                onItemSelected(item);
+            });
+            this_1.menuTable.appendRow([menuButton]);
+        };
+        var this_1 = this;
+        for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
+            var item = items_1[_i];
+            _loop_1(item);
+        }
+        _this.append(_this.menuTable);
         return _this;
     }
-    return LinkButton;
-}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+    return SideMenu;
+}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -1565,6 +1581,7 @@ var NavbarTitleContentPair = /** @class */ (function () {
         for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
+        // identifier must start with alphabetical character.
         return "tab" + result;
     };
     return NavbarTitleContentPair;
@@ -1905,17 +1922,19 @@ var UIElement = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./ui/service_control.ts":
-/*!*******************************!*\
-  !*** ./ui/service_control.ts ***!
-  \*******************************/
+/***/ "./ui/helpers/workspace.ts":
+/*!*********************************!*\
+  !*** ./ui/helpers/workspace.ts ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ServiceControl": () => (/* binding */ ServiceControl)
+/* harmony export */   "Workspace": () => (/* binding */ Workspace)
 /* harmony export */ });
-/* harmony import */ var _helpers_link_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/link_button */ "./ui/helpers/link_button.ts");
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _html_paragraph__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _menu_side_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu/side_menu */ "./ui/helpers/menu/side_menu.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1932,13 +1951,28 @@ var __extends = (undefined && undefined.__extends) || (function () {
     };
 })();
 
-var ServiceControl = /** @class */ (function (_super) {
-    __extends(ServiceControl, _super);
-    function ServiceControl(apiClient) {
-        return _super.call(this, 'Install profile', apiClient.downloadProfileLink()) || this;
+
+
+var Workspace = /** @class */ (function (_super) {
+    __extends(Workspace, _super);
+    function Workspace(content) {
+        var _this = _super.call(this) || this;
+        var menuItem1 = new _html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph("Item1");
+        var menuItem2 = new _html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph("Item2");
+        _this.sideMenu = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_2__.SideMenu([menuItem1, menuItem2], function (item) {
+            console.log("Selected item: ".concat(JSON.parse(JSON.stringify(item))));
+        });
+        _this.sideMenu.addClass('w-25');
+        content.addClass('w-75');
+        var container = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
+        container.addClass('d-flex align-items-stretch');
+        container.append(_this.sideMenu);
+        container.append(content);
+        _this.append(container);
+        return _this;
     }
-    return ServiceControl;
-}(_helpers_link_button__WEBPACK_IMPORTED_MODULE_0__.LinkButton));
+    return Workspace;
+}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -1957,7 +1991,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _device_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./device/devices_control */ "./ui/device/devices_control.ts");
 /* harmony import */ var _device_device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device/device_control */ "./ui/device/device_control.ts");
 /* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./service_control */ "./ui/service_control.ts");
+/* harmony import */ var _helpers_workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers/workspace */ "./ui/helpers/workspace.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2018,11 +2052,11 @@ var WebAppControl = /** @class */ (function (_super) {
     function WebAppControl(apiClient) {
         var _this = _super.call(this) || this;
         _this.addClass("WebAppControl");
-        _this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_3__.ServiceControl(apiClient);
+        // this.serviceControl = new ServiceControl(apiClient);
         _this.devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
+        _this.workspace = new _helpers_workspace__WEBPACK_IMPORTED_MODULE_3__.Workspace(_this.devicesControl);
         _this.apiClient = apiClient;
-        _this.append(_this.serviceControl);
-        _this.append(_this.devicesControl);
+        _this.append(_this.workspace);
         $(document.body).append(_this.getJQueryElement());
         return _this;
     }

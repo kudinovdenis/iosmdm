@@ -23,7 +23,9 @@ export class NavbarTitleContentPair {
         for ( var i = 0; i < length; i++ ) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-       return "tab" + result;
+
+        // identifier must start with alphabetical character.
+        return "tab" + result;
     }
 
 }
