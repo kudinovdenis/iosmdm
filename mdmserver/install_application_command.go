@@ -4,8 +4,8 @@ import "github.com/google/uuid"
 
 type InstallApplicationCommandBody struct {
 	RequestType           string // InstallApplication
-	ITunesStoreID         int    `plist:"iTunesStoreID"`
-	ManifestURL           string
+	ITunesStoreID         int    `plist:"iTunesStoreID,omitempty"`
+	ManifestURL           string `plist:"ManifestURL,omitempty"`
 	ManagementFlags       int
 	ChangeManagementState string
 }
