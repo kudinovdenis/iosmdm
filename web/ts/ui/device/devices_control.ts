@@ -23,9 +23,9 @@ export class DevicesControl extends Div {
 
         this.append(this.row);
 
-        this.getJQueryElement().on('load', async () => {
-            await this.load();
-        });
+        this.load().then(() => {
+            console.log("Wow");
+        })
     }
 
     clear() {

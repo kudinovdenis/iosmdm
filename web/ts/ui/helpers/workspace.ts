@@ -37,7 +37,6 @@ export class Workspace extends Div {
 
     private sideMenu: SideMenu;
     private content: UIElement;
-    private apiClient: IApi;
 
     constructor(apiClient: IApi) {
         super();
@@ -53,11 +52,13 @@ export class Workspace extends Div {
                     this.content.empty();
                     const services = new ServiceControl(apiClient);
                     this.content.append(services);
+                    break;
 
                 case 'id2':
                     this.content.empty();
                     const devicesControl = new DevicesControl(apiClient);
                     this.content.append(devicesControl);
+                    break;
             }
         });
 

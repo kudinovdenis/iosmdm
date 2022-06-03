@@ -442,16 +442,9 @@ var DevicesControl = /** @class */ (function (_super) {
         _this.row = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         _this.row.addClass('row');
         _this.append(_this.row);
-        _this.getJQueryElement().on('load', function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.load()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        }); });
+        _this.load().then(function () {
+            console.log("Wow");
+        });
         return _this;
     }
     DevicesControl.prototype.clear = function () {
@@ -2114,10 +2107,12 @@ var Workspace = /** @class */ (function (_super) {
                     _this.content.empty();
                     var services = new _service_control__WEBPACK_IMPORTED_MODULE_1__.ServiceControl(apiClient);
                     _this.content.append(services);
+                    break;
                 case 'id2':
                     _this.content.empty();
                     var devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl(apiClient);
                     _this.content.append(devicesControl);
+                    break;
             }
         });
         _this.sideMenu.addClass('w-25');
