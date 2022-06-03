@@ -197,6 +197,16 @@ func handleProfileDownload(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./Static/Profile/EnrollSignedMac.mobileconfig")
 }
 
+func handleMacOSPkgDownload(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Disposition", "attachment; filename=MdmTestApp.pkg")
+	http.ServeFile(w, r, "./Static/Apps/macOS/MdmTestApp/MdmTestApp.pkg")
+}
+
+func handleMacOSManifestDownload(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Disposition", "attachment; filename=MdmTestApp.pkg")
+	http.ServeFile(w, r, "./Static/Apps/macOS/MdmTestApp/manifest.plist")
+}
+
 // Misc
 
 func logRequest(r *http.Request) {
@@ -234,6 +244,8 @@ func main() {
 	staticRouter := backendRouter.PathPrefix("/static").Subrouter()
 	staticRouter.HandleFunc("/profile", handleProfileDownload)
 	staticRouter.HandleFunc("/profile/", handleProfileDownload)
+	staticRouter.HandleFunc("/apps/macos/mdmtestapp/pkg", handleMacOSPkgDownload)
+	staticRouter.HandleFunc("/apps/macos/mdmtestapp/manifest", handleMacOSManifestDownload)
 
 	devicesRouter := backendRouter.PathPrefix("/devices").Subrouter()
 	devicesRouter.HandleFunc("", handleDevicesRequest)
