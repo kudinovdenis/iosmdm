@@ -139,14 +139,21 @@ var ApiImpl = /** @class */ (function () {
     ApiImpl.prototype.installKSCApplication = function (device) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.installApplication(device, 1089969624)];
+                return [2 /*return*/, this.installApplicationById(device, 1089969624)];
             });
         });
     };
-    ApiImpl.prototype.installApplication = function (device, appId) {
+    ApiImpl.prototype.installApplicationById = function (device, appId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_application/").concat(appId))];
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_application?app_id=").concat(appId))];
+            });
+        });
+    };
+    ApiImpl.prototype.installApplicationByManifest = function (device, manifestURL) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.get("".concat(_environment_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.baseUrl, "/backend/devices/").concat(device.UDID, "/install_application?manifest_url=").concat(manifestURL))];
             });
         });
     };
@@ -503,7 +510,7 @@ var ApplicationsControl = /** @class */ (function () {
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
             var applicationId = input.number();
-            apiClient.installApplication(device, applicationId);
+            apiClient.installApplicationById(device, applicationId);
             installButton.stopLoading();
         });
         installArbitraryApplicationForm.append(legend);
@@ -511,6 +518,9 @@ var ApplicationsControl = /** @class */ (function () {
         installArbitraryApplicationForm.append(input.element);
         installArbitraryApplicationForm.append(installButton.element);
         this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installArbitraryApplicationForm).element);
+        // Install with manifest URL
+        var installByManifestURLForm = this.installWithManifestURLForm(apiClient, device);
+        this.element.append(new _helpers_border__WEBPACK_IMPORTED_MODULE_0__.Border(installByManifestURLForm).element);
         // Load list of applications
         this.applicationsListForm = $('<div>');
         var applicationsListLegend = $('<h4>').html('Request installed applications list');
@@ -561,6 +571,24 @@ var ApplicationsControl = /** @class */ (function () {
     };
     ApplicationsControl.prototype.stopLoading = function () {
         this.loadListOfApplicationsButton.stopLoading();
+    };
+    // MARK: Private
+    ApplicationsControl.prototype.installWithManifestURLForm = function (apiClient, device) {
+        var form = $('<div>');
+        var legend = $('<h4>').html('Installation by Manifest URL');
+        var label = $('<p>').html('Install any application by specifying manifest url.');
+        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Manifest URL');
+        var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
+            installButton.startLoading();
+            var manifestURL = input.text();
+            apiClient.installApplicationByManifest(device, manifestURL);
+            installButton.stopLoading();
+        });
+        form.append(legend);
+        form.append(label);
+        form.append(input.element);
+        form.append(installButton.element);
+        return form;
     };
     return ApplicationsControl;
 }());
