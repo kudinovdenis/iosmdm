@@ -307,6 +307,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _full_full_device_info__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./full/full_device_info */ "./ui/device/full/full_device_info.ts");
 /* harmony import */ var _helpers_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/modal */ "./ui/helpers/modal.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers/html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _helpers_uielement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../helpers/uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -324,19 +327,22 @@ var __extends = (undefined && undefined.__extends) || (function () {
 })();
 
 
+
+
+
 var DeviceControl = /** @class */ (function (_super) {
     __extends(DeviceControl, _super);
     function DeviceControl(device, apiClient) {
         var _this = _super.call(this) || this;
         _this.addClass('col');
-        _this.card = new UIElement($('<a>')
+        _this.card = new _helpers_uielement__WEBPACK_IMPORTED_MODULE_4__.UIElement($('<a>')
             .addClass('DeviceControl')
             .addClass('card')
             .addClass('p-3') // padding (inside)
             .addClass('m-3') // margin (outside)
             .attr('style', 'width: 18rem;'));
-        var udidDiv = new Paragraph("Device: ".concat(device.UDID, "."));
-        var lastConnectionDateDiv = new Paragraph("LastConnectionDate: ".concat(device.LastConnectionDate));
+        var udidDiv = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph("Device: ".concat(device.UDID, "."));
+        var lastConnectionDateDiv = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph("LastConnectionDate: ".concat(device.LastConnectionDate));
         _this.card.append(udidDiv);
         _this.card.append(lastConnectionDateDiv);
         _this.device = device;
@@ -354,7 +360,7 @@ var DeviceControl = /** @class */ (function (_super) {
         this.fullDeviceInfoControl.clear();
     };
     return DeviceControl;
-}(Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
 
 
@@ -370,6 +376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DevicesControl": () => (/* binding */ DevicesControl)
 /* harmony export */ });
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/html/div */ "./ui/helpers/html/div.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -385,6 +392,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var DevicesControl = /** @class */ (function (_super) {
     __extends(DevicesControl, _super);
     function DevicesControl() {
@@ -392,7 +400,7 @@ var DevicesControl = /** @class */ (function (_super) {
         _this.deviceControls = [];
         _this.addClass("DevicesControl");
         _this.addClass("container");
-        _this.row = new Div();
+        _this.row = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         _this.row.addClass('row');
         _this.append(_this.row);
         return _this;
@@ -415,7 +423,7 @@ var DevicesControl = /** @class */ (function (_super) {
         }
     };
     return DevicesControl;
-}(Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -431,6 +439,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ApplicationControl": () => (/* binding */ ApplicationControl)
 /* harmony export */ });
+/* harmony import */ var _helpers_uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/uielement */ "./ui/helpers/uielement.ts");
 /// <reference types="jquery" />
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -447,15 +456,16 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var ApplicationControl = /** @class */ (function (_super) {
     __extends(ApplicationControl, _super);
     function ApplicationControl(applicationInfo) {
         var _this = _super.call(this, $("<div>")
             .addClass('card')
             .addClass('ApplicationControl')) || this;
-        var nameDiv = new UIElement($('<p>').text("App: ".concat(applicationInfo.Name)));
-        var identifierDiv = new UIElement($('<p>').text("Identifier: ".concat(applicationInfo.Identifier)));
-        var appVersionDiv = new UIElement($('<p>').text("Version: ".concat(applicationInfo.Version)));
+        var nameDiv = new _helpers_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<p>').text("App: ".concat(applicationInfo.Name)));
+        var identifierDiv = new _helpers_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<p>').text("Identifier: ".concat(applicationInfo.Identifier)));
+        var appVersionDiv = new _helpers_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<p>').text("Version: ".concat(applicationInfo.Version)));
         _this.append(nameDiv);
         _this.append(identifierDiv);
         _this.append(appVersionDiv);
@@ -466,7 +476,7 @@ var ApplicationControl = /** @class */ (function (_super) {
         this.empty();
     };
     return ApplicationControl;
-}(UIElement));
+}(_helpers_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
 
 
 
@@ -484,8 +494,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _helpers_border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/border */ "./ui/helpers/border.ts");
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
-/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
-/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/html/h4 */ "./ui/helpers/html/h4.ts");
+/* harmony import */ var _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../helpers/html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
+/* harmony import */ var _application_control__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./application_control */ "./ui/device/full/child/applications/application_control.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -537,6 +550,9 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
+
+
 
 
 
@@ -584,9 +600,9 @@ var ApplicationsControl = /** @class */ (function (_super) {
     // MARK: Private
     ApplicationsControl.prototype.makeInstallKSCForiOSForm = function (apiClient, device) {
         var _this = this;
-        var installKSCForm = new Div();
-        var installKSCLegend = new Header4('Installation Kaspersky Security Cloud (KSC) for iOS');
-        var installKSCInfo = new Paragraph('Device will prompt installation.');
+        var installKSCForm = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var installKSCLegend = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Installation Kaspersky Security Cloud (KSC) for iOS');
+        var installKSCInfo = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__.Paragraph('Device will prompt installation.');
         var installKSCButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Tap to install from AppStore');
         installKSCButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -607,10 +623,10 @@ var ApplicationsControl = /** @class */ (function (_super) {
         return installKSCForm;
     };
     ApplicationsControl.prototype.makeInstallArbitraryAppFromAppStoreForm = function (apiClient, device) {
-        var installArbitraryApplicationForm = new Div();
-        var legend = new Header4('Installation of arbitrary application');
-        var label = new Paragraph('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
-        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Application id');
+        var installArbitraryApplicationForm = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var legend = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Installation of arbitrary application');
+        var label = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__.Paragraph('Enter any application id from appstore link. For example, number 1089969624 from https://apps.apple.com/ru/app/kaspersky-security-cloud/id1089969624 for KSC.');
+        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_5__.TextField('Application id');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
             var applicationId = input.number();
@@ -624,10 +640,10 @@ var ApplicationsControl = /** @class */ (function (_super) {
         return installArbitraryApplicationForm;
     };
     ApplicationsControl.prototype.makeInstallWithManifestURLForm = function (apiClient, device) {
-        var form = new Div();
-        var legend = new Header4('Installation by Manifest URL');
-        var label = new Paragraph('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
-        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Manifest URL');
+        var form = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var legend = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Installation by Manifest URL');
+        var label = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__.Paragraph('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
+        var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_5__.TextField('Manifest URL');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();
             var manifestURL = input.text();
@@ -642,8 +658,8 @@ var ApplicationsControl = /** @class */ (function (_super) {
     };
     ApplicationsControl.prototype.makeLoadListOfApplicationsForm = function (apiClient, device) {
         var _this = this;
-        var applicationsListForm = new Div();
-        var applicationsListLegend = new Header4('Request installed applications list');
+        var applicationsListForm = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var applicationsListLegend = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Request installed applications list');
         var loadListOfApplicationsButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load applications list');
         loadListOfApplicationsButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var applications, _i, applications_1, application, applicationControl;
@@ -658,7 +674,7 @@ var ApplicationsControl = /** @class */ (function (_super) {
                         loadListOfApplicationsButton.stopLoading();
                         for (_i = 0, applications_1 = applications; _i < applications_1.length; _i++) {
                             application = applications_1[_i];
-                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_3__.ApplicationControl(application);
+                            applicationControl = new _application_control__WEBPACK_IMPORTED_MODULE_6__.ApplicationControl(application);
                             this.appendApplicationControl(applicationControl);
                         }
                         return [2 /*return*/];
@@ -670,7 +686,7 @@ var ApplicationsControl = /** @class */ (function (_super) {
         return applicationsListForm;
     };
     return ApplicationsControl;
-}(Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
 
 
@@ -687,7 +703,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DeviceBasicInfoControl": () => (/* binding */ DeviceBasicInfoControl)
 /* harmony export */ });
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
-/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+/* harmony import */ var _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+/* harmony import */ var _helpers_uielement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -741,11 +759,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
+
+
 var DeviceBasicInfoControl = /** @class */ (function (_super) {
     __extends(DeviceBasicInfoControl, _super);
     function DeviceBasicInfoControl(device, apiClient) {
         var _this = _super.call(this, $('<div>')) || this;
-        _this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        _this.table = new _helpers_table__WEBPACK_IMPORTED_MODULE_2__.TableControl();
         _this.table.setHeadersText(["Parameter", "Value", "Description"]);
         _this.table.appendRowText(["Identifier", device.UDID, "UDID"]);
         _this.table.appendRowText(["Push token", device.PushToken, "Used to send push"]);
@@ -787,29 +807,29 @@ var DeviceBasicInfoControl = /** @class */ (function (_super) {
         var i = 0;
         for (var _a = 0, serviceSubscriptionsInfo_1 = serviceSubscriptionsInfo; _a < serviceSubscriptionsInfo_1.length; _a++) {
             var serviceSubscription = serviceSubscriptionsInfo_1[_a];
-            var serviceSubscriptionTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+            var serviceSubscriptionTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_2__.TableControl();
             serviceSubscriptionTable.setHeadersText(["Parameter", "Value", "Description"]);
             var serviceSubscriptionKeys = Object.keys(serviceSubscription);
             for (var _b = 0, serviceSubscriptionKeys_1 = serviceSubscriptionKeys; _b < serviceSubscriptionKeys_1.length; _b++) {
                 var key = serviceSubscriptionKeys_1[_b];
                 serviceSubscriptionTable.appendRowText([key, JSON.stringify(serviceSubscription[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
             }
-            var serviceSubscriptionP = new Paragraph("ServiceSubscription[".concat(i, "]"));
-            var serviceSubscriptionDescriptionP = new Paragraph(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"));
+            var serviceSubscriptionP = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph("ServiceSubscription[".concat(i, "]"));
+            var serviceSubscriptionDescriptionP = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph(this.descriptionForDeviceInfoKeyName("ServiceSubscriptions"));
             this.table.appendRow([serviceSubscriptionP, serviceSubscriptionTable, serviceSubscriptionDescriptionP]);
             i += 1;
         }
         // OSUpdateSettings
         var osUpdateSettingsInfo = deviceInfo.OSUpdateSettings;
-        var osUpdateSettingsInfoTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        var osUpdateSettingsInfoTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_2__.TableControl();
         osUpdateSettingsInfoTable.setHeadersText(["Parameter", "Value", "Description"]);
         var osUpdateSettingsInfoKeys = Object.keys(osUpdateSettingsInfo);
         for (var _c = 0, osUpdateSettingsInfoKeys_1 = osUpdateSettingsInfoKeys; _c < osUpdateSettingsInfoKeys_1.length; _c++) {
             var key = osUpdateSettingsInfoKeys_1[_c];
             osUpdateSettingsInfoTable.appendRowText([key, JSON.stringify(osUpdateSettingsInfo[key], null, 2), this.descriptionForDeviceInfoKeyName(key)]);
         }
-        var osUpdateSettings = new Paragraph('OSUpdateSettings');
-        var osUpdateSettingsDescription = new Paragraph(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"));
+        var osUpdateSettings = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph('OSUpdateSettings');
+        var osUpdateSettingsDescription = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph(this.descriptionForDeviceInfoKeyName("OSUpdateSettings"));
         this.table.appendRow([osUpdateSettings, osUpdateSettingsInfoTable, osUpdateSettingsDescription]);
     };
     DeviceBasicInfoControl.prototype.descriptionForDeviceInfoKeyName = function (key) {
@@ -937,7 +957,7 @@ var DeviceBasicInfoControl = /** @class */ (function (_super) {
         }
     };
     return DeviceBasicInfoControl;
-}(UIElement));
+}(_helpers_uielement__WEBPACK_IMPORTED_MODULE_3__.UIElement));
 
 
 
@@ -955,8 +975,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _helpers_border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helpers/border */ "./ui/helpers/border.ts");
 /* harmony import */ var _helpers_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helpers/button */ "./ui/helpers/button.ts");
-/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
-/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helpers/html/h4 */ "./ui/helpers/html/h4.ts");
+/* harmony import */ var _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../helpers/html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _helpers_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../helpers/table */ "./ui/helpers/table.ts");
+/* harmony import */ var _helpers_textfield__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../helpers/textfield */ "./ui/helpers/textfield.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1012,6 +1035,9 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
+
 var ProfilesControl = /** @class */ (function (_super) {
     __extends(ProfilesControl, _super);
     function ProfilesControl(device, apiClient) {
@@ -1027,11 +1053,11 @@ var ProfilesControl = /** @class */ (function (_super) {
     // MARK: Private methods
     ProfilesControl.prototype.createListProfilesBox = function () {
         var _this = this;
-        var listProfilesControl = new Div();
-        var listProfilesLegend = new Header4('Load list of device profiles');
-        var listProfilesInfo = new Paragraph('Will load all profiles on device.');
+        var listProfilesControl = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var listProfilesLegend = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Load list of device profiles');
+        var listProfilesInfo = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__.Paragraph('Will load all profiles on device.');
         var listProfilesButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Load list of profiles');
-        var listOfInstalledProfilesTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_2__.TableControl();
+        var listOfInstalledProfilesTable = new _helpers_table__WEBPACK_IMPORTED_MODULE_5__.TableControl();
         listProfilesButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             var listOfInstalledProfiles;
             return __generator(this, function (_a) {
@@ -1057,10 +1083,10 @@ var ProfilesControl = /** @class */ (function (_super) {
     };
     ProfilesControl.prototype.createInstallProfileBox = function () {
         var _this = this;
-        var control = new Div();
-        var title = new Header4('Install arbitrary profile');
-        var legend = new Paragraph('Payload XML should be in base64');
-        var textField = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_3__.TextField('Insert b64 data here');
+        var control = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
+        var title = new _helpers_html_h4__WEBPACK_IMPORTED_MODULE_3__.Header4('Install arbitrary profile');
+        var legend = new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_4__.Paragraph('Payload XML should be in base64');
+        var textField = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_6__.TextField('Insert b64 data here');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install');
         installButton.setOnClick(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -1078,7 +1104,7 @@ var ProfilesControl = /** @class */ (function (_super) {
         return box;
     };
     return ProfilesControl;
-}(Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
 
 
@@ -1095,9 +1121,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FullDeviceInfoControl": () => (/* binding */ FullDeviceInfoControl)
 /* harmony export */ });
 /* harmony import */ var _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/navbar */ "./ui/helpers/navbar.ts");
-/* harmony import */ var _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./child/applications/applications_control */ "./ui/device/full/child/applications/applications_control.ts");
-/* harmony import */ var _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./child/basic/device_basic_info */ "./ui/device/full/child/basic/device_basic_info.ts");
-/* harmony import */ var _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./child/profile/profiles_control */ "./ui/device/full/child/profile/profiles_control.ts");
+/* harmony import */ var _helpers_uielement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/uielement */ "./ui/helpers/uielement.ts");
+/* harmony import */ var _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./child/applications/applications_control */ "./ui/device/full/child/applications/applications_control.ts");
+/* harmony import */ var _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./child/basic/device_basic_info */ "./ui/device/full/child/basic/device_basic_info.ts");
+/* harmony import */ var _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./child/profile/profiles_control */ "./ui/device/full/child/profile/profiles_control.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1117,13 +1144,14 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+
 var FullDeviceInfoControl = /** @class */ (function (_super) {
     __extends(FullDeviceInfoControl, _super);
     function FullDeviceInfoControl(device, apiClient) {
         var _this = _super.call(this, $('<div>').addClass('FullDeviceInfoControl')) || this;
-        _this.deviceBasicInfo = new _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_2__.DeviceBasicInfoControl(device, apiClient);
-        _this.applicationsControl = new _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_1__.ApplicationsControl(device, apiClient);
-        _this.profilesControl = new _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_3__.ProfilesControl(device, apiClient);
+        _this.deviceBasicInfo = new _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_3__.DeviceBasicInfoControl(device, apiClient);
+        _this.applicationsControl = new _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_2__.ApplicationsControl(device, apiClient);
+        _this.profilesControl = new _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_4__.ProfilesControl(device, apiClient);
         var navBarData = [
             new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Basic info', _this.deviceBasicInfo, true),
             new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Applications', _this.applicationsControl, false),
@@ -1136,7 +1164,7 @@ var FullDeviceInfoControl = /** @class */ (function (_super) {
     FullDeviceInfoControl.prototype.clear = function () {
     };
     return FullDeviceInfoControl;
-}(UIElement));
+}(_helpers_uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement));
 
 
 
@@ -1152,6 +1180,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Border": () => (/* binding */ Border)
 /* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1167,6 +1196,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var Border = /** @class */ (function (_super) {
     __extends(Border, _super);
     function Border(child) {
@@ -1179,7 +1209,7 @@ var Border = /** @class */ (function (_super) {
         return _this;
     }
     return Border;
-}(UIElement));
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
 
 
 
@@ -1195,6 +1225,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ButtonControl": () => (/* binding */ ButtonControl)
 /* harmony export */ });
+/* harmony import */ var _spiner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./spiner */ "./ui/helpers/spiner.ts");
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1210,6 +1242,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+
 var ButtonControl = /** @class */ (function (_super) {
     __extends(ButtonControl, _super);
     function ButtonControl(title, onClick) {
@@ -1217,7 +1251,7 @@ var ButtonControl = /** @class */ (function (_super) {
         _this.addClass('btn');
         _this.addClass('btn-primary');
         _this.getJQueryElement().html(title);
-        _this.spiner = new Spiner();
+        _this.spiner = new _spiner__WEBPACK_IMPORTED_MODULE_0__.Spiner();
         _this.setOnClick(onClick);
         return _this;
     }
@@ -1230,7 +1264,177 @@ var ButtonControl = /** @class */ (function (_super) {
         this.spiner.remove();
     };
     return ButtonControl;
-}(UIElement));
+}(_uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/html/div.ts":
+/*!********************************!*\
+  !*** ./ui/helpers/html/div.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Div": () => (/* binding */ Div)
+/* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var Div = /** @class */ (function (_super) {
+    __extends(Div, _super);
+    function Div() {
+        return _super.call(this, $('<div>')) || this;
+    }
+    return Div;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/html/h4.ts":
+/*!*******************************!*\
+  !*** ./ui/helpers/html/h4.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Header4": () => (/* binding */ Header4)
+/* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var Header4 = /** @class */ (function (_super) {
+    __extends(Header4, _super);
+    function Header4(title) {
+        var _this = _super.call(this, $('<h4>')) || this;
+        _this.setTitle(title);
+        return _this;
+    }
+    Header4.prototype.setTitle = function (title) {
+        this.getJQueryElement().html(title);
+    };
+    return Header4;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/html/paragraph.ts":
+/*!**************************************!*\
+  !*** ./ui/helpers/html/paragraph.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Paragraph": () => (/* binding */ Paragraph)
+/* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var Paragraph = /** @class */ (function (_super) {
+    __extends(Paragraph, _super);
+    function Paragraph(text) {
+        var _this = _super.call(this, $('<p>')) || this;
+        _this.setText(text);
+        return _this;
+    }
+    Paragraph.prototype.setText = function (text) {
+        this.getJQueryElement().text(text);
+    };
+    return Paragraph;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/link_button.ts":
+/*!***********************************!*\
+  !*** ./ui/helpers/link_button.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LinkButton": () => (/* binding */ LinkButton)
+/* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var LinkButton = /** @class */ (function (_super) {
+    __extends(LinkButton, _super);
+    function LinkButton(title, link) {
+        var _this = _super.call(this, $('<a>')) || this;
+        _this.addClass('btn btn-primary');
+        _this.getJQueryElement().html('Install profile');
+        _this.getJQueryElement().attr('href', link);
+        return _this;
+    }
+    return LinkButton;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
 
 
 
@@ -1246,6 +1450,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ModalWindow": () => (/* binding */ ModalWindow)
 /* harmony export */ });
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _html_h4__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./html/h4 */ "./ui/helpers/html/h4.ts");
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1261,16 +1468,19 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+
+
 var ModalWindow = /** @class */ (function (_super) {
     __extends(ModalWindow, _super);
     function ModalWindow(title, body) {
         var _this = _super.call(this) || this;
         _this.addClass('modal');
         _this.addClass('fade');
-        var modalDialog = new Div();
+        var modalDialog = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         modalDialog.addClass('modal-dialog');
         modalDialog.addClass('modal-xl');
-        var modalContent = new Div();
+        var modalContent = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         modalContent.addClass('modal-content');
         modalContent.append(_this.modalHeader(title));
         modalContent.append(_this.modalBody(body));
@@ -1289,24 +1499,24 @@ var ModalWindow = /** @class */ (function (_super) {
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
          */
-        var header = new Div();
+        var header = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         header.addClass('modal-header');
-        var modalTitle = new Header4(title);
+        var modalTitle = new _html_h4__WEBPACK_IMPORTED_MODULE_1__.Header4(title);
         modalTitle.addClass('modal-title');
-        var closeButton = new UIElement($('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal'));
+        var closeButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>').addClass('btn-close').attr('data-bs-dismiss', 'modal'));
         header.append(modalTitle);
         header.append(closeButton);
         return header;
     };
     ModalWindow.prototype.modalBody = function (body) {
         // anything goes in html
-        var modalBody = new Div();
+        var modalBody = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         modalBody.addClass('modal-body');
         modalBody.append(body);
         return modalBody;
     };
     return ModalWindow;
-}(Div));
+}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -1323,6 +1533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "NavbarTitleContentPair": () => (/* binding */ NavbarTitleContentPair),
 /* harmony export */   "Navbar": () => (/* binding */ Navbar)
 /* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1338,6 +1549,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var NavbarTitleContentPair = /** @class */ (function () {
     function NavbarTitleContentPair(title, content, isSelected) {
         this.title = title;
@@ -1376,14 +1588,14 @@ var Navbar = /** @class */ (function (_super) {
      */
     function Navbar(data) {
         var _this = _super.call(this, $('<div>')) || this;
-        var navElement = new UIElement($('<nav>'));
-        var tabTitlesContainer = new UIElement($('<div>')
+        var navElement = new _uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<nav>'));
+        var tabTitlesContainer = new _uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<div>')
             .addClass('nav')
             .addClass('nav-tabs'));
-        var tabContentContainer = new UIElement($('<div>').addClass('tab-content'));
+        var tabContentContainer = new _uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<div>').addClass('tab-content'));
         for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
             var titleContentPair = data_1[_i];
-            var tabTitle = new UIElement($('<div>')
+            var tabTitle = new _uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<div>')
                 .addClass('nav-link')
                 .attr('data-bs-toggle', 'tab')
                 .attr('data-bs-target', "#".concat(titleContentPair.contentIdentifier))
@@ -1391,7 +1603,7 @@ var Navbar = /** @class */ (function (_super) {
                 .attr('type', 'button')
                 .html(titleContentPair.title));
             tabTitlesContainer.append(tabTitle);
-            var tabContent = new UIElement($('<div>')
+            var tabContent = new _uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement($('<div>')
                 .addClass('tab-pane')
                 .addClass('fade')
                 .attr('id', titleContentPair.contentIdentifier));
@@ -1409,22 +1621,23 @@ var Navbar = /** @class */ (function (_super) {
         return _this;
     }
     return Navbar;
-}(UIElement));
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
 
 
 
 /***/ }),
 
-/***/ "./ui/helpers/table.ts":
-/*!*****************************!*\
-  !*** ./ui/helpers/table.ts ***!
-  \*****************************/
+/***/ "./ui/helpers/spiner.ts":
+/*!******************************!*\
+  !*** ./ui/helpers/spiner.ts ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TableControl": () => (/* binding */ TableControl)
+/* harmony export */   "Spiner": () => (/* binding */ Spiner)
 /* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1440,6 +1653,51 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+var Spiner = /** @class */ (function (_super) {
+    __extends(Spiner, _super);
+    function Spiner() {
+        var _this = _super.call(this, $("<span>")) || this;
+        _this.addClass('spinner-grow');
+        _this.addClass('spinner-grow-sm');
+        return _this;
+    }
+    return Spiner;
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/table.ts":
+/*!*****************************!*\
+  !*** ./ui/helpers/table.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TableControl": () => (/* binding */ TableControl)
+/* harmony export */ });
+/* harmony import */ var _html_paragraph__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
 var TableControl = /** @class */ (function (_super) {
     __extends(TableControl, _super);
     /**
@@ -1478,8 +1736,8 @@ var TableControl = /** @class */ (function (_super) {
         var _this = _super.call(this, $('<table>')) || this;
         _this.addClass('table');
         _this.addClass('table-striped');
-        _this.header = new UIElement($('<thead>'));
-        _this.body = new UIElement($('<tbody>'));
+        _this.header = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<thead>'));
+        _this.body = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<tbody>'));
         _this.append(_this.header);
         _this.append(_this.body);
         return _this;
@@ -1491,10 +1749,10 @@ var TableControl = /** @class */ (function (_super) {
         this.setHeaders(headersElements);
     };
     TableControl.prototype.setHeaders = function (headers) {
-        var row = new UIElement($('<tr>'));
+        var row = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<tr>'));
         for (var _i = 0, headers_1 = headers; _i < headers_1.length; _i++) {
             var header = headers_1[_i];
-            var col = new UIElement($('<th>').append(header));
+            var col = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<th>').append(header));
             row.append(col);
         }
         this.header.empty();
@@ -1502,15 +1760,15 @@ var TableControl = /** @class */ (function (_super) {
     };
     TableControl.prototype.appendRowText = function (rowContent) {
         var rowContentElements = rowContent.map(function (val) {
-            return new Paragraph(val);
+            return new _html_paragraph__WEBPACK_IMPORTED_MODULE_0__.Paragraph(val);
         });
         this.appendRow(rowContentElements);
     };
     TableControl.prototype.appendRow = function (rowContent) {
-        var row = new UIElement($('<tr>'));
+        var row = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<tr>'));
         for (var _i = 0, rowContent_1 = rowContent; _i < rowContent_1.length; _i++) {
             var rowColumn = rowContent_1[_i];
-            var col = new UIElement($('<td>'));
+            var col = new _uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement($('<td>'));
             col.append(rowColumn);
             row.append(col);
         }
@@ -1540,13 +1798,13 @@ var TableControl = /** @class */ (function (_super) {
             case "object":
                 var newTable = new TableControl();
                 newTable.addObject(o);
-                var title = new Paragraph(key);
+                var title = new _html_paragraph__WEBPACK_IMPORTED_MODULE_0__.Paragraph(key);
                 this.appendRow([title, newTable]);
                 break;
         }
     };
     return TableControl;
-}(UIElement));
+}(_uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement));
 
 
 
@@ -1562,6 +1820,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TextField": () => (/* binding */ TextField)
 /* harmony export */ });
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1577,6 +1836,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var TextField = /** @class */ (function (_super) {
     __extends(TextField, _super);
     function TextField(placeholder) {
@@ -1591,7 +1851,55 @@ var TextField = /** @class */ (function (_super) {
         return this.getJQueryElement().val();
     };
     return TextField;
-}(UIElement));
+}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+
+
+
+/***/ }),
+
+/***/ "./ui/helpers/uielement.ts":
+/*!*********************************!*\
+  !*** ./ui/helpers/uielement.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UIElement": () => (/* binding */ UIElement)
+/* harmony export */ });
+var UIElement = /** @class */ (function () {
+    function UIElement(jqueryElement) {
+        this.jqueryElement = jqueryElement;
+    }
+    UIElement.prototype.append = function (uiElement) {
+        this.jqueryElement.append(uiElement.jqueryElement);
+    };
+    UIElement.prototype.empty = function () {
+        this.jqueryElement.empty();
+    };
+    UIElement.prototype.remove = function () {
+        this.jqueryElement.remove();
+    };
+    UIElement.prototype.addClass = function (classname) {
+        this.jqueryElement.addClass(classname);
+    };
+    UIElement.prototype.getJQueryElement = function () {
+        return this.jqueryElement;
+    };
+    UIElement.prototype.setOnClick = function (onClick) {
+        this.jqueryElement.on('click', onClick);
+    };
+    UIElement.prototype.disableUserInteraction = function () {
+        this.jqueryElement.prop('disabled', true);
+    };
+    UIElement.prototype.enableUserInteraction = function () {
+        this.jqueryElement.prop('disabled', false);
+    };
+    UIElement.prototype.placeElementOnTop = function (element) {
+        this.jqueryElement.prepend(element.jqueryElement);
+    };
+    return UIElement;
+}());
 
 
 
@@ -1607,6 +1915,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ServiceControl": () => (/* binding */ ServiceControl)
 /* harmony export */ });
+/* harmony import */ var _helpers_link_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/link_button */ "./ui/helpers/link_button.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1622,13 +1931,14 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 var ServiceControl = /** @class */ (function (_super) {
     __extends(ServiceControl, _super);
     function ServiceControl(apiClient) {
         return _super.call(this, 'Install profile', apiClient.downloadProfileLink()) || this;
     }
     return ServiceControl;
-}(LinkButton));
+}(_helpers_link_button__WEBPACK_IMPORTED_MODULE_0__.LinkButton));
 
 
 
@@ -1646,7 +1956,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _device_devices_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./device/devices_control */ "./ui/device/devices_control.ts");
 /* harmony import */ var _device_device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device/device_control */ "./ui/device/device_control.ts");
-/* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service_control */ "./ui/service_control.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _service_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./service_control */ "./ui/service_control.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1701,12 +2012,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var WebAppControl = /** @class */ (function (_super) {
     __extends(WebAppControl, _super);
     function WebAppControl(apiClient) {
         var _this = _super.call(this) || this;
         _this.addClass("WebAppControl");
-        _this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_2__.ServiceControl(apiClient);
+        _this.serviceControl = new _service_control__WEBPACK_IMPORTED_MODULE_3__.ServiceControl(apiClient);
         _this.devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl();
         _this.apiClient = apiClient;
         _this.append(_this.serviceControl);
@@ -1737,7 +2049,7 @@ var WebAppControl = /** @class */ (function (_super) {
         ;
     };
     return WebAppControl;
-}(Div));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
 
 
