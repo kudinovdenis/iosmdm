@@ -576,7 +576,7 @@ var ApplicationsControl = /** @class */ (function () {
     ApplicationsControl.prototype.installWithManifestURLForm = function (apiClient, device) {
         var form = $('<div>');
         var legend = $('<h4>').html('Installation by Manifest URL');
-        var label = $('<p>').html('Install any application by specifying manifest url.');
+        var label = $('<p>').html('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
         var input = new _helpers_textfield__WEBPACK_IMPORTED_MODULE_2__.TextField('Manifest URL');
         var installButton = new _helpers_button__WEBPACK_IMPORTED_MODULE_1__.ButtonControl('Install', function () {
             installButton.startLoading();

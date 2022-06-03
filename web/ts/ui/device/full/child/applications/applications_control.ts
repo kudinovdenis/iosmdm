@@ -124,7 +124,7 @@ export class ApplicationsControl {
     private installWithManifestURLForm(apiClient: IApi, device: Device) {
         const form = $('<div>')
         const legend = $('<h4>').html('Installation by Manifest URL');
-        const label = $('<p>').html('Install any application by specifying manifest url.');
+        const label = $('<p>').html('Install any application by specifying manifest url.\nAs an example: https://m1553d.com/api/backend/static/apps/ios/internoffer/manifest');
         const input = new TextField('Manifest URL');
 
         const installButton = new ButtonControl('Install', () => {

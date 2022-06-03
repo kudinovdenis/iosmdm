@@ -30,6 +30,7 @@ type CheckinRequest struct {
 	Token       []byte
 	PushMagic   string
 	UnlockToken []byte
+	UserID      string
 }
 
 type CheckinProcessorImpl struct {
@@ -72,6 +73,10 @@ func (processor CheckinProcessorImpl) processAuthenticateMessage(request Checkin
 
 func (processor CheckinProcessorImpl) processTokenUpdateMessage(request CheckinRequest) error {
 	log.Printf("Device checked in: %+s", request.UDID)
+	if len(request.UserID) > 0 {
+		log.Printf("This is an User <%+s> token. Skip for now", request.UserID)
+		return nil
+	}
 	device := Device{UDID: request.UDID, LastConnectionDate: time.Now(), PushToken: request.Token, PushMagic: request.PushMagic, Topic: request.Topic}
 	processor.devicesController.UpdateDevice(device)
 	return nil
