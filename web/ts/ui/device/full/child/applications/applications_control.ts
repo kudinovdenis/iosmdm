@@ -51,7 +51,7 @@ export class ApplicationsControl {
         const installButton = new ButtonControl('Install', () => {
             installButton.startLoading();
             const applicationId = input.number();
-            apiClient.installApplication(device, applicationId);
+            apiClient.installApplicationById(device, applicationId);
             installButton.stopLoading();
         });
 
@@ -61,6 +61,10 @@ export class ApplicationsControl {
         installArbitraryApplicationForm.append(installButton.element);
 
         this.element.append(new Border(installArbitraryApplicationForm).element);
+
+        // Install with manifest URL
+        const installByManifestURLForm = this.installWithManifestURLForm(apiClient, device);
+        this.element.append(new Border(installByManifestURLForm).element);
 
         // Load list of applications
 
@@ -113,6 +117,29 @@ export class ApplicationsControl {
 
     stopLoading() {
         this.loadListOfApplicationsButton.stopLoading();
+    }
+
+    // MARK: Private
+
+    private installWithManifestURLForm(apiClient: IApi, device: Device) {
+        const form = $('<div>')
+        const legend = $('<h4>').html('Installation by Manifest URL');
+        const label = $('<p>').html('Install any application by specifying manifest url.');
+        const input = new TextField('Manifest URL');
+
+        const installButton = new ButtonControl('Install', () => {
+            installButton.startLoading();
+            const manifestURL = input.text();
+            apiClient.installApplicationByManifest(device, manifestURL);
+            installButton.stopLoading();
+        });
+
+        form.append(legend);
+        form.append(label);
+        form.append(input.element);
+        form.append(installButton.element);
+
+        return form;
     }
 
 }

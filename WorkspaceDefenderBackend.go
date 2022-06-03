@@ -93,15 +93,27 @@ func handleInstallApplicationRequest(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Trying to install application.")
 
-	appIdString := params["app_id"]
-	appId, err := strconv.Atoi(appIdString)
+	var installationResultChan chan mdmserver.InstallApplicationCommandResponse
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	appIdString := r.FormValue("app_id")
+	manifestURL := r.FormValue("manifest_url")
+	if len(appIdString) > 0 {
+		// install with app id
+		appId, err := strconv.Atoi(appIdString)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		installationResultChan = devicesController.InstallApplicationWithStoreId(*device, appId)
+	} else if len(manifestURL) > 0 {
+		installationResultChan = devicesController.InstallApplicationWithManifestURL(*device, manifestURL)
+	} else {
+		http.Error(w, "No app id or manifest url specified.", http.StatusInternalServerError)
 		return
 	}
 
-	installationResultChan := devicesController.InstallApplication(*device, appId)
 	installationResult := <-installationResultChan
 
 	w.WriteHeader(http.StatusOK)
@@ -203,7 +215,7 @@ func handleMacOSPkgDownload(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleMacOSManifestDownload(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Disposition", "attachment; filename=MdmTestApp.pkg")
+	w.Header().Set("Content-Disposition", "attachment; filename=manifest.plist")
 	http.ServeFile(w, r, "./Static/Apps/macOS/MdmTestApp/manifest.plist")
 }
 
@@ -254,8 +266,8 @@ func main() {
 	devicesRouter.HandleFunc("/{id}/", handleDeviceRequest)
 	devicesRouter.HandleFunc("/{id}/applications", handleDeviceApplicationsRequest)
 	devicesRouter.HandleFunc("/{id}/applications/", handleDeviceApplicationsRequest)
-	devicesRouter.HandleFunc("/{id}/install_application/{app_id}", handleInstallApplicationRequest)
-	devicesRouter.HandleFunc("/{id}/install_application/{app_id}/", handleInstallApplicationRequest)
+	devicesRouter.HandleFunc("/{id}/install_application", handleInstallApplicationRequest).Queries("app_id", "manifest_url")
+	devicesRouter.HandleFunc("/{id}/install_application/", handleInstallApplicationRequest).Queries("app_id", "manifest_url")
 	devicesRouter.HandleFunc("/{id}/info", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/info/", handleDeviceInfoRequest)
 	devicesRouter.HandleFunc("/{id}/profiles/", handleInstalledProfiles)

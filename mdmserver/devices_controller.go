@@ -28,7 +28,8 @@ type DevicesControllerI interface {
 	DeviceDidFinishCommand(device Device, commandUUID string, response []byte)
 
 	InstalledApplicationsList(device Device) chan []InstalledApplication
-	InstallApplication(device Device, applicationId int) chan InstallApplicationCommandResponse
+	InstallApplicationWithStoreId(device Device, applicationId int) chan InstallApplicationCommandResponse
+	InstallApplicationWithManifestURL(device Device, manifestURL string) chan InstallApplicationCommandResponse
 	DeviceInfo(device Device) chan QueryResponses
 
 	InstalledProfiles(device Device) chan []Profile
@@ -112,10 +113,23 @@ func (devicesController DevicesController) DeviceInfo(device Device) chan QueryR
 	return deviceInfo
 }
 
-func (devicesController DevicesController) InstallApplication(device Device, applicationId int) chan InstallApplicationCommandResponse {
+func (devicesController DevicesController) InstallApplicationWithStoreId(device Device, applicationId int) chan InstallApplicationCommandResponse {
 	log.Printf("Installing application: %+v to device: %+s", applicationId, device.UDID)
 	result := make(chan InstallApplicationCommandResponse)
-	command := NewInstallApplicationCommand(applicationId)
+	command := NewInstallApplicationFromItunesStoreCommand(applicationId)
+	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
+		log.Print("Completion called (devices controller)")
+		log.Printf("Command: %+v", command)
+		log.Printf("Response: %+v", response)
+		result <- response.(InstallApplicationCommandResponse)
+	})
+	return result
+}
+
+func (devicesController DevicesController) InstallApplicationWithManifestURL(device Device, manifestURL string) chan InstallApplicationCommandResponse {
+	log.Printf("Installing application w/ manifest URL: %+s to device: %+s", manifestURL, device.UDID)
+	result := make(chan InstallApplicationCommandResponse)
+	command := NewInstallApplicationFromManifestCommand(manifestURL)
 	devicesController.commandsProcessor.QueueCommand(device, command, func(command Command, response CommandResponse) {
 		log.Print("Completion called (devices controller)")
 		log.Printf("Command: %+v", command)

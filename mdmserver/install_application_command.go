@@ -5,6 +5,7 @@ import "github.com/google/uuid"
 type InstallApplicationCommandBody struct {
 	RequestType           string // InstallApplication
 	ITunesStoreID         int    `plist:"iTunesStoreID"`
+	ManifestURL           string
 	ManagementFlags       int
 	ChangeManagementState string
 }
@@ -24,6 +25,10 @@ func (command InstallApplicationCommand) UUID() string {
 	return command.CommandUUID
 }
 
-func NewInstallApplicationCommand(iTunesStoreID int) InstallApplicationCommand {
+func NewInstallApplicationFromItunesStoreCommand(iTunesStoreID int) InstallApplicationCommand {
 	return InstallApplicationCommand{CommandUUID: uuid.New().String(), Command: InstallApplicationCommandBody{RequestType: "InstallApplication", ITunesStoreID: iTunesStoreID, ManagementFlags: 0, ChangeManagementState: "Managed"}}
+}
+
+func NewInstallApplicationFromManifestCommand(ManifestURL string) InstallApplicationCommand {
+	return InstallApplicationCommand{CommandUUID: uuid.New().String(), Command: InstallApplicationCommandBody{RequestType: "InstallApplication", ManifestURL: ManifestURL, ManagementFlags: 0, ChangeManagementState: "Managed"}}
 }

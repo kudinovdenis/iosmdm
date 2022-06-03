@@ -9,7 +9,8 @@ export interface IApi {
 
     getListOfApplications(device: Device): Promise<ApplicationInfo[]>
     installKSCApplication(device: Device): Promise<void>
-    installApplication(device: Device, appId: number): Promise<void>
+    installApplicationById(device: Device, appId: number): Promise<void>
+    installApplicationByManifest(device: Device, manifestURL: string): Promise<void>
 
     getInstalledProfiles(device: Device): Promise<Profile[]>
     installProfile(device: Device, profileContent: string): Promise<void>
@@ -72,11 +73,15 @@ export class ApiImpl implements IApi {
     }
 
     async installKSCApplication(device: Device): Promise<void> {
-        return this.installApplication(device, 1089969624);
+        return this.installApplicationById(device, 1089969624);
     }
 
-    async installApplication(device: Device, appId: number): Promise<void> {
-        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_application/${appId}`);
+    async installApplicationById(device: Device, appId: number): Promise<void> {
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_application?app_id=${appId}`);
+    }
+
+    async installApplicationByManifest(device: Device, manifestURL: string): Promise<void> {
+        return this.get<void>(`${environment.baseUrl}/backend/devices/${device.UDID}/install_application?manifest_url=${manifestURL}`);
     }
 
     // Profiles
