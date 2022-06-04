@@ -41,23 +41,19 @@ export class Workspace extends Div {
     constructor(apiClient: IApi) {
         super();
 
-        const menuItem1 = new MenuItem("id1", new Paragraph('Service'));
-        const menuItem2 = new MenuItem("id2", new Paragraph('Devices'));
+        const serviceMenuItem = new MenuItem("service-menu-item", new Paragraph('Service'));
+        const devicesMenuItem = new MenuItem("devices-menu-item", new Paragraph('Devices'));
 
         this.content = new Div();
-        this.sideMenu = new SideMenu([menuItem1, menuItem2], (item) => {
+        this.sideMenu = new SideMenu([serviceMenuItem, devicesMenuItem], (item) => {
             console.log(`Selected item: ${JSON.parse(JSON.stringify(item))}`);
             switch (item.identifier) {
-                case 'id1':
-                    this.content.empty();
-                    const services = new ServiceControl(apiClient);
-                    this.content.append(services);
+                case serviceMenuItem.identifier:
+                    this.replaceContent(new ServiceControl(apiClient));
                     break;
 
-                case 'id2':
-                    this.content.empty();
-                    const devicesControl = new DevicesControl(apiClient);
-                    this.content.append(devicesControl);
+                case devicesMenuItem.identifier:
+                    this.replaceContent(new DevicesControl(apiClient));
                     break;
             }
         });
@@ -72,6 +68,11 @@ export class Workspace extends Div {
         container.append(this.content);
 
         this.append(container);
+    }
+
+    private replaceContent(newContent: UIElement) {
+        this.content.empty();
+        this.content.append(newContent);
     }
 
 }

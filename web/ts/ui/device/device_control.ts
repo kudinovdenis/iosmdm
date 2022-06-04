@@ -43,8 +43,4 @@ export class DeviceControl extends Div {
         this.append(this.card);
     }
 
-    clear() {
-        this.fullDeviceInfoControl.clear()
-    }
-
 }

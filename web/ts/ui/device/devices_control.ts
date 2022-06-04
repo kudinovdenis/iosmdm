@@ -1,14 +1,17 @@
 import { IApi } from "../../api/api";
 import { Device } from "../../models/models";
 import { Div } from "../helpers/html/div";
+import { Paragraph } from "../helpers/html/paragraph";
+import { MenuItem, SideMenu } from "../helpers/menu/side_menu";
 import { UIElement } from "../helpers/uielement";
 import { DeviceControl } from "./device_control";
 
 export class DevicesControl extends Div {
 
-    deviceControls: DeviceControl[] = [];
-    row: UIElement;
-    apiClient: IApi;
+    private deviceControls: DeviceControl[] = [];
+    private row: UIElement;
+    private apiClient: IApi;
+    private sideMenu: SideMenu;
 
     constructor(apiClient: IApi) {
         super();
@@ -20,21 +23,25 @@ export class DevicesControl extends Div {
 
         this.row = new Div()
         this.row.addClass('row');
+        this.row.addClass('w-75');
 
-        this.append(this.row);
+        this.sideMenu = this.makeSideMenu();
+        this.sideMenu.addClass('w-25');
+
+        const container = new Div();
+        container.addClass('d-flex align-items-stretch');
+
+        container.append(this.sideMenu);
+        container.append(this.row);
+
+        this.append(container);
 
         this.load().then(() => {
-            console.log("Wow");
+            console.log("Loaded devices");
         })
     }
 
-    clear() {
-        for (const deviceControl of this.deviceControls) {
-            this.removeDeviceControl(deviceControl);
-        }
-    }
-
-    async load() {
+    private async load() {
         let allDevices = await this.apiClient.getAllDevices();
         this.showListOfDevices(allDevices);
     }
@@ -46,17 +53,25 @@ export class DevicesControl extends Div {
         };
     }
 
-    appendDeviceControl(deviceControl: DeviceControl) {
+    private appendDeviceControl(deviceControl: DeviceControl) {
         this.deviceControls.push(deviceControl);
         this.row.append(deviceControl);
     }
 
-    removeDeviceControl(deviceControl: DeviceControl) {
-        deviceControl.remove();
-        const index = this.deviceControls.indexOf(deviceControl, 0);
-        if (index > -1) {
-            this.deviceControls.splice(index, 1);
-        }
+    private makeSideMenu(): SideMenu {
+        const iOSDevicesMenuItem = new MenuItem('iOS-devices-menu-item', new Paragraph('iOS'));
+        const macOSDevicesMenuItem = new MenuItem('macOS-devices-menu-item', new Paragraph('macOS'));
+        return new SideMenu([iOSDevicesMenuItem, macOSDevicesMenuItem], (item) => {
+            switch (item.identifier) {
+                case iOSDevicesMenuItem.identifier:
+                    console.log('Filter only iOS Devices');
+                    break;
+
+                case macOSDevicesMenuItem.identifier:
+                    console.log('Filter only macOS Devices');
+                    break;
+            }
+        });
     }
 
 }

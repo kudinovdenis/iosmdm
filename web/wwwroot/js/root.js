@@ -356,9 +356,6 @@ var DeviceControl = /** @class */ (function (_super) {
         _this.append(_this.card);
         return _this;
     }
-    DeviceControl.prototype.clear = function () {
-        this.fullDeviceInfoControl.clear();
-    };
     return DeviceControl;
 }(_helpers_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
@@ -377,7 +374,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DevicesControl": () => (/* binding */ DevicesControl)
 /* harmony export */ });
 /* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _device_control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device_control */ "./ui/device/device_control.ts");
+/* harmony import */ var _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/html/paragraph */ "./ui/helpers/html/paragraph.ts");
+/* harmony import */ var _helpers_menu_side_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/menu/side_menu */ "./ui/helpers/menu/side_menu.ts");
+/* harmony import */ var _device_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./device_control */ "./ui/device/device_control.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -431,6 +430,8 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
+
+
 var DevicesControl = /** @class */ (function (_super) {
     __extends(DevicesControl, _super);
     function DevicesControl(apiClient) {
@@ -441,18 +442,19 @@ var DevicesControl = /** @class */ (function (_super) {
         _this.apiClient = apiClient;
         _this.row = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         _this.row.addClass('row');
-        _this.append(_this.row);
+        _this.row.addClass('w-75');
+        _this.sideMenu = _this.makeSideMenu();
+        _this.sideMenu.addClass('w-25');
+        var container = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
+        container.addClass('d-flex align-items-stretch');
+        container.append(_this.sideMenu);
+        container.append(_this.row);
+        _this.append(container);
         _this.load().then(function () {
-            console.log("Wow");
+            console.log("Loaded devices");
         });
         return _this;
     }
-    DevicesControl.prototype.clear = function () {
-        for (var _i = 0, _a = this.deviceControls; _i < _a.length; _i++) {
-            var deviceControl = _a[_i];
-            this.removeDeviceControl(deviceControl);
-        }
-    };
     DevicesControl.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             var allDevices;
@@ -470,7 +472,7 @@ var DevicesControl = /** @class */ (function (_super) {
     DevicesControl.prototype.showListOfDevices = function (devices) {
         for (var _i = 0, devices_1 = devices; _i < devices_1.length; _i++) {
             var device = devices_1[_i];
-            var deviceControl = new _device_control__WEBPACK_IMPORTED_MODULE_1__.DeviceControl(device, this.apiClient);
+            var deviceControl = new _device_control__WEBPACK_IMPORTED_MODULE_3__.DeviceControl(device, this.apiClient);
             this.appendDeviceControl(deviceControl);
         }
         ;
@@ -479,12 +481,19 @@ var DevicesControl = /** @class */ (function (_super) {
         this.deviceControls.push(deviceControl);
         this.row.append(deviceControl);
     };
-    DevicesControl.prototype.removeDeviceControl = function (deviceControl) {
-        deviceControl.remove();
-        var index = this.deviceControls.indexOf(deviceControl, 0);
-        if (index > -1) {
-            this.deviceControls.splice(index, 1);
-        }
+    DevicesControl.prototype.makeSideMenu = function () {
+        var iOSDevicesMenuItem = new _helpers_menu_side_menu__WEBPACK_IMPORTED_MODULE_2__.MenuItem('iOS-devices-menu-item', new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph('iOS'));
+        var macOSDevicesMenuItem = new _helpers_menu_side_menu__WEBPACK_IMPORTED_MODULE_2__.MenuItem('macOS-devices-menu-item', new _helpers_html_paragraph__WEBPACK_IMPORTED_MODULE_1__.Paragraph('macOS'));
+        return new _helpers_menu_side_menu__WEBPACK_IMPORTED_MODULE_2__.SideMenu([iOSDevicesMenuItem, macOSDevicesMenuItem], function (item) {
+            switch (item.identifier) {
+                case iOSDevicesMenuItem.identifier:
+                    console.log('Filter only iOS Devices');
+                    break;
+                case macOSDevicesMenuItem.identifier:
+                    console.log('Filter only macOS Devices');
+                    break;
+            }
+        });
     };
     return DevicesControl;
 }(_helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
@@ -1184,8 +1193,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FullDeviceInfoControl": () => (/* binding */ FullDeviceInfoControl)
 /* harmony export */ });
-/* harmony import */ var _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/navbar */ "./ui/helpers/navbar.ts");
-/* harmony import */ var _helpers_uielement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/uielement */ "./ui/helpers/uielement.ts");
+/* harmony import */ var _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _helpers_navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/navbar */ "./ui/helpers/navbar.ts");
 /* harmony import */ var _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./child/applications/applications_control */ "./ui/device/full/child/applications/applications_control.ts");
 /* harmony import */ var _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./child/basic/device_basic_info */ "./ui/device/full/child/basic/device_basic_info.ts");
 /* harmony import */ var _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./child/profile/profiles_control */ "./ui/device/full/child/profile/profiles_control.ts");
@@ -1212,23 +1221,22 @@ var __extends = (undefined && undefined.__extends) || (function () {
 var FullDeviceInfoControl = /** @class */ (function (_super) {
     __extends(FullDeviceInfoControl, _super);
     function FullDeviceInfoControl(device, apiClient) {
-        var _this = _super.call(this, $('<div>').addClass('FullDeviceInfoControl')) || this;
+        var _this = _super.call(this) || this;
+        _this.addClass('FullDeviceInfoControl');
         _this.deviceBasicInfo = new _child_basic_device_basic_info__WEBPACK_IMPORTED_MODULE_3__.DeviceBasicInfoControl(device, apiClient);
         _this.applicationsControl = new _child_applications_applications_control__WEBPACK_IMPORTED_MODULE_2__.ApplicationsControl(device, apiClient);
         _this.profilesControl = new _child_profile_profiles_control__WEBPACK_IMPORTED_MODULE_4__.ProfilesControl(device, apiClient);
         var navBarData = [
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Basic info', _this.deviceBasicInfo, true),
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Applications', _this.applicationsControl, false),
-            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.NavbarTitleContentPair('Profiles', _this.profilesControl, false)
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_1__.NavbarTitleContentPair('Basic info', _this.deviceBasicInfo, true),
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_1__.NavbarTitleContentPair('Applications', _this.applicationsControl, false),
+            new _helpers_navbar__WEBPACK_IMPORTED_MODULE_1__.NavbarTitleContentPair('Profiles', _this.profilesControl, false)
         ];
-        var navBar = new _helpers_navbar__WEBPACK_IMPORTED_MODULE_0__.Navbar(navBarData);
+        var navBar = new _helpers_navbar__WEBPACK_IMPORTED_MODULE_1__.Navbar(navBarData);
         _this.append(navBar);
         return _this;
     }
-    FullDeviceInfoControl.prototype.clear = function () {
-    };
     return FullDeviceInfoControl;
-}(_helpers_uielement__WEBPACK_IMPORTED_MODULE_1__.UIElement));
+}(_helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -2097,21 +2105,17 @@ var Workspace = /** @class */ (function (_super) {
     __extends(Workspace, _super);
     function Workspace(apiClient) {
         var _this = _super.call(this) || this;
-        var menuItem1 = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("id1", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Service'));
-        var menuItem2 = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("id2", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Devices'));
+        var serviceMenuItem = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("service-menu-item", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Service'));
+        var devicesMenuItem = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.MenuItem("devices-menu-item", new _html_paragraph__WEBPACK_IMPORTED_MODULE_3__.Paragraph('Devices'));
         _this.content = new _html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
-        _this.sideMenu = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.SideMenu([menuItem1, menuItem2], function (item) {
+        _this.sideMenu = new _menu_side_menu__WEBPACK_IMPORTED_MODULE_4__.SideMenu([serviceMenuItem, devicesMenuItem], function (item) {
             console.log("Selected item: ".concat(JSON.parse(JSON.stringify(item))));
             switch (item.identifier) {
-                case 'id1':
-                    _this.content.empty();
-                    var services = new _service_control__WEBPACK_IMPORTED_MODULE_1__.ServiceControl(apiClient);
-                    _this.content.append(services);
+                case serviceMenuItem.identifier:
+                    _this.replaceContent(new _service_control__WEBPACK_IMPORTED_MODULE_1__.ServiceControl(apiClient));
                     break;
-                case 'id2':
-                    _this.content.empty();
-                    var devicesControl = new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl(apiClient);
-                    _this.content.append(devicesControl);
+                case devicesMenuItem.identifier:
+                    _this.replaceContent(new _device_devices_control__WEBPACK_IMPORTED_MODULE_0__.DevicesControl(apiClient));
                     break;
             }
         });
@@ -2124,6 +2128,10 @@ var Workspace = /** @class */ (function (_super) {
         _this.append(container);
         return _this;
     }
+    Workspace.prototype.replaceContent = function (newContent) {
+        this.content.empty();
+        this.content.append(newContent);
+    };
     return Workspace;
 }(_html_div__WEBPACK_IMPORTED_MODULE_2__.Div));
 
