@@ -1,7 +1,6 @@
 import { Border } from "../border";
 import { Div } from "../html/div";
 import { List } from "../list";
-import { TableControl } from "../table";
 import { UIElement } from "../uielement";
 
 export class MenuItem {
@@ -37,7 +36,7 @@ export class SideMenu extends Div {
         }
 
         this.menuList = new List(menuListItems);
-        const border = new Border(this.menuList);
+        const border = new Border(this.menuList, 1, 1);
 
         this.append(border);
     }

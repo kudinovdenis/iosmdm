@@ -22,6 +22,10 @@ export class UIElement {
         this.jqueryElement.addClass(classname);
     }
 
+    removeClass(classname: string) {
+        this.getJQueryElement().removeClass(classname);
+    }
+
     getJQueryElement(): JQuery<HTMLElement> {
         return this.jqueryElement;
     }

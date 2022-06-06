@@ -1,13 +1,14 @@
+import { Div } from "./html/div";
 import { UIElement } from "./uielement";
 
-export class Border extends UIElement {
+export class Border extends Div {
 
-    constructor(child: UIElement) {
-        super($('<div>')
-            .addClass('border')
-            .addClass('border-primary')
-            .addClass('p-3')
-            .addClass('m-3'));
+    constructor(child: UIElement, padding: number = 3, margin: number = 3) {
+        super();
+        this.addClass('border');
+        this.addClass('border-primary');
+        this.addClass(`p-${padding}`);
+        this.addClass(`m-${margin}`);
 
         this.append(child);
     }

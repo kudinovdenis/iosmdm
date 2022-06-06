@@ -1252,7 +1252,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Border": () => (/* binding */ Border)
 /* harmony export */ });
-/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uielement */ "./ui/helpers/uielement.ts");
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1271,17 +1271,19 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 var Border = /** @class */ (function (_super) {
     __extends(Border, _super);
-    function Border(child) {
-        var _this = _super.call(this, $('<div>')
-            .addClass('border')
-            .addClass('border-primary')
-            .addClass('p-3')
-            .addClass('m-3')) || this;
+    function Border(child, padding, margin) {
+        if (padding === void 0) { padding = 3; }
+        if (margin === void 0) { margin = 3; }
+        var _this = _super.call(this) || this;
+        _this.addClass('border');
+        _this.addClass('border-primary');
+        _this.addClass("p-".concat(padding));
+        _this.addClass("m-".concat(margin));
         _this.append(child);
         return _this;
     }
     return Border;
-}(_uielement__WEBPACK_IMPORTED_MODULE_0__.UIElement));
+}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
 
 
 
@@ -1622,7 +1624,7 @@ var SideMenu = /** @class */ (function (_super) {
             _loop_1(item);
         }
         _this.menuList = new _list__WEBPACK_IMPORTED_MODULE_2__.List(menuListItems);
-        var border = new _border__WEBPACK_IMPORTED_MODULE_0__.Border(_this.menuList);
+        var border = new _border__WEBPACK_IMPORTED_MODULE_0__.Border(_this.menuList, 1, 1);
         _this.append(border);
         return _this;
     }
@@ -2076,6 +2078,9 @@ var UIElement = /** @class */ (function () {
     };
     UIElement.prototype.addClass = function (classname) {
         this.jqueryElement.addClass(classname);
+    };
+    UIElement.prototype.removeClass = function (classname) {
+        this.getJQueryElement().removeClass(classname);
     };
     UIElement.prototype.getJQueryElement = function () {
         return this.jqueryElement;
