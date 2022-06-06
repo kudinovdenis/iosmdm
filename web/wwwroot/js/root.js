@@ -1512,6 +1512,54 @@ var LinkButton = /** @class */ (function (_super) {
 
 /***/ }),
 
+/***/ "./ui/helpers/list.ts":
+/*!****************************!*\
+  !*** ./ui/helpers/list.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "List": () => (/* binding */ List)
+/* harmony export */ });
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html/div */ "./ui/helpers/html/div.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var List = /** @class */ (function (_super) {
+    __extends(List, _super);
+    function List(items) {
+        var _this = _super.call(this) || this;
+        _this.addClass('d-flex flex-column');
+        for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
+            var item = items_1[_i];
+            var separatorContainer = new _html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
+            separatorContainer.addClass('p-2');
+            separatorContainer.append(item);
+            _this.append(separatorContainer);
+        }
+        return _this;
+    }
+    return List;
+}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
+
+
+
+/***/ }),
+
 /***/ "./ui/helpers/menu/side_menu.ts":
 /*!**************************************!*\
   !*** ./ui/helpers/menu/side_menu.ts ***!
@@ -1524,7 +1572,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SideMenu": () => (/* binding */ SideMenu)
 /* harmony export */ });
 /* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../table */ "./ui/helpers/table.ts");
+/* harmony import */ var _list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../list */ "./ui/helpers/list.ts");
 /* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1556,21 +1604,21 @@ var SideMenu = /** @class */ (function (_super) {
     __extends(SideMenu, _super);
     function SideMenu(items, onItemSelected) {
         var _this = _super.call(this) || this;
-        _this.menuTable = new _table__WEBPACK_IMPORTED_MODULE_1__.TableControl();
+        var menuListItems;
         var _loop_1 = function (item) {
             var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
             menuButton.append(item.content);
             menuButton.setOnClick(function () {
                 onItemSelected(item);
             });
-            this_1.menuTable.appendRow([menuButton]);
+            menuListItems.push(menuButton);
         };
-        var this_1 = this;
         for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
             var item = items_1[_i];
             _loop_1(item);
         }
-        _this.append(_this.menuTable);
+        _this.menuList = new _list__WEBPACK_IMPORTED_MODULE_1__.List(menuListItems);
+        _this.append(_this.menuList);
         return _this;
     }
     return SideMenu;

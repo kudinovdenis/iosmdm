@@ -1,4 +1,5 @@
 import { Div } from "../html/div";
+import { List } from "../list";
 import { TableControl } from "../table";
 import { UIElement } from "../uielement";
 
@@ -16,23 +17,25 @@ export class MenuItem {
 
 export class SideMenu extends Div {
 
-    menuTable: TableControl;
+    menuList: List;
     items: MenuItem[];
 
     constructor(items: MenuItem[], onItemSelected: (item: MenuItem) => void) {
         super();
 
-        this.menuTable = new TableControl();
+        var menuListItems: UIElement[];
         for (const item of items) {
             const menuButton = new UIElement($('<button>'));
             menuButton.append(item.content);
             menuButton.setOnClick(() => {
                 onItemSelected(item);
             });
-            this.menuTable.appendRow([menuButton]);
+            menuListItems.push(menuButton);
         }
 
-        this.append(this.menuTable);
+        this.menuList = new List(menuListItems);
+
+        this.append(this.menuList);
     }
     
 }
