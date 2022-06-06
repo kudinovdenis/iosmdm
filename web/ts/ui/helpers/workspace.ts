@@ -58,8 +58,8 @@ export class Workspace extends Div {
             }
         });
 
-        this.sideMenu.addClass('w-25');
-        this.content.addClass('w-75');
+        this.sideMenu.addClass('w-15');
+        this.content.addClass('w-85');
 
         const container = new Div();
         container.addClass('d-flex align-items-stretch');

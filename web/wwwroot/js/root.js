@@ -442,9 +442,9 @@ var DevicesControl = /** @class */ (function (_super) {
         _this.apiClient = apiClient;
         _this.row = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         _this.row.addClass('row');
-        _this.row.addClass('w-75');
+        _this.row.addClass('w-85');
         _this.sideMenu = _this.makeSideMenu();
-        _this.sideMenu.addClass('w-25');
+        _this.sideMenu.addClass('w-15');
         var container = new _helpers_html_div__WEBPACK_IMPORTED_MODULE_0__.Div();
         container.addClass('d-flex align-items-stretch');
         container.append(_this.sideMenu);
@@ -1571,9 +1571,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MenuItem": () => (/* binding */ MenuItem),
 /* harmony export */   "SideMenu": () => (/* binding */ SideMenu)
 /* harmony export */ });
-/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../html/div */ "./ui/helpers/html/div.ts");
-/* harmony import */ var _list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../list */ "./ui/helpers/list.ts");
-/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
+/* harmony import */ var _border__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../border */ "./ui/helpers/border.ts");
+/* harmony import */ var _html_div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../html/div */ "./ui/helpers/html/div.ts");
+/* harmony import */ var _list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../list */ "./ui/helpers/list.ts");
+/* harmony import */ var _uielement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../uielement */ "./ui/helpers/uielement.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1592,6 +1593,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+
 var MenuItem = /** @class */ (function () {
     function MenuItem(identifier, content) {
         this.identifier = identifier;
@@ -1606,7 +1608,7 @@ var SideMenu = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         var menuListItems = [];
         var _loop_1 = function (item) {
-            var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
+            var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_3__.UIElement($('<button>'));
             menuButton.addClass('list-group-item');
             menuButton.addClass('list-group-item-action');
             menuButton.append(item.content);
@@ -1619,12 +1621,13 @@ var SideMenu = /** @class */ (function (_super) {
             var item = items_1[_i];
             _loop_1(item);
         }
-        _this.menuList = new _list__WEBPACK_IMPORTED_MODULE_1__.List(menuListItems);
-        _this.append(_this.menuList);
+        _this.menuList = new _list__WEBPACK_IMPORTED_MODULE_2__.List(menuListItems);
+        var border = new _border__WEBPACK_IMPORTED_MODULE_0__.Border(_this.menuList);
+        _this.append(border);
         return _this;
     }
     return SideMenu;
-}(_html_div__WEBPACK_IMPORTED_MODULE_0__.Div));
+}(_html_div__WEBPACK_IMPORTED_MODULE_1__.Div));
 
 
 
@@ -2169,8 +2172,8 @@ var Workspace = /** @class */ (function (_super) {
                     break;
             }
         });
-        _this.sideMenu.addClass('w-25');
-        _this.content.addClass('w-75');
+        _this.sideMenu.addClass('w-15');
+        _this.content.addClass('w-85');
         var container = new _html_div__WEBPACK_IMPORTED_MODULE_2__.Div();
         container.addClass('d-flex align-items-stretch');
         container.append(_this.sideMenu);

@@ -23,10 +23,10 @@ export class DevicesControl extends Div {
 
         this.row = new Div()
         this.row.addClass('row');
-        this.row.addClass('w-75');
+        this.row.addClass('w-85');
 
         this.sideMenu = this.makeSideMenu();
-        this.sideMenu.addClass('w-25');
+        this.sideMenu.addClass('w-15');
 
         const container = new Div();
         container.addClass('d-flex align-items-stretch');
