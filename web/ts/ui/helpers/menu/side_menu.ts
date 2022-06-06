@@ -23,7 +23,7 @@ export class SideMenu extends Div {
     constructor(items: MenuItem[], onItemSelected: (item: MenuItem) => void) {
         super();
 
-        var menuListItems: UIElement[];
+        var menuListItems: UIElement[] = [];
         for (const item of items) {
             const menuButton = new UIElement($('<button>'));
             menuButton.append(item.content);

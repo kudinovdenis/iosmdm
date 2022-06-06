@@ -1604,7 +1604,7 @@ var SideMenu = /** @class */ (function (_super) {
     __extends(SideMenu, _super);
     function SideMenu(items, onItemSelected) {
         var _this = _super.call(this) || this;
-        var menuListItems;
+        var menuListItems = [];
         var _loop_1 = function (item) {
             var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
             menuButton.append(item.content);
