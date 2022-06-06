@@ -26,6 +26,8 @@ export class SideMenu extends Div {
         var menuListItems: UIElement[] = [];
         for (const item of items) {
             const menuButton = new UIElement($('<button>'));
+            menuButton.addClass('list-group-item');
+            menuButton.addClass('list-group-item-action');
             menuButton.append(item.content);
             menuButton.setOnClick(() => {
                 onItemSelected(item);

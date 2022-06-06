@@ -1607,6 +1607,8 @@ var SideMenu = /** @class */ (function (_super) {
         var menuListItems = [];
         var _loop_1 = function (item) {
             var menuButton = new _uielement__WEBPACK_IMPORTED_MODULE_2__.UIElement($('<button>'));
+            menuButton.addClass('list-group-item');
+            menuButton.addClass('list-group-item-action');
             menuButton.append(item.content);
             menuButton.setOnClick(function () {
                 onItemSelected(item);
